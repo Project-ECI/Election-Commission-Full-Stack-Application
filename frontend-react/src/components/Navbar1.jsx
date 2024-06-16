@@ -5,7 +5,7 @@ function Navbar1() {
      <nav className='padding-10 shadow'>
         <div className='nav-left-container'>
             <img src={logo} alt="" height="60px" width="60px"/>
-            <span>Election Commission</span>
+            <span className='font-mont nav-heading'>Election Commission</span>
         </div>
 
         <div className='nav-right-container'>

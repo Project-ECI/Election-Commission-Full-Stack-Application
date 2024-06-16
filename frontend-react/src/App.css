@@ -3,10 +3,14 @@ nav{
   background-color: var(--grey);
   display: flex;
   align-items: center;
+  font-weight: 500;
 }
 
 .nav-left-container{
   margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .nav-right-container{
@@ -15,3 +19,28 @@ nav{
   align-items: center;
 }
 
+/* LANDING PAGE */
+.landing-page-introduction{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  margin-top: 50px;
+}
+
+.introduction-heading{
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 0.6;
+  color: var(--blue);
+}
+
+.introduction-subheading{
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 0.6;
+}
+
+.introduction-image{
+  width: 320px;
+}

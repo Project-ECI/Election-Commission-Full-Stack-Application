@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 :root{
   --grey: #F7F9F9;
   --blue: #0197E9;
@@ -5,6 +7,15 @@
 
 body{
   background-color: var(--grey);
+  font-family: "Nunito", sans-serif;
+}
+
+.font-nunito{
+  font-family: "Nunito", sans-serif;
+}
+
+.font-mont{
+  font-family: "Montserrat", sans-serif;
 }
 
 .padding-10{
@@ -17,6 +28,7 @@ body{
   border-radius: 5px;
   height: 40px;
   color: white;
+  font-weight: 500;
 }
 
 .btn-outline-blue{
@@ -24,6 +36,7 @@ body{
   border: 2px solid var(--blue);
   border-radius: 5px;
   height: 40px;
+  font-weight: 500;
 }
 
 .btn-outline-blue:hover{
@@ -33,4 +46,9 @@ body{
 .btn-blue:hover{
   background-color: var(--blue);
   color: white;
+}
+
+.nav-heading{
+  font-size: 1.5rem;
+  font-weight: 600;
 }
