@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 :root{
+  --container-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   --grey: #F7F9F9;
   --blue: #0197E9;
+  --white: #303030;
 }
 
 body{
@@ -35,7 +37,7 @@ body{
   background-color: inherit;
   border: 2px solid var(--blue);
   border-radius: 5px;
-  height: 40px;
+  min-height: 40px;
   font-weight: 500;
 }
 

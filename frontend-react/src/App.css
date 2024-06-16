@@ -4,6 +4,7 @@ nav{
   display: flex;
   align-items: center;
   font-weight: 500;
+  flex-wrap: wrap;
 }
 
 .nav-left-container{
@@ -26,6 +27,7 @@ nav{
   align-items: center;
   gap: 100px;
   margin-top: 50px;
+  flex-wrap: wrap-reverse;
 }
 
 .introduction-heading{
@@ -43,4 +45,34 @@ nav{
 
 .introduction-image{
   width: 320px;
+}
+
+.user-section-container{
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.user-section{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: var(--container-shadow);
+  padding: 30px;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.user-section > * {
+  width: 100%;
+}
+
+.user-section > h1{
+  color: var(--blue);
+  font-weight: 700;
 }
