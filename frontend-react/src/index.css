@@ -4,7 +4,9 @@
   --container-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   --grey: #F7F9F9;
   --blue: #0197E9;
-  --white: #303030;
+  --footer-light-blue: #328BBC;
+  --footer-blue: #136C9D;
+  --footer-dark-blue: #002751;
 }
 
 body{
@@ -53,4 +55,86 @@ body{
 .nav-heading{
   font-size: 1.5rem;
   font-weight: 600;
+  letter-spacing: -1px;
+}
+
+footer{
+  background-color: var(--footer-blue);
+  padding-top: 25px;
+  padding-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  color: white;
+}
+
+.footer-left-container{
+  background-color: var(--footer-light-blue);
+  border-radius: 10px;
+  padding: 10px;
+  flex-basis: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-left-container-p{
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.quick-links-container{
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  opacity: 0.8;
+  font-size: 0.9rem;
+  line-height: 2;
+}
+
+.footer-bottom{
+  background-color: var(--footer-dark-blue);
+  color: white;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  flex-wrap: wrap;
+  gap: 100px;
+}
+
+.footer-icons{
+  font-size: 20px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.footer-icons:hover{
+  opacity: 1;
+}
+
+.footer-bottom > div{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.footer-bottom > div > p{
+  margin: 0;
+  opacity: 0.8;
+}
+
+
+/* MEDIA QUERY */
+@media (max-width: 700px){
+  .footer-bottom{
+    gap: 10px;
+  }
+  .footer-bottom > div > p{
+    display: none;
+  }
 }

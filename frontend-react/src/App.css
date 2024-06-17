@@ -1,5 +1,5 @@
 /* NAVBAR */
-nav{
+nav {
   background-color: var(--grey);
   display: flex;
   align-items: center;
@@ -7,54 +7,52 @@ nav{
   flex-wrap: wrap;
 }
 
-.nav-left-container{
+.nav-left-container {
   margin-right: auto;
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.nav-right-container{
+.nav-right-container {
   display: flex;
   gap: 15px;
   align-items: center;
 }
 
 /* LANDING PAGE */
-.landing-page-introduction{
+.landing-page-introduction {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 100px;
   margin-top: 50px;
+  margin-bottom: 50px;
   flex-wrap: wrap-reverse;
 }
 
-.introduction-heading{
+.introduction-heading {
   font-size: 3rem;
   font-weight: 700;
   line-height: 0.6;
   color: var(--blue);
 }
 
-.introduction-subheading{
+.introduction-subheading {
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 0.6;
 }
 
-.introduction-image{
-  width: 320px;
-}
-
-.user-section-container{
+.user-section-container {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
+  margin-bottom: 50px;
 }
 
-.user-section{
+.user-section {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -68,11 +66,52 @@ nav{
   text-align: center;
 }
 
-.user-section > * {
+.user-section>* {
   width: 100%;
 }
 
-.user-section > h1{
+.user-section>h1 {
   color: var(--blue);
   font-weight: 700;
 }
+
+.elections-section {
+  box-shadow: var(--container-shadow);
+  background: linear-gradient(135deg, rgba(1, 151, 233, 1) 0%, rgba(255, 255, 255, 1) 66%, rgba(255, 255, 255, 1) 100%);
+  border-radius: 10px;
+  margin-right: 10%;
+  margin-left: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.election-sections-container{
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+}
+
+.election-sections-container > h1{
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.election-sections-container > button{
+  border: 2px solid black;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: white;
+}
+
+.election-sections-container > button:hover{
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+/* FOOTER */
