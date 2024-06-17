@@ -1,34 +1,107 @@
-/* NAVBAR */
+/* ----------------------NAVBAR------------------------- */
 nav {
-  background-color: var(--grey);
   display: flex;
   align-items: center;
-  font-weight: 500;
   flex-wrap: wrap;
+  font-weight: 500;
+  background-color: var(--grey);
 }
 
 .nav-left-container {
-  margin-right: auto;
   display: flex;
   align-items: center;
   gap: 5px;
+  margin-right: auto;
 }
 
 .nav-right-container {
   display: flex;
-  gap: 15px;
   align-items: center;
+  gap: 15px;
 }
 
-/* LANDING PAGE */
+/* --------------------FOOTER------------------------- */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  color: white;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: var(--footer-blue);
+}
+
+.footer-left-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 400px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: var(--footer-light-blue);
+}
+
+.footer-left-container-p {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.quick-links-container {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  line-height: 2;
+  opacity: 0.8;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  flex-wrap: wrap;
+  font-weight: 600;
+  color: white;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  background-color: var(--footer-dark-blue);
+}
+
+.footer-icons {
+  font-size: 20px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.footer-icons:hover {
+  opacity: 1;
+}
+
+.footer-bottom>div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-bottom>div>p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* --------------------------LANDING PAGE---------------------- */
+/* Section-1 */
 .landing-page-introduction {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 100px;
+  flex-wrap: wrap-reverse;
   margin-top: 50px;
   margin-bottom: 50px;
-  flex-wrap: wrap-reverse;
 }
 
 .introduction-heading {
@@ -44,6 +117,7 @@ nav {
   line-height: 0.6;
 }
 
+/* Section-2 */
 .user-section-container {
   display: flex;
   justify-content: space-between;
@@ -54,16 +128,16 @@ nav {
 
 .user-section {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  background-color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  flex: 1;
+  padding: 30px;
   border-radius: 10px;
   box-shadow: var(--container-shadow);
-  padding: 30px;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  background-color: white;
 }
 
 .user-section>* {
@@ -71,47 +145,60 @@ nav {
 }
 
 .user-section>h1 {
-  color: var(--blue);
   font-weight: 700;
+  color: var(--blue);
 }
 
+/* Section-3 */
 .elections-section {
-  box-shadow: var(--container-shadow);
-  background: linear-gradient(135deg, rgba(1, 151, 233, 1) 0%, rgba(255, 255, 255, 1) 66%, rgba(255, 255, 255, 1) 100%);
-  border-radius: 10px;
-  margin-right: 10%;
-  margin-left: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 50px;
   flex-wrap: wrap;
+  border-radius: 10px;
+  margin-right: 10%;
+  margin-left: 10%;
   margin-bottom: 50px;
+  box-shadow: var(--container-shadow);
+  background: linear-gradient(135deg, rgba(1, 151, 233, 1) 0%, rgba(255, 255, 255, 1) 66%, rgba(255, 255, 255, 1) 100%);
 }
 
-.election-sections-container{
+.election-sections-container {
   display: flex;
   flex-direction: column;
   padding: 0 15px;
 }
 
-.election-sections-container > h1{
+.election-sections-container>h1 {
   font-weight: 600;
   color: var(--blue);
 }
 
-.election-sections-container > button{
-  border: 2px solid black;
-  border-radius: 5px;
+.election-sections-container>button {
   font-size: 1.1rem;
   font-weight: 600;
-  background-color: white;
-}
-
-.election-sections-container > button:hover{
   border: 2px solid black;
   border-radius: 5px;
   background-color: white;
 }
 
-/* FOOTER */
+.election-sections-container>button:hover {
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+/* ---------------------------MEDIA QUERY-------------------- */
+@media (max-width: 700px) {
+
+  /* ----------FOOTER--------- */
+  /* Footer Bottom */
+  .footer-bottom {
+    gap: 10px;
+  }
+
+  .footer-bottom>div>p {
+    display: none;
+  }
+}
