@@ -1,38 +1,317 @@
-.App {
-  text-align: center;
+/* ----------------------NAVBAR------------------------- */
+nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-weight: 500;
+  background-color: var(--grey);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.nav-left-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.nav-right-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+/* ---------------------------------------------------------------------- */
+
+/* --------------------FOOTER------------------------- */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  color: white;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: var(--footer-blue);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.footer-left-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-basis: 400px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: var(--footer-light-blue);
+}
+
+.footer-left-container-p {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.quick-links-container {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  line-height: 2;
+  opacity: 0.8;
+}
+/* ---------------------------------------------------------------------- */
+
+/* Footer Bottom */
+.footer-bottom {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 100px;
+  flex-wrap: wrap;
+  font-weight: 600;
   color: white;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  background-color: var(--footer-dark-blue);
 }
 
-.App-link {
-  color: #61dafb;
+.footer-icons {
+  font-size: 20px;
+  opacity: 0.8;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.footer-icons:hover {
+  opacity: 1;
+}
+
+.footer-bottom>div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-bottom>div>p {
+  margin: 0;
+  opacity: 0.8;
+}
+/* ---------------------------------------------------------------------- */
+
+/* --------------------------LANDING PAGE---------------------- */
+/* Section-1 */
+.landing-page-introduction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  flex-wrap: wrap-reverse;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.introduction-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 0.6;
+  color: var(--blue);
+}
+
+.introduction-subheading {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 0.6;
+}
+
+/* Section-2 */
+.user-section-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.user-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  flex: 1;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: var(--container-shadow);
+  background-color: white;
+}
+
+.user-section>* {
+  width: 100%;
+}
+
+.user-section>h1 {
+  font-weight: 700;
+  color: var(--blue);
+}
+
+/* Section-3 */
+.elections-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  margin-right: 10%;
+  margin-left: 10%;
+  margin-bottom: 50px;
+  box-shadow: var(--container-shadow);
+  background: linear-gradient(135deg, rgba(1, 151, 233, 1) 0%, rgba(255, 255, 255, 1) 66%, rgba(255, 255, 255, 1) 100%);
+}
+
+.election-sections-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+}
+
+.election-sections-container>h1 {
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.election-sections-container>button {
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.election-sections-container>button:hover {
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
+/* ---------------------------------------------------------------------- */
+
+/* ---------------------------MEDIA QUERY-------------------- */
+@media (max-width: 700px) {
+
+  /* ----------FOOTER--------- */
+  /* Footer Bottom */
+  .footer-bottom {
+    gap: 10px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .footer-bottom>div>p {
+    display: none;
   }
 }
+/* ---------------------------------------------------------------------- */
+
+/* --------------------VOTER REGISTRATION-------------------- */
+.voter-registraion{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  box-shadow: var(--container-shadow);
+  background-color: white;
+  align-items: center;
+  margin-bottom: 50px;
+  padding-left: 0;
+}
+
+.child-div{
+  margin-bottom: 10px;
+}
+.left-voter-registraion{
+  text-align: center;
+  background-color: var(--blue);
+  color: white;
+  
+}
+.right-voter-registraion{
+  margin: 25px;
+}
+.voter-heading{
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 0.6;
+  color: var(--blue);
+  text-align: center;
+  line-height: 50px;;
+  margin-top: 30px;
+}
+
+.voter-subheading{
+  font-size: 1.3rem;
+  line-height: 0.6;
+  text-align: center;
+  line-height: 25px;;
+  text-justify: auto;
+}
+
+.left-voter-registraion h1{
+color: white
+;font-size: 30px;
+}
+/* ---------------------------------------------------------------------- */
+
+
+/*----------------------------- dropdown----------------------------- */
+.dropdown {
+  position: relative;
+  width: 100%;
+  border:1px solid black;
+ 
+}
+
+.selected-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  color:black;
+  padding: 10px;
+  border-radius: 5px;
+  
+  cursor: pointer;
+}
+
+.main-content {
+  width: 80%; /* Adjust width as needed */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: black;
+  /* border-color: #fff transparent transparent transparent; */
+}
+.options {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid black;
+  border-radius: 0 0 5px 5px;
+ /* display: none;  */
+  z-index: 10;
+}
+
+.option {
+  padding: 10px;
+  cursor: pointer;
+border-color: black;
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+}
+
+/* ---------------------------------------------------------------------- */
