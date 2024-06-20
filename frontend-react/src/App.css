@@ -19,6 +19,7 @@ nav {
   align-items: center;
   gap: 15px;
 }
+/* ---------------------------------------------------------------------- */
 
 /* --------------------FOOTER------------------------- */
 footer {
@@ -57,6 +58,7 @@ footer {
   line-height: 2;
   opacity: 0.8;
 }
+/* ---------------------------------------------------------------------- */
 
 /* Footer Bottom */
 .footer-bottom {
@@ -91,6 +93,7 @@ footer {
   margin: 0;
   opacity: 0.8;
 }
+/* ---------------------------------------------------------------------- */
 
 /* --------------------------LANDING PAGE---------------------- */
 /* Section-1 */
@@ -188,6 +191,7 @@ footer {
   border-radius: 5px;
   background-color: white;
 }
+/* ---------------------------------------------------------------------- */
 
 /* ---------------------------MEDIA QUERY-------------------- */
 @media (max-width: 700px) {
@@ -202,3 +206,112 @@ footer {
     display: none;
   }
 }
+/* ---------------------------------------------------------------------- */
+
+/* --------------------VOTER REGISTRATION-------------------- */
+.voter-registraion{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  box-shadow: var(--container-shadow);
+  background-color: white;
+  align-items: center;
+  margin-bottom: 50px;
+  padding-left: 0;
+}
+
+.child-div{
+  margin-bottom: 10px;
+}
+.left-voter-registraion{
+  text-align: center;
+  background-color: var(--blue);
+  color: white;
+  
+}
+.right-voter-registraion{
+  margin: 25px;
+}
+.voter-heading{
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 0.6;
+  color: var(--blue);
+  text-align: center;
+  line-height: 50px;;
+  margin-top: 30px;
+}
+
+.voter-subheading{
+  font-size: 1.3rem;
+  line-height: 0.6;
+  text-align: center;
+  line-height: 25px;;
+  text-justify: auto;
+}
+
+.left-voter-registraion h1{
+color: white
+;font-size: 30px;
+}
+/* ---------------------------------------------------------------------- */
+
+
+/*----------------------------- dropdown----------------------------- */
+.dropdown {
+  position: relative;
+  width: 100%;
+  border:1px solid black;
+ 
+}
+
+.selected-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  color:black;
+  padding: 10px;
+  border-radius: 5px;
+  
+  cursor: pointer;
+}
+
+.main-content {
+  width: 80%; /* Adjust width as needed */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: black;
+  /* border-color: #fff transparent transparent transparent; */
+}
+.options {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid black;
+  border-radius: 0 0 5px 5px;
+ /* display: none;  */
+  z-index: 10;
+}
+
+.option {
+  padding: 10px;
+  cursor: pointer;
+border-color: black;
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+}
+
+/* ---------------------------------------------------------------------- */
