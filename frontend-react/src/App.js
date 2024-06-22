@@ -9,8 +9,8 @@ import CandidateLogin from "./pages/Candidate/CandidateLogin";
 function App() {
   return (
     <div>
-      {/* <LandingPage></LandingPage> */}
-      <VoterRegister></VoterRegister>
+      <LandingPage></LandingPage>
+      {/* <VoterRegister></VoterRegister> */}
       {/* <VoterLogin></VoterLogin> */}
       {/* <PartyRegister></PartyRegister> */}
       {/* <PartyLogin></PartyLogin> */}

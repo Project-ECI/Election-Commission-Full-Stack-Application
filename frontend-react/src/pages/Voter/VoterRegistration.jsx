@@ -5,7 +5,6 @@ import Navbar1 from "../../components/Navbar1.jsx";
 import StateCityDropdown from "../../components/StateDropdown.jsx";
 
 import regitration from "../../assets/images/image-for-registrationpage.png";
-
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons/fa
 
@@ -38,7 +37,8 @@ function VoterRegister() {
             an active participant in shaping the future of your community and
             country with the "Election Commission"
           </p>
-          <img src={regitration} alt="" className="img-fluid" width="320px" />
+          
+          
         </div>
 
         <div className="right-voter-registration col-md-7">

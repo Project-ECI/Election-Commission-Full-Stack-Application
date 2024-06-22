@@ -14,6 +14,7 @@
     font-weight: 700;
     line-height: 0.6;
     color: var(--blue);
+    /* text-shadow: -16px 6px 15px #ced0d3; */
 }
 
 .introduction-subheading {
@@ -26,7 +27,7 @@
 .user-section-container {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 100px;
     flex-wrap: wrap;
     margin-bottom: 50px;
 }
@@ -37,7 +38,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 10px;
+    gap: 15px;
     flex: 1;
     padding: 30px;
     border-radius: 10px;
@@ -50,8 +51,10 @@
 }
 
 .user-section>h1 {
-    font-weight: 700;
+    font-weight: 600;
     color: var(--blue);
+    font-size: 2rem;
+    /* opacity: 0.9; */
 }
 
 /* Section-3 */
@@ -69,6 +72,11 @@
     background: linear-gradient(135deg, rgba(1, 151, 233, 1) 0%, rgba(255, 255, 255, 1) 66%, rgba(255, 255, 255, 1) 100%);
 }
 
+.elections-section > img{
+    transform: scale(1.1);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
 .election-sections-container {
     display: flex;
     flex-direction: column;
@@ -78,18 +86,34 @@
 .election-sections-container>h1 {
     font-weight: 600;
     color: var(--blue);
+    font-size: 2rem;
 }
 
 .election-sections-container>button {
     font-size: 1.1rem;
     font-weight: 600;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 5px;
     background-color: white;
 }
 
 .election-sections-container>button:hover {
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 5px;
     background-color: white;
+}
+
+/* Media Queries */
+@media (max-width: 1000px) {
+    .user-section-container {
+        gap: 50px;
+    }
+
+    .elections-section{
+        gap: 0;
+    }
+
+    .election-sections-container>h1{
+        font-size: 1.6rem;
+    }
 }
