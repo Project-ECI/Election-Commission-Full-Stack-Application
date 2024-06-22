@@ -1,21 +1,32 @@
 import Footer1 from "../components/Footer1";
 import Navbar1 from "../components/Navbar1";
-import Dropdown from "../components/stateDropdown.jsx";
-import DisDropdown from "../components/districtDropdown.jsx";
 import regitration from "../assets/images/image-for-registrationpage.png";
+import StateCityDropdown from "../components/statedis.jsx";
+
+import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons/fa
 
 function VoterRegister() {
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <div>
       <Navbar1></Navbar1>
 
       {/* Registration  */}
-      <div className="container voter-registraion ">
-        <div className="left-voter-registraion col">
-          <h1 className="voter-heading font-mont">
+      <div className="container voter-registration" style={{ padding: 0 }}>
+        <div className="left-voter-registration col">
+          <h1
+            className="voter-heading font-mont "
+           
+          >
             Register to Join Our Platform Today!
           </h1>
-          <p className="voter-subheading ">
+          <p className="voter-subheading">
             Stay informed and engaged with the democratic process by registering
             to join our "Election Commission" platform! Our innovative service
             offers real-time updates on election results, voter registration
@@ -28,12 +39,11 @@ function VoterRegister() {
           <img src={regitration} alt="" className="img-fluid" width="320px" />
         </div>
 
-        <div className="right-voter-registraion  col-md-7">
-          <div className=" ">
-            <p className="voter-heading">Voter Registration</p>
-
+        <div className="right-voter-registration col-md-7">
+          <p className="voter-heading">Voter Registration</p>
+          <div className="form">
             <div className="form padding-10">
-              <div class="form-group child-div">
+              <div class="form-group  ">
                 <label for="Name">Full Name</label>
                 <input
                   type="text"
@@ -44,7 +54,7 @@ function VoterRegister() {
                 ></input>
               </div>
 
-              <div className="form-group child-div">
+              <div className="form-group  ">
                 <label for="DOB">Date of Birth</label>
                 <input
                   type="date"
@@ -55,11 +65,11 @@ function VoterRegister() {
               </div>
 
               <label for="gender">Gender</label>
-              <div className="form-group ">
+              <div class="form-group">
                 <label>
                   <input
                     type="radio"
-                    className=" form-control-lg "
+                    class="form-control-lg"
                     name="gender"
                     value="male"
                   ></input>
@@ -68,7 +78,7 @@ function VoterRegister() {
                 <label>
                   <input
                     type="radio"
-                    className=" form-control-lg"
+                    class="form-control-lg"
                     name="gender"
                     value="female"
                   ></input>
@@ -77,7 +87,7 @@ function VoterRegister() {
                 <label>
                   <input
                     type="radio"
-                    className="form-control-lg"
+                    class="form-control-lg"
                     name="gender"
                     value="other"
                   ></input>
@@ -85,7 +95,7 @@ function VoterRegister() {
                 </label>
               </div>
 
-              <div className="form-group child-div">
+              <div className="form-group  ">
                 <label for="email">Email</label>
                 <input
                   type="email"
@@ -95,7 +105,7 @@ function VoterRegister() {
                   placeholder="Enter email"
                 ></input>
               </div>
-              <div className="form-group child-div">
+              <div className="form-group  ">
                 <label for="mobile">Mobile</label>
                 <input
                   type="tel"
@@ -105,30 +115,41 @@ function VoterRegister() {
                   placeholder="Enter Mobile Number"
                 ></input>
               </div>
-              <div className="form-group child-div">
-                <label for="state">State</label>
-                <Dropdown />
+              <div className="form-group  ">
+                <StateCityDropdown />
               </div>
-              <div className="form-group child-div">
-                <label for="District">District</label>
-                <DisDropdown />
+
+              <div className="form-group  password-container">
+                <label htmlFor="password">Password:</label>
+                <div className="password-input">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="form-control form-control-lg"
+                    placeholder="Enter Password"
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="password-toggle-btn"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
-              <div className="form-group child-div">
-                <label for="exampleInputPassword1">Password</label>
-                <input
-                  type="password"
-                  className="form-control form-control-lg"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                ></input>
-              </div>
-              <div className="child-div">
+
+              <div
+                className="form-group"
+                style={{ marginTop: "25px", textAlign: "center" }}
+              >
                 <label for="already acc">
-                  Already have an account?<a href=".">Login</a>
+                  Already have an account?<a href="."> Login</a>
                 </label>
               </div>
 
-              <div className="form-group child-div">
+              <div className="form-group" style={{ marginTop: "25px" }}>
                 <button type="submit" className="btn btn-blue col-12 ">
                   Register
                 </button>

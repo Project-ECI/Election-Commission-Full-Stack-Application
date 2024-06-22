@@ -209,109 +209,125 @@ footer {
 /* ---------------------------------------------------------------------- */
 
 /* --------------------VOTER REGISTRATION-------------------- */
-.voter-registraion{
+.voter-registration {
   display: flex;
   flex-wrap: wrap;
   margin-top: 50px;
+  margin-bottom: 50px;
   box-shadow: var(--container-shadow);
   background-color: white;
   align-items: center;
-  margin-bottom: 50px;
-  padding-left: 0;
 }
 
-.child-div{
-  margin-bottom: 10px;
-}
-.left-voter-registraion{
+.left-voter-registration {
   text-align: center;
   background-color: var(--blue);
   color: white;
-  
+  padding: 0; /* Adjusted padding */
 }
-.right-voter-registraion{
-  margin: 25px;
+
+.right-voter-registration {
+  margin-top: 0;
+  margin-bottom: 25px;
+  margin-left: 25px;
+  margin-right: 25px;
+  border-top: 0;
 }
-.voter-heading{
+
+.voter-heading {
   font-size: 3rem;
   font-weight: 700;
-  line-height: 0.6;
   color: var(--blue);
   text-align: center;
-  line-height: 50px;;
-  margin-top: 30px;
+  line-height: 50px;
+  margin-top: 25px;
 }
 
-.voter-subheading{
-  font-size: 1.3rem;
-  line-height: 0.6;
+.voter-subheading {
+  font-size: 1rem;
+  line-height: 1.6;
   text-align: center;
-  line-height: 25px;;
-  text-justify: auto;
+  margin-bottom: 20px; /* Adjusted margin for spacing */
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-.left-voter-registraion h1{
-color: white
-;font-size: 30px;
+.left-voter-registration h1{
+  color: white;
+margin-top: 50px;
+font-size: 2rem;
 }
+
 /* ---------------------------------------------------------------------- */
-
-
-/*----------------------------- dropdown----------------------------- */
-.dropdown {
-  position: relative;
-  width: 100%;
-  border:1px solid black;
- 
-}
-
-.selected-option {
+/* ---------------------PAssword------------------------------------------ */
+.password-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  color:black;
-  padding: 10px;
-  border-radius: 5px;
-  
-  cursor: pointer;
+  flex-direction: column;
+  margin-bottom: 15px; /* Optional: Add some margin to the bottom */
 }
 
-.main-content {
-  width: 80%; /* Adjust width as needed */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.password-input {
+  position: relative;
 }
 
-.arrow {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 5px 0 5px;
-  border-color: black;
-  /* border-color: #fff transparent transparent transparent; */
-}
-.options {
-  position: absolute;
-  top: 40px;
-  left: 0;
+.password-field {
+  padding-right: 36px; /* Ensure enough space for the toggle button */
   width: 100%;
-  background-color: #fff;
-  border: 1px solid black;
-  border-radius: 0 0 5px 5px;
- /* display: none;  */
-  z-index: 10;
+  height: 50px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
 }
 
-.option {
-  padding: 10px;
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
   cursor: pointer;
-border-color: black;
+  outline: none;
 }
 
-.option:hover {
-  background-color: #f0f0f0;
+.password-toggle-btn:focus {
+  outline: none;
 }
 
-/* ---------------------------------------------------------------------- */
+.password-toggle-btn svg {
+  font-size: 18px;
+  color: #666;
+}
+
+.password-toggle-btn:hover svg {
+  color: #333;
+}
+/* ------------------Party----------------- */
+.party-heading{
+  margin-top: 25px;
+  font-size: 30px;
+}
+
+/* -----------form--------------------------- */
+.form-group input[type="radio"]:checked + label {
+  font-weight: bold; /* Example: Make the selected label bold */
+  color: #007bff; 
+  margin-right: 5px;
+}
+
+.form-group label {
+  display: inline-block;
+  margin-right: 20px; /* Adjust space between labels */
+  margin-bottom: 10px; /* Adjust spacing between each radio button */
+  cursor: pointer;
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333; /* Text color */
+}
+
+.form-group input[type="radio"] {
+  vertical-align: middle; /* Align radio buttons vertically */
+  margin-right: 5px; /* Adjust space between radio button and label */
+}
+
