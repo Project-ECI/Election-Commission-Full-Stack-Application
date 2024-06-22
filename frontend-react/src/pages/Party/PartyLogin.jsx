@@ -1,10 +1,13 @@
-import Footer1 from "../components/Footer1.jsx";
-import Navbar1 from "../components/Navbar1.jsx";
-import main_image from "../assets/images/image-for-loginpage.png";
+import "../../css/voterreg.css"
+
+import Footer1 from "../../components/Footer1.jsx";
+import Navbar1 from "../../components/Navbar1.jsx";
+import main_image from "../../assets/images/image-for-loginpage.png";
+
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons/fa
 
-function CandidateLogin() {
+function PartyLogin() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -24,16 +27,16 @@ function CandidateLogin() {
 
         <div className="right-voter-registration col-md-6">
           <div className="form">
-            <p className="voter-heading">Candidate Login</p>
+            <p className="voter-heading">Party Login</p>
 
             <div className="form-group child-div">
-              <label for="email">Email or VoterID</label>
+              <label for="email">Email</label>
               <input
                 type="text"
                 className="form-control form-control-lg"
                 id="userid"
                 aria-describedby="emailHelp"
-                placeholder="Enter Emial or VoterId"
+                placeholder="Enter Email"
               ></input>
             </div>
 
@@ -84,4 +87,4 @@ function CandidateLogin() {
   );
 }
 
-export default CandidateLogin;
+export default PartyLogin;

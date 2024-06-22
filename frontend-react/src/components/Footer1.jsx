@@ -1,9 +1,5 @@
+import "../css/footer.css"
 import logo from "../assets/images/logo.png"
-import instagram from "../assets/icons/instagram.png"
-import facebook from "../assets/icons/facebook.png"
-import twitter from "../assets/icons/twitter.png"
-import email from "../assets/icons/email.png"
-import github from "../assets/icons/github.png"
 
 function Footer1() {
     return (
@@ -11,7 +7,7 @@ function Footer1() {
             <footer className="padding-10">
                 <div className="footer-left-container">
                     <h5 className="font-mont" style={{ textDecoration: "underline" }}>Election Commission</h5>
-                    <img src={logo} alt="" width="120px" />
+                    <img className="mb-1" src={logo} alt="" width="100px" />
                     <p className="footer-left-container-p">The Election Commission of India is an autonomous constitutional authority responsible for administering election processes in India. The body administers elections to the Lok Sabha, Rajya Sabha, State Legislative Assemblies in India, and the offices of the President and Vice President in the country.</p>
                 </div>
 

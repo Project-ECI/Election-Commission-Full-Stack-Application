@@ -1,7 +1,10 @@
-import Footer1 from "../components/Footer1";
-import Navbar1 from "../components/Navbar1";
-import regitration from "../assets/images/image-for-registrationpage.png";
-import StateCityDropdown from "../components/statedis.jsx";
+import "../../css/voterreg.css"
+
+import Footer1 from "../../components/Footer1.jsx";
+import Navbar1 from "../../components/Navbar1.jsx";
+import StateCityDropdown from "../../components/StateDropdown.jsx";
+
+import regitration from "../../assets/images/image-for-registrationpage.png";
 
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons/fa
@@ -22,7 +25,6 @@ function VoterRegister() {
         <div className="left-voter-registration col">
           <h1
             className="voter-heading font-mont "
-           
           >
             Register to Join Our Platform Today!
           </h1>

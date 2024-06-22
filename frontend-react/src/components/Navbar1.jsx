@@ -1,10 +1,11 @@
+import "../css/navbar.css"
 import logo from '../assets/images/logo.png'
 
 function Navbar1() {
     return (
          <nav className='padding-10 shadow'>
-            <div className='nav-left-container'>
-                <img src={logo} alt="" height="60px" width="60px"/>
+            <div className='nav-left-container mt-1 mb-1'>
+                <img src={logo} alt="" height="50px" width="50px"/>
                 <span className='font-mont nav-heading'>Election Commission</span>
             </div>
 

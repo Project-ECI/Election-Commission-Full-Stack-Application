@@ -1,7 +1,10 @@
-import main_image from "../assets/images/landing-page-main.png";
-import indian_map from "../assets/images/india-map.png";
+import "../css/landingpage.css"
+
 import Navbar1 from "../components/Navbar1";
 import Footer1 from "../components/Footer1";
+
+import main_image from "../assets/images/landing-page-main.png";
+import indian_map from "../assets/images/india-map.png";
 
 function LandingPage() {
   return (
@@ -19,6 +22,7 @@ function LandingPage() {
         </div>
         <img src={main_image} alt="" className="img-fluid" width="320px" />
       </div>
+
       {/* Login-Register Containers */}
       <div className="user-section-container padding-10">
         <div className="user-section">
@@ -58,6 +62,7 @@ function LandingPage() {
           </button>
         </div>
       </div>
+
       {/* Elections Section */}
       <div className="elections-section">
         <img className="img-fluid" src={indian_map} alt="" width="400px" />
@@ -78,6 +83,7 @@ function LandingPage() {
           </button>
         </div>
       </div>
+
       {/* Footer */}
       <Footer1></Footer1>
     </div>
