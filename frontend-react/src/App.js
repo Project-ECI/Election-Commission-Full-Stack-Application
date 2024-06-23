@@ -1,22 +1,27 @@
 import "./App.css";
 
 import LandingPage from "./pages/LandingPage";
-import VoterLogin from "./pages/Voter/VoterLogin";
-import PartyRegister from "./pages/Party/PartyRegistration";
-import PartyLogin from "./pages/Party/PartyLogin";
-import CandidateLogin from "./pages/Candidate/CandidateLogin";
 
+import VoterLoginPage from "./pages/Voter/VoterLogin";
 import VoterRegPage from "./pages/Voter/VoterRegistration";
+
+import CandidateLoginPage from "./pages/Candidate/CandidateLogin";
+
+import PartyLoginPage from "./pages/Party/PartyLogin";
+import PartyRegister from "./pages/Party/PartyRegistration";
+
 
 function App() {
   return (
     <div>
-      {/* <LandingPage></LandingPage> */}
+      <LandingPage></LandingPage>
+
       <VoterRegPage></VoterRegPage>
-      {/* <VoterLogin></VoterLogin> */}
+      <VoterLoginPage></VoterLoginPage>
+
+      <CandidateLoginPage></CandidateLoginPage>
       {/* <PartyRegister></PartyRegister> */}
-      {/* <PartyLogin></PartyLogin> */}
-      {/* <CandidateLogin></CandidateLogin> */}
+      <PartyLoginPage></PartyLoginPage>
     </div>
   );
 }

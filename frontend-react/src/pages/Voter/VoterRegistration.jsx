@@ -165,7 +165,7 @@ function VoterRegPage() {
                     </form>
                 </div>
             </div>
-            
+
             <Footer1></Footer1>
         </div>
     )
