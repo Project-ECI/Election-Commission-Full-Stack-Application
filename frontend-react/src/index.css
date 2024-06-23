@@ -7,6 +7,8 @@
   --footer-light-blue: #328BBC;
   --footer-blue: #136C9D;
   --footer-dark-blue: #002751;
+  --blue-hover: #0180c6;
+  --white-hover: #e6e6e6
 }
 
 body{
@@ -27,12 +29,17 @@ body{
   padding-right: 10%;
 }
 
+.margin-10{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .btn-blue{
   background-color:var(--blue);
   border-radius: 5px;
   height: 40px;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .btn-outline-blue{
@@ -45,10 +52,13 @@ body{
 
 .btn-outline-blue:hover{
   border: 2px solid var(--blue);
+  background-color: var(--blue);
+  color: white;
+  font-weight: 600;
 }
 
 .btn-blue:hover{
-  background-color: var(--blue);
+  background-color: var(--blue-hover);
   color: white;
 }
 

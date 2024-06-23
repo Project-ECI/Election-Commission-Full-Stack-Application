@@ -1,4 +1,4 @@
-import "../../css/voterreg.css"
+// import "../../css/voterreg.css"
 
 import Footer1 from "../../components/Footer1.jsx";
 import Navbar1 from "../../components/Navbar1.jsx";

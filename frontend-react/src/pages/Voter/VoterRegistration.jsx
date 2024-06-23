@@ -1,172 +1,174 @@
-import "../../css/voterreg.css"
+import "../../css/registration.css"
 
-import Footer1 from "../../components/Footer1.jsx";
-import Navbar1 from "../../components/Navbar1.jsx";
-import StateCityDropdown from "../../components/StateDropdown.jsx";
+import Navbar1 from "../../components/Navbar1";
+import Footer1 from "../../components/Footer1"
 
-import regitration from "../../assets/images/image-for-registrationpage.png";
+import image from "../../assets/images/image-for-registrationpage.png";
+
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons/fa
 
-function VoterRegister() {
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+function VoterRegPage() {
+    // State and cities dropdown
+    const [selectedState, setSelectedState] = useState("");
+    const [cities, setCities] = useState([]);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-  return (
-    <div>
-      <Navbar1></Navbar1>
+    const handleStateChange = (e) => {
+        const selectedState = e.target.value;
+        setSelectedState(selectedState);
 
-      {/* Registration  */}
-      <div className="container voter-registration" style={{ padding: 0 }}>
-        <div className="left-voter-registration col">
-          <h1
-            className="voter-heading font-mont "
-          >
-            Register to Join Our Platform Today!
-          </h1>
-          <p className="voter-subheading">
-            Stay informed and engaged with the democratic process by registering
-            to join our "Election Commission" platform! Our innovative service
-            offers real-time updates on election results, voter registration
-            assistance, and comprehensive information about candidates and their
-            policies. Designed to empower citizens, our platform ensures N that
-            your voice is heard and your vote counts. Register today to become
-            an active participant in shaping the future of your community and
-            country with the "Election Commission"
-          </p>
-          
-          
-        </div>
+        switch (selectedState) {
+            case "Maharashtra":
+                setCities(["Pune", "Mumbai", "Nagpur"]);
+                break;
+            case "Goa":
+                setCities(["South Goa", "North Goa", "Panaji"]);
+                break;
+            case "Gujrat":
+                setCities(["Gandhinagar", "Ahemdabad", "Surat"]);
+                break;
+            default:
+                setCities([]);
+                break;
+        }
+    };
 
-        <div className="right-voter-registration col-md-7">
-          <p className="voter-heading">Voter Registration</p>
-          <div className="form">
-            <div className="form padding-10">
-              <div class="form-group  ">
-                <label for="Name">Full Name</label>
-                <input
-                  type="text"
-                  className="form-control form-control-lg"
-                  id="name"
-                  aria-describedby="namelHelp"
-                  placeholder="Enter full Name"
-                ></input>
-              </div>
+    // Show and hide password
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
-              <div className="form-group  ">
-                <label for="DOB">Date of Birth</label>
-                <input
-                  type="date"
-                  className="form-control form-control-lg"
-                  id="dob"
-                  aria-describedby="dobHelp"
-                ></input>
-              </div>
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
-              <label for="gender">Gender</label>
-              <div class="form-group">
-                <label>
-                  <input
-                    type="radio"
-                    class="form-control-lg"
-                    name="gender"
-                    value="male"
-                  ></input>
-                  Male
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    class="form-control-lg"
-                    name="gender"
-                    value="female"
-                  ></input>
-                  Female
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    class="form-control-lg"
-                    name="gender"
-                    value="other"
-                  ></input>
-                  Other
-                </label>
-              </div>
+    return (
+        <div>
+            <Navbar1></Navbar1>
 
-              <div className="form-group  ">
-                <label for="email">Email</label>
-                <input
-                  type="email"
-                  className="form-control form-control-lg"
-                  id="email"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                ></input>
-              </div>
-              <div className="form-group  ">
-                <label for="mobile">Mobile</label>
-                <input
-                  type="tel"
-                  className="form-control form-control-lg"
-                  id="mobile"
-                  aria-describedby="mobileHelp"
-                  placeholder="Enter Mobile Number"
-                ></input>
-              </div>
-              <div className="form-group  ">
-                <StateCityDropdown />
-              </div>
+            {/* Registration Section */}
+            <div className="registration-container margin-10">
+                {/* Left Container */}
+                <div className="reg-left-container">
+                    <h1 className="font-mont">Register to Join Our Platform Today!</h1>
 
-              <div className="form-group  password-container">
-                <label htmlFor="password">Password:</label>
-                <div className="password-input">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-control form-control-lg"
-                    placeholder="Enter Password"
-                  />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="password-toggle-btn"
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </button>
+                    <p className="mt-5">Stay informed and engaged with the democratic process by registering
+                        to join our "Election Commission" platform! Our innovative service
+                        offers real-time updates on election results, voter registration
+                        assistance, and comprehensive information about candidates and their policies.
+                    </p>
+                    <p className="mt-3">Designed to empower citizens, our platform ensures that
+                        your voice is heard and your vote counts. Register today to become
+                        an active participant in shaping the future of your community and
+                        country with the "Election Commission".
+                    </p>
+
+                    <img src={image} className="img-fluid" width="320px" alt="" />
                 </div>
-              </div>
 
-              <div
-                className="form-group"
-                style={{ marginTop: "25px", textAlign: "center" }}
-              >
-                <label for="already acc">
-                  Already have an account?<a href="."> Login</a>
-                </label>
-              </div>
+                {/* Right Container */}
+                <div className="reg-right-container">
+                    <h1 className="font-mont">Voter Registration</h1>
 
-              <div className="form-group" style={{ marginTop: "25px" }}>
-                <button type="submit" className="btn btn-blue col-12 ">
-                  Register
-                </button>
-              </div>
+                    <form action="">
+                        {/* Full Name */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="fullname">Full Name</label>
+                            <input type="text" className="form-control" id="fullname" placeholder="Virat Sharma" />
+                        </div>
+
+                        {/* Date of Birth */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="dob">Date Of Birth</label>
+                            <input type="date" className="form-control" id="dob" value="2000-01-01" />
+                        </div>
+
+                        {/* Gender */}
+                        <div class="form-group mb-3">
+                            <label for="gender">Gender</label>
+                            <select class="form-control" id="gender">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                            <i class="bi bi-arrow-down-square-fill form-icon"></i>
+                        </div>
+
+                        {/* Email */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="email">Email</label>
+                            <input type="email" className="form-control" id="email" placeholder="viratsharma@gmail.com" />
+                        </div>
+
+                        {/* Mobile No */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="mobileno">Mobile No</label>
+                            <input type="tel" className="form-control" id="mobileno" placeholder="9876543210" />
+                        </div>
+
+                        {/* State Dropdown */}
+                        <div className="form-group mb-3">
+                            <select
+                                id="state"
+                                class="form-control"
+                                value={selectedState}
+                                onChange={handleStateChange}
+                            >
+                                <option value="">Select State</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujrat">Gujrat</option>
+                            </select>
+                            <i class="bi bi-arrow-down-square-fill form-icon2"></i>
+                        </div>
+
+                        {/* City Dropdown */}
+                        <div className="form-group mb-3">
+                            <select
+                                id="city"
+                                class="form-control"
+                                disabled={cities.length === 0}
+                            >
+                                <option value="">Select City</option>
+                                {cities.map((city) => (
+                                    <option key={city} value={city}>
+                                        {city}
+                                    </option>
+                                ))}
+                            </select>
+                            <i class="bi bi-arrow-down-square-fill form-icon2"></i>
+                        </div>
+
+                        {/* Password */}
+                        <div className="form-group mb-3">
+                            <label htmlFor="password">Password</label>
+
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="form-control"
+                                placeholder="Enter Password"
+                            />
+                            <button
+                                type="button"
+                                onClick={togglePasswordVisibility}
+                                className="password-toggle-btn"
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                        </div>
+
+                        {/* Bottom Section */}
+                        <button className="btn btn-blue col-12" type="button">Register</button>
+                        <p className="mb-0 mt-1 text-center">Already have an account? <a href="">Login</a></p>
+                    </form>
+                </div>
             </div>
-          </div>
+            
+            <Footer1></Footer1>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="col-12">
-        <Footer1></Footer1>
-      </div>
-    </div>
-  );
+    )
 }
 
-export default VoterRegister;
+export default VoterRegPage;
