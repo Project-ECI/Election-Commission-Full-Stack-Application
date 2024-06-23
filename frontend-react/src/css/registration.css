@@ -61,7 +61,7 @@
     font-weight: 500;
 }
 
-.form-group>input::placeholder {
+.form-group>*::placeholder {
     font-size: 0.9rem;
     font-weight: 200;
     letter-spacing: 1px;

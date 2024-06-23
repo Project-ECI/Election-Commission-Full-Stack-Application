@@ -73,13 +73,13 @@ function VoterRegPage() {
                         {/* Full Name */}
                         <div className="form-group mb-3">
                             <label htmlFor="fullname">Full Name</label>
-                            <input type="text" className="form-control" id="fullname" placeholder="Virat Sharma" />
+                            <input type="text" className="form-control" id="fullname" placeholder="Enter Full Name" />
                         </div>
 
                         {/* Date of Birth */}
                         <div className="form-group mb-3">
                             <label htmlFor="dob">Date Of Birth</label>
-                            <input type="date" className="form-control" id="dob" value="2000-01-01" />
+                            <input type="date" className="form-control" id="dob"/>
                         </div>
 
                         {/* Gender */}
@@ -96,13 +96,13 @@ function VoterRegPage() {
                         {/* Email */}
                         <div className="form-group mb-3">
                             <label htmlFor="email">Email</label>
-                            <input type="email" className="form-control" id="email" placeholder="viratsharma@gmail.com" />
+                            <input type="email" className="form-control" id="email" placeholder="Enter Email" />
                         </div>
 
                         {/* Mobile No */}
                         <div className="form-group mb-3">
                             <label htmlFor="mobileno">Mobile No</label>
-                            <input type="tel" className="form-control" id="mobileno" placeholder="9876543210" />
+                            <input type="tel" className="form-control" id="mobileno" placeholder="Enter Mobile Number" />
                         </div>
 
                         {/* State Dropdown */}

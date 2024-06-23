@@ -1,46 +1,49 @@
 import "../../css/registration.css"
 
-import Footer1 from "../../components/Footer1.jsx";
-import Navbar1 from "../../components/Navbar1.jsx";
+import Navbar1 from "../../components/Navbar1";
+import Footer1 from "../../components/Footer1"
 
-import image from "../../assets/images/candidate-login.png";
+import image from "../../assets/images/candidate-registration.png";
 
-import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React, { useState } from "react";
 
-function CandidateLoginPage() {
+function CandidateRegPage() {
+  // Show and hide password
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <div>
       <Navbar1></Navbar1>
 
+      {/* Registration Section */}
       <div className="registration-container margin-10">
         {/* Left Container */}
         <div className="reg-left-container">
-          <h1 className="font-mont">Welcome Back!</h1>
+          <h1 className="font-mont">Register as a Candidate!</h1>
+
           <img src={image} className="img-fluid" width="320px" alt="" />
         </div>
 
         {/* Right Container */}
         <div className="reg-right-container">
-          <h1 className="font-mont">Candidate Login</h1>
+          <h1 className="font-mont">Candidate Registration</h1>
 
           <form action="">
-            {/* Username */}
+            {/* Party Name */}
             <div className="form-group mb-3">
-              <label htmlFor="username">Email or Mobile No</label>
-              <input type="text" className="form-control" id="username" placeholder="Enter Email" />
+              <label htmlFor="voter-id">Voter-Id</label>
+              <input type="text" className="form-control" id="voter-id" placeholder="Enter Voter-Id" />
             </div>
 
             {/* Password */}
             <div className="form-group mb-3">
               <label htmlFor="password">Password</label>
-
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
@@ -59,16 +62,16 @@ function CandidateLoginPage() {
             </div>
 
             {/* Bottom Section */}
-            <button className="btn btn-blue col-12" type="button">Login</button>
-            <p className="mb-0 mt-1 text-center">Don't have an account? <a href="">Register</a></p>
+            <p className="mb-1 mt-2 text-center">Don't have a Voter-Id? <a href="">Register as a voter first</a></p>
+            <button className="btn btn-blue col-12" type="button">Register</button>
+            <p className="mb-0 mt-1 text-center">Already have an account? <a href="">Login</a></p>
           </form>
         </div>
-
       </div>
 
       <Footer1></Footer1>
     </div>
-  );
+  )
 }
 
-export default CandidateLoginPage;
+export default CandidateRegPage;

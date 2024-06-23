@@ -34,7 +34,7 @@ function PartyLoginPage() {
             {/* Username */}
             <div className="form-group mb-3">
               <label htmlFor="username">Email or Mobile No</label>
-              <input type="text" className="form-control" id="username" placeholder="viratsharma@gmail.com" />
+              <input type="text" className="form-control" id="username" placeholder="Enter Email or Mobile Number" />
             </div>
 
             {/* Password */}
