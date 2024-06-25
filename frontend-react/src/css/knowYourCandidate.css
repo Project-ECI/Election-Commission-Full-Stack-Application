@@ -26,21 +26,16 @@
         width: 100%;
  }
 
-/* ---------------------------- */
   .content {
     display: flex;
     width: 100%;
   }
   
   .left {
-    width: 100%; /* Adjust as needed based on design */
-    padding-right: 20px; /* Optional: Add spacing between left and right div */
+    width: 100%; 
+    padding-right: 20px; 
   }
-  
-  .right {
-    width: 10%; /* Adjust as needed based on design */
-  }
-  
+    
   .id-card {
     background-color: white;
     border: 1px solid #ccc;
@@ -62,29 +57,14 @@
     border-radius: 50%;
     margin-bottom: 10px;
   }
-  
-  .id-body {
-    padding: 20px;
-  }
-  
-  .checkbox-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-  
-  .checkbox-container input[type="checkbox"] {
-    margin-right: 10px; /* Optional: Add spacing between checkbox and label */
-    cursor: pointer;
-  }
- 
-  .margintop{
-    margin-top: 25px;
-    height: 50px;
-  }
+
 .dropdown{
   width: 50%;
   margin-bottom: 25px;
   color: grey;
+}.rightdiv{
+  margin-left: 50px;
+  margin-right: 100px;
+  flex: 1;
+  display: "flex";
 }
