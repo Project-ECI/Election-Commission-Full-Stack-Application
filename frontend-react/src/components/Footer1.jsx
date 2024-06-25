@@ -1,5 +1,6 @@
 import "../css/footer.css"
 import logo from "../assets/images/logo.png"
+import {Link} from "react-router-dom"
 
 function Footer1() {
     return (
@@ -27,7 +28,7 @@ function Footer1() {
                         <div>
                             <li>Become a Better Voter</li>
                             <li>Party's Principles</li>
-                            <li>Candidate's Code</li>
+                            <Link to="/candidate-guide"><li>Candidate's Code</li></Link>
                         </div>
                     </div>
                 </div>
