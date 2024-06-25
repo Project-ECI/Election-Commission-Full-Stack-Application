@@ -34,24 +34,16 @@ function CastVote() {
                   <h2>{userInfo.name}</h2>
                 </div>
                 <div className="id-body" style={{ display: "flex" }}>
-                  <div className="left" style={{ flex: 1 }}>
-                    <h1>Party:</h1>
-                    <p>{userInfo.address}</p>
+                  <div className="rightdiv">
+                    <h3>Party :</h3>
+                    <h2>{userInfo.address}</h2>
                   </div>
-                  <div
-                    className="right"
-                    style={{
-                      flex: 1,
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <img
-                      src={image2}
-                      alt="User Avatar"
-                      className="user-avatar"
-                    />
-                  </div>
+                  <img
+                    src={image2}
+                    alt="User Avatar"
+                    className="user-avatar"
+                    style={{ marginRight: "50px" }}
+                  />
                 </div>
               </div>
             </div>
