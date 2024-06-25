@@ -52,7 +52,7 @@ function VoterRegPage() {
                 <div className="reg-left-container">
                     <h1 className="font-mont">Register to Join Our Platform Today!</h1>
 
-                    <p className="mt-3">Stay informed and engaged with the democratic process by registering
+                      <p className="mt-3">Stay informed and engaged with the democratic process by registering
                         to join our "Election Commission" platform! Our innovative service
                         offers real-time updates on election results, voter registration
                         assistance, and comprehensive information about candidates and their policies.
