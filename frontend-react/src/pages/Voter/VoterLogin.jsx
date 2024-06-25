@@ -1,7 +1,7 @@
 import "../../css/registration.css"
 
 import Footer1 from "../../components/Footer1.jsx";
-import Navbar1 from "../../components/Navbar1.jsx";
+import Navbar2 from "../../components/Navbar2.jsx";
 
 import image from "../../assets/images/image-for-loginpage.png";
 
@@ -18,7 +18,7 @@ function VoterLoginPage() {
   };
   return (
     <div>
-      <Navbar1></Navbar1>
+      <Navbar2></Navbar2>
 
       <div className="registration-container margin-10">
         {/* Left Container */}
