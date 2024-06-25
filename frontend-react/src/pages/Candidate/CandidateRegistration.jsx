@@ -7,6 +7,7 @@ import image from "../../assets/images/candidate-registration.png";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
 function CandidateRegPage() {
   // Show and hide password
@@ -62,9 +63,9 @@ function CandidateRegPage() {
             </div>
 
             {/* Bottom Section */}
-            <p className="mb-1 mt-2 text-center">Don't have a Voter-Id? <a href="">Register as a voter first</a></p>
+            <p className="mb-1 mt-2 text-center">Don't have a Voter-Id? <Link className="blue-link" to="/voter-reg">Register as a voter first</Link></p>
             <button className="btn btn-blue col-12" type="button">Register</button>
-            <p className="mb-0 mt-1 text-center">Already have an account? <a href="">Login</a></p>
+            <p className="mb-0 mt-1 text-center">Already have an account? <Link className="blue-link" to="/candidate-login">Login</Link></p>
           </form>
         </div>
       </div>

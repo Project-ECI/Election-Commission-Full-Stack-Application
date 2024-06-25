@@ -7,6 +7,7 @@ import image from "../../assets/images/image-for-registrationpage.png";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
 function VoterRegPage() {
     // State and cities dropdown
@@ -51,16 +52,16 @@ function VoterRegPage() {
                 <div className="reg-left-container">
                     <h1 className="font-mont">Register to Join Our Platform Today!</h1>
 
-                    <p className="mt-5">Stay informed and engaged with the democratic process by registering
+                    <p className="mt-3">Stay informed and engaged with the democratic process by registering
                         to join our "Election Commission" platform! Our innovative service
                         offers real-time updates on election results, voter registration
                         assistance, and comprehensive information about candidates and their policies.
                     </p>
-                    <p className="mt-3">Designed to empower citizens, our platform ensures that
+                    {/* <p className="mt-3">Designed to empower citizens, our platform ensures that
                         your voice is heard and your vote counts. Register today to become
                         an active participant in shaping the future of your community and
                         country with the "Election Commission".
-                    </p>
+                    </p> */}
 
                     <img src={image} className="img-fluid" width="320px" alt="" />
                 </div>
@@ -161,7 +162,7 @@ function VoterRegPage() {
 
                         {/* Bottom Section */}
                         <button className="btn btn-blue col-12" type="button">Register</button>
-                        <p className="mb-0 mt-1 text-center">Already have an account? <a href="">Login</a></p>
+                        <p className="mb-0 mt-1 text-center">Already have an account? <Link className="blue-link" to="/voter-login">Login</Link></p>
                     </form>
                 </div>
             </div>

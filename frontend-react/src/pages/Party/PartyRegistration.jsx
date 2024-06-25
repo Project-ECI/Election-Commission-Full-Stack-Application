@@ -7,6 +7,7 @@ import image from "../../assets/images/party-registration.png";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
 function PartyRegPage() {
   // Show and hide password
@@ -27,7 +28,7 @@ function PartyRegPage() {
         <div className="reg-left-container">
           <h1 className="font-mont">Register to Join Our Platform Today!</h1>
 
-          <p className="mt-5">Stay informed and engaged with the democratic process by registering
+          <p className="mt-3">Stay informed and engaged with the democratic process by registering
             to join our "Election Commission" platform! Our innovative service
             offers real-time updates on election results, voter registration
             assistance, and comprehensive information about candidates and their policies.
@@ -82,7 +83,7 @@ function PartyRegPage() {
 
             {/* Bottom Section */}
             <button className="btn btn-blue col-12" type="button">Register</button>
-            <p className="mb-0 mt-1 text-center">Already have an account? <a href="">Login</a></p>
+            <p className="mb-0 mt-1 text-center">Already have an account? <Link className="blue-link" to="/party-login">Login</Link></p>
           </form>
         </div>
       </div>

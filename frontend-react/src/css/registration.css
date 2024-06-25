@@ -6,11 +6,11 @@
     border-radius: 10px;
 }
 
-.registration-container a {
+.registration-container .blue-link {
     color: var(--blue);
 }
 
-.registration-container a:hover {
+.registration-container .blue-link:hover {
     color: var(--blue-hover);
 }
 

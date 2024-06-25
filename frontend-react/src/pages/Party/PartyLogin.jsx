@@ -7,6 +7,7 @@ import image from "../../assets/images/party-login.png";
 
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 function PartyLoginPage() {
   const [password, setPassword] = useState("");
@@ -60,7 +61,7 @@ function PartyLoginPage() {
 
             {/* Bottom Section */}
             <button className="btn btn-blue col-12" type="button">Login</button>
-            <p className="mb-0 mt-1 text-center">Don't have an account? <a href="">Register</a></p>
+            <p className="mb-0 mt-1 text-center">Don't have an account? <Link className="blue-link" to="/party-reg">Register</Link></p>
           </form>
         </div>
 
