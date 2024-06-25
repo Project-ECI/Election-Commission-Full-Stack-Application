@@ -1,0 +1,86 @@
+.main{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: var(--container-shadow);
+    border-radius: 10px;
+ }
+ .upper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--blue);
+    color: white;
+    width: 100%;
+    padding: 2%;
+    text-align: center;
+    border-radius: 10px;
+ }
+
+ .lower{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 2%;
+        width: 100%;
+ }
+
+/* ---------------------------- */
+  .content {
+    display: flex;
+    width: 100%;
+  }
+  
+  .left {
+    width: 100%; /* Adjust as needed based on design */
+    padding-right: 20px; /* Optional: Add spacing between left and right div */
+  }
+  
+  .right {
+    width: 10%; /* Adjust as needed based on design */
+  }
+  
+  .id-card {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .id-header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .id-body {
+    padding: 20px;
+  }
+  
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .checkbox-container input[type="checkbox"] {
+    margin-right: 10px; /* Optional: Add spacing between checkbox and label */
+    cursor: pointer;
+  }
+ 
+  .margintop{
+    margin-top: 25px;
+    height: 50px;
+  }
+ 
