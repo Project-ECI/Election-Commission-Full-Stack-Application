@@ -1,6 +1,6 @@
 import "../../css/registration.css"
 
-import Navbar1 from "../../components/Navbar1";
+import Navbar2 from "../../components/Navbar2.jsx";
 import Footer1 from "../../components/Footer1"
 
 import image from "../../assets/images/image-for-registrationpage.png";
@@ -44,7 +44,7 @@ function VoterRegPage() {
 
     return (
         <div>
-            <Navbar1></Navbar1>
+            <Navbar2></Navbar2>
 
             {/* Registration Section */}
             <div className="registration-container margin-10">

@@ -2,8 +2,11 @@ import "./App.css";
 import LandingPage from "./pages/LandingPage";
 import VoterLoginPage from "./pages/Voter/VoterLogin";
 import VoterRegPage from "./pages/Voter/VoterRegistration";
+import VoterHomepage from "./pages/Voter/VoterHomepage";
+
 import CandidateRegPage from "./pages/Candidate/CandidateRegistration"
 import CandidateLoginPage from "./pages/Candidate/CandidateLogin";
+
 import PartyLoginPage from "./pages/Party/PartyLogin";
 import PartyRegPage from "./pages/Party/PartyRegistration";
 
@@ -20,6 +23,7 @@ function App() {
         <Route path="/candidate-login" element={<CandidateLoginPage/>} />
         <Route path="/party-reg" element={<PartyRegPage/>} />
         <Route path="/party-login" element={<PartyLoginPage/>} />
+        <Route path="/voter-homepage" element={<VoterHomepage/>} />
       </Routes>
     </div>
   );

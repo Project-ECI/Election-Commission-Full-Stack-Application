@@ -4,7 +4,7 @@ import logo from '../assets/images/logo.png'
 // import { Link } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 
-function Navbar1() {
+function Navbar3() {
     return (
         <nav className='navbar padding-10 shadow'>
             <div className='nav-left-container mt-1 mb-1'>
@@ -15,8 +15,7 @@ function Navbar1() {
             <div className='nav-right-container'>
                 <Link to="#footer" className="nav-links">About Us</Link>
                 <Link to="#footer" className="nav-links">Contact Us</Link>
-                <Link to="#user-section"><button className='btn btn-outline-blue'>Login</button></Link>
-                <Link to="#user-section"><button className='btn btn-blue'>Register</button></Link>
+                <button className='btn btn-danger'>Logout</button>
             </div>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,4 +25,4 @@ function Navbar1() {
     )
 }
 
-export default Navbar1;
+export default Navbar3;

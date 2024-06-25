@@ -68,3 +68,7 @@ body{
   letter-spacing: -1px;
   opacity: 0.8;
 }
+
+.btn-danger{
+  font-weight: 600;
+}

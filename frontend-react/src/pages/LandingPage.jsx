@@ -49,7 +49,7 @@ function LandingPage() {
       </div>
 
       {/* Login-Register Containers */}
-      <div className="user-section-container padding-10">
+      <div id="user-section" className="user-section-container padding-10">
         <div className="user-section">
           <h1 className="font-mont">Parties</h1>
           <button onClick={handlePartyReg} type="button" className="btn btn-outline-blue">
