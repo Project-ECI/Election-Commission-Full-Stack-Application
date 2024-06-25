@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 function Footer1() {
     return (
         <div>
-            <footer className="padding-10">
+            <footer id="footer" className="padding-10">
                 <div className="footer-left-container">
                     <h5 className="font-mont" style={{ textDecoration: "underline" }}>Election Commission</h5>
                     <img className="mb-1" src={logo} alt="" width="100px" />
