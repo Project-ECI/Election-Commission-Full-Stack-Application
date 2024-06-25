@@ -9,6 +9,7 @@ import CandidateLoginPage from "./pages/Candidate/CandidateLogin";
 
 import PartyLoginPage from "./pages/Party/PartyLogin";
 import PartyRegPage from "./pages/Party/PartyRegistration";
+import CastVote from "./pages/Voter/CastVote";
 
 import { Route, Routes } from "react-router-dom";
 
@@ -16,7 +17,6 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<LandingPage/>} />
         <Route path="/voter-reg" element={<VoterRegPage/>} />
         <Route path="/voter-login" element={<VoterLoginPage/>} />
         <Route path="/candidate-reg" element={<CandidateRegPage/>} />
@@ -24,6 +24,7 @@ function App() {
         <Route path="/party-reg" element={<PartyRegPage/>} />
         <Route path="/party-login" element={<PartyLoginPage/>} />
         <Route path="/voter-homepage" element={<VoterHomepage/>} />
+        <Route path="/" element={<CastVote />} />
       </Routes>
     </div>
   );
