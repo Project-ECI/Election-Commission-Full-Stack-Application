@@ -13,6 +13,9 @@ import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
 import CastVote from "./pages/Voter/CastVote";
 import KnowYourCandidate from "./pages/FooterLinks/KnowYourCandidate";
+import SearchElectrolRoll from "./pages/FooterLinks/SearchElectrolRoll";
+import Feedback from "./pages/FooterLinks/Feedback";
+
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -31,6 +34,8 @@ function App() {
         <Route path="/voter-homepage" element={<VoterHomepage />} />
         <Route path="/cast-vote" element={<CastVote />} />
         <Route path="/know-your-candidate" element={<KnowYourCandidate />} />
+        <Route path="/search-electrol-roll" element={<SearchElectrolRoll />} />
+        <Route path="/feedback" element={<Feedback />} />
       </Routes>
     </div>
   );

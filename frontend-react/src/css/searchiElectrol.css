@@ -62,13 +62,16 @@
   width: 50%;
   margin-bottom: 25px;
   color: grey;
-}.rightdiv{
+}
+.rightdiv{
   margin-left: 50px;
   margin-right: 100px;
   flex: 1;
   display: "flex";
-}.form-group{
-  width: 50%;
+}
+
+.form-group{
+  width: 100%;
   margin-bottom: 25px;
 }
 .btn-seach{
@@ -78,4 +81,7 @@
   height: 35px;
   color: black;
   font-weight: 600;
+}
+.searchinput{
+  width: 50%;
 }

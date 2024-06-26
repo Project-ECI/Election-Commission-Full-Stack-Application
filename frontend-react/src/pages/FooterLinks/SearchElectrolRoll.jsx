@@ -1,4 +1,5 @@
 import "../../css/searchiElectrol.css";
+
 import Footer1 from "../../components/Footer1.jsx";
 import Navbar3 from "../../components/Navbar3.jsx";
 import image1 from "../../assets/images/virat.png";
@@ -7,7 +8,7 @@ import React, { useState } from "react";
 
 import Sidebar from "../../components/Sidebar.jsx";
 
-function KnowYourCandidate() {
+function SearchElectrolRoll() {
   const userInfo = {
     name: "Virat",
     address: "Party Name",
@@ -16,7 +17,6 @@ function KnowYourCandidate() {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState([]);
-  const [showResult, setShowResult] = useState(false);
 
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
@@ -43,10 +43,13 @@ function KnowYourCandidate() {
     const selectedCity = e.target.value;
     setSelectedCity(selectedCity);
   };
+  const [inputText, setInputText] = useState("");
+  const [showResult, setShowResult] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Check if all fields are selected
-    if (selectedCity) {
+    if (inputText && selectedCity) {
       setShowResult(true);
     } else {
       alert("Please fill in all fields.");
@@ -61,12 +64,23 @@ function KnowYourCandidate() {
 
         <div className="right-homepage-container">
           <div className="upper">
-            <h2 className="heading">Know Your Candidate</h2>
+            <h2 className="heading">Search in electrol Roll</h2>
 
-            <div className="dropdown searchinput" style={{ marginTop: "0px" }}>
+            <div className="mb-3 searchinput">
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                placeholder="Enter Voter-Id"
+                onChange={(e) => setInputText(e.target.value)}
+              />
+            </div>
+
+            <div className="dropdown searchinput">
               <select
                 id="state"
                 className="form-control"
+                // disabled={cities.length === 0}
                 value={selectedState}
                 onChange={handleStateChange}
               >
@@ -79,7 +93,7 @@ function KnowYourCandidate() {
             </div>
 
             {/* City Dropdown */}
-            <div className=" dropdown searchinput">
+            <div className="dropdown searchinput">
               <select
                 id="city"
                 className="form-control"
@@ -142,4 +156,4 @@ function KnowYourCandidate() {
   );
 }
 
-export default KnowYourCandidate;
+export default SearchElectrolRoll;
