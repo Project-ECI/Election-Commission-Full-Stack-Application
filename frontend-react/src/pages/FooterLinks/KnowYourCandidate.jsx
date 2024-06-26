@@ -1,4 +1,4 @@
-import "../../css/searchiElectrol.css";
+import "../../css/knowYourCandidate.css";
 import Footer1 from "../../components/Footer1.jsx";
 import Navbar3 from "../../components/Navbar3.jsx";
 import image1 from "../../assets/images/virat.png";
@@ -16,7 +16,6 @@ function KnowYourCandidate() {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState([]);
-  const [showResult, setShowResult] = useState(false);
 
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
@@ -43,15 +42,7 @@ function KnowYourCandidate() {
     const selectedCity = e.target.value;
     setSelectedCity(selectedCity);
   };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Check if all fields are selected
-    if (selectedCity) {
-      setShowResult(true);
-    } else {
-      alert("Please fill in all fields.");
-    }
-  };
+
   return (
     <div>
       <Navbar3 />
@@ -61,9 +52,8 @@ function KnowYourCandidate() {
 
         <div className="right-homepage-container">
           <div className="upper">
-            <h2 className="heading">Know Your Candidate</h2>
-
-            <div className="dropdown searchinput" style={{ marginTop: "0px" }}>
+            <h1 className="font-mont">Know Your Candidate</h1>
+            <div className="form-group dropdown">
               <select
                 id="state"
                 className="form-control"
@@ -79,7 +69,7 @@ function KnowYourCandidate() {
             </div>
 
             {/* City Dropdown */}
-            <div className=" dropdown searchinput">
+            <div className="form-group dropdown">
               <select
                 id="city"
                 className="form-control"
@@ -96,15 +86,8 @@ function KnowYourCandidate() {
               </select>
               <i className="bi bi-arrow-down-square-fill form-icon2"></i>
             </div>
-            <button
-              onClick={handleSubmit}
-              className="btn btn-seach"
-              type="button"
-            >
-              Search
-            </button>
           </div>
-          {showResult && (
+          {selectedCity && (
             <div className="lower">
               <div className="content">
                 <div className="left">

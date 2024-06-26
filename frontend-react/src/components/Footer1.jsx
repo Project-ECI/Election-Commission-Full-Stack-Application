@@ -39,9 +39,7 @@ function Footer1() {
                 <li>Know Your Candidate</li>
               </Link>
               <li>Election Dates</li>
-              <Link className="footer-link" to="/search-electrol-roll">
-                <li>Search Electoral Roll</li>
-              </Link>
+              <li>Search Electoral Roll</li>
             </div>
             <div>
               <Link className="footer-link" to="/become-good-voter">
