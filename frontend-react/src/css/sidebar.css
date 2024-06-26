@@ -1,0 +1,157 @@
+/* main container in which sidebar in on left and main content in on right */
+.homepage-container {
+    display: flex;
+}
+
+.left-homepage-container {
+    /* initial size of the sidebar */
+    flex-basis: 25%;
+    /* display: flex; */
+    /* flex-direction: column; */
+    z-index: 1;
+    padding-bottom: 30px;
+    background-color: var(--blue);
+    color: white;
+}
+
+/* wrapper for sidebar so it can be sticky */
+.sticky-sidebar {
+    position: sticky;
+    top: 0;
+}
+
+/* section which shows userprofile and email */
+.sidebar-section1 {
+    display: flex;
+    padding: 5px 0 5px 20px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+.sidebar-section1-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sidebar-section1-right p {
+    margin: 0;
+    line-height: 1;
+}
+
+.sidebar-username {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.sidebar-email {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+}
+
+/* -----------------section with icons for navigation---------------- */
+.sidebar-section2 {
+    padding-left: 25px;
+}
+
+.sidebar-section2 p {
+    margin: 0;
+}
+
+/* container with multiple icon-container */
+.sidebar-icons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* size of svgs */
+.icon-container svg {
+    width: 20px;
+    fill: white;
+}
+
+/* size of spans */
+.icon-container span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+/* icons transition and hover effect */
+.icon-container>* {
+    transition: all .1s ease-in-out;
+}
+
+.icon-container:hover svg,
+.icon-container:hover span {
+    fill: #ffd700;
+    color: #ffd700;
+    font-weight: 700;
+    transform: scale(1.05);
+}
+
+/* Right-Side-Content */
+.right-homepage-container {
+    width: 75%;
+    padding: 25px 100px 50px 75px;
+}
+
+/* Media Queries */
+@media (max-width: 1000px) {
+    /* size of sidebar */
+    .left-homepage-container {
+        flex-basis: 5%;
+    }
+
+    /* size of right side content */
+    .right-homepage-container {
+        width: 100%;
+        padding: 20px;
+    }
+    
+    /* remove everything except icons */
+    .left-homepage-container span,
+    .left-homepage-container p {
+        display: none;
+    }
+    
+    /* center align user-avatar */
+    .sidebar-section1 {
+        padding: 0;
+        justify-content: center;
+    }
+    
+    .sidebar-section1 img{
+        width: 50px;
+    }
+
+    .sidebar-icons-container svg{
+        width: 20px;
+    }
+
+    .sidebar-section2 {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-icons-container{
+        align-items: center;
+        /* gap between each icon-container */
+        gap: 15px;
+        margin: 0;
+        /* gap between each sidebar-icons-container */
+        margin-bottom: 60px;
+    }
+
+}

@@ -13,8 +13,8 @@ function Navbar3() {
             </div>
 
             <div className='nav-right-container'>
-                <Link to="#footer" className="nav-links">About Us</Link>
-                <Link to="#footer" className="nav-links">Contact Us</Link>
+                <Link to="/voter-homepage" className="nav-links">Home</Link>
+                <Link to="#footer" className="nav-links">Profile</Link>
                 <button className='btn btn-danger'>Logout</button>
             </div>
 

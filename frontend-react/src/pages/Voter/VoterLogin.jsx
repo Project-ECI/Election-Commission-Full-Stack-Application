@@ -7,9 +7,15 @@ import image from "../../assets/images/image-for-loginpage.png";
 
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function VoterLoginPage() {
+  const navigate = useNavigate();
+  
+  const handleVoterLogin = () => {
+    navigate('/voter-homepage');
+  };
+
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -60,7 +66,7 @@ function VoterLoginPage() {
             </div>
 
             {/* Bottom Section */}
-            <button className="btn btn-blue col-12" type="button">Login</button>
+            <button onClick={handleVoterLogin} className="btn btn-blue col-12" type="button">Login</button>
             <p className="mb-0 mt-1 text-center">Don't have an account? <Link className="blue-link" to="/voter-reg">Register</Link></p>
           </form>
         </div>

@@ -32,7 +32,6 @@ footer {
     flex-wrap: wrap;
     font-size: 0.9rem;
     line-height: 2;
-   
 }
 
 .quick-links-container li{
@@ -78,6 +77,11 @@ footer {
     opacity: 0.8;
 }
 
+.footer-link{
+    color:white;
+    text-decoration: none;
+}
+
 /* Media Queries */
 @media (max-width: 700px) {
 
@@ -89,9 +93,4 @@ footer {
     .footer-bottom>div>p {
         display: none;
     }
-}
-
-.footer-link{
-    color:white;
-    text-decoration: none;
 }

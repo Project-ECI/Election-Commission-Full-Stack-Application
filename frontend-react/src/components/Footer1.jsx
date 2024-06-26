@@ -2,10 +2,8 @@ import "../css/footer.css";
 import logo from "../assets/images/logo.png";
 
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 function Footer1() {
-  const navigate = useNavigate();
   return (
     <div>
       <footer id="footer" className="padding-10">
@@ -45,11 +43,9 @@ function Footer1() {
             </div>
             <div>
               <Link className="footer-link" to="/become-good-voter">
-                {" "}
                 <li>Become a Better Voter</li>
               </Link>
               <Link className="footer-link" to="/become-good-party">
-                {" "}
                 <li>Party's Principles</li>
               </Link>
               <li>Candidate's Code</li>
@@ -59,7 +55,7 @@ function Footer1() {
       </footer>
       <div className="footer-bottom padding-10">
         <div className="footer-bottom-left">
-          <p>Connect to us on: </p>
+          <p>Connect with us on: </p>
           <i class="bi bi-instagram footer-icons"></i>
           <i class="bi bi-facebook footer-icons"></i>
           <i class="bi bi-twitter-x footer-icons"></i>
