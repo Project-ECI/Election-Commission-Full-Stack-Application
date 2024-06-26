@@ -92,7 +92,7 @@ function VoterRegPage() {
                         {/* Gender */}
                         <div class="form-group mb-3">
                             <label for="gender">Gender</label>
-                            <select className="form-control" id="gender">
+                            <select class="form-control" id="gender">
                                 <option>Male</option>
                                 <option>Female</option>
                                 <option>Other</option>

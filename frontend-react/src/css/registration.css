@@ -75,8 +75,6 @@
 .form-group {
     /* the dropdown icons will be positioned relative to .form-group */
     position: relative;
-    width: 100%;
-    margin-bottom: 25px;
 }
 
 .form-icon,

@@ -1,5 +1,5 @@
 import "../../css/castVote.css";
-import "../../css/voter-homepage.css";
+import "../../css/voter-homepage.css"
 
 import Footer1 from "../../components/Footer1.jsx";
 import Navbar3 from "../../components/Navbar3.jsx";
@@ -23,8 +23,8 @@ function CastVote() {
         <Sidebar></Sidebar>
         <div className="right-homepage-container">
           <div className="upper">
-            <h2 className="heading">Welcome</h2>
-            <img src={image} className="img-fluid" width="200px" alt="" />
+            <h1 className="font-mont">Welcome Back!</h1>
+            <img src={image} className="img-fluid" width="320px" alt="" />
           </div>
           <div className="lower">
             <div className="content">
