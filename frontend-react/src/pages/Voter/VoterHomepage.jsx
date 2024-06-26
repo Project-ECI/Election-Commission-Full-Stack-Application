@@ -5,8 +5,10 @@ import Footer1 from "../../components/Footer1.jsx";
 import Sidebar from "../../components/Sidebar.jsx";
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function VoterHomepage() {
+
     return (
         <React.Fragment>
             <Navbar3></Navbar3>
@@ -15,13 +17,55 @@ function VoterHomepage() {
                 <Sidebar></Sidebar>
 
                 <div className="right-homepage-container">
-                    <h1 className="font-mont mb-2">Welcome Username!</h1>
-                    <div className="icard">
+                    <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>Welcome Username!</h1>
+                    <div className="placeholder-wave">
+                        <span class="placeholder bg-success voter-card"></span>
                     </div>
                     <button id="download-button" className="btn btn-blue mt-2">Download Voter-Id</button>
 
                     <div className="voter-content mt-5">
-                        <h1 className="font-mont text-center">Lorem ipsum dolor sit amet</h1>
+                        <h1 className="font-mont text-center" style={{ fontWeight: "600" }}>Lorem ipsum dolor sit amet</h1>
+                        <p className="placeholder-glow mt-4">
+                            <span class="placeholder col-10"></span>
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-12"></span>
+                            <span class="placeholder col-8"></span>
+                        </p>
+
+                        <p className="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-12"></span>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-10"></span>
+                        </p>
+
+                        <p className="placeholder-glow">
+                            <span class="placeholder col-10"></span>
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-10"></span>
+                            <span class="placeholder col-8"></span>
+                        </p>
+
+                        <p className="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-12"></span>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-10"></span>
+                        </p>
+
+                        <p className="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-12"></span>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-10"></span>
+                        </p>
+
+                        <p className="placeholder-glow">
+                            <span class="placeholder col-10"></span>
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-10"></span>
+                            <span class="placeholder col-8"></span>
+                        </p>
                     </div>
                 </div>
             </div>

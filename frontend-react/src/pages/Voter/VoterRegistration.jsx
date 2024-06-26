@@ -7,9 +7,15 @@ import image from "../../assets/images/image-for-registrationpage.png";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function VoterRegPage() {
+    const navigate = useNavigate();
+
+    const handleVoterLogin = () => {
+        navigate('/voter-login');
+    };
+
     // State and cities dropdown
     const [selectedState, setSelectedState] = useState("");
     const [cities, setCities] = useState([]);
@@ -52,7 +58,7 @@ function VoterRegPage() {
                 <div className="reg-left-container">
                     <h1 className="font-mont">Register to Join Our Platform Today!</h1>
 
-                      <p className="mt-3">Stay informed and engaged with the democratic process by registering
+                    <p className="mt-3">Stay informed and engaged with the democratic process by registering
                         to join our "Election Commission" platform! Our innovative service
                         offers real-time updates on election results, voter registration
                         assistance, and comprehensive information about candidates and their policies.
@@ -80,7 +86,7 @@ function VoterRegPage() {
                         {/* Date of Birth */}
                         <div className="form-group mb-3">
                             <label htmlFor="dob">Date Of Birth</label>
-                            <input type="date" className="form-control" id="dob"/>
+                            <input type="date" className="form-control" id="dob" />
                         </div>
 
                         {/* Gender */}
@@ -161,7 +167,7 @@ function VoterRegPage() {
                         </div>
 
                         {/* Bottom Section */}
-                        <button className="btn btn-blue col-12" type="button">Register</button>
+                        <button onClick={handleVoterLogin} className="btn btn-blue col-12" type="button">Register</button>
                         <p className="mb-0 mt-1 text-center">Already have an account? <Link className="blue-link" to="/voter-login">Login</Link></p>
                     </form>
                 </div>
