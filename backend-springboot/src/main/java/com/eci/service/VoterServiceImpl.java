@@ -32,6 +32,7 @@ public class VoterServiceImpl implements VoterService {
 	public String loginVoter(VoterLoginDto voterLoginDto) {
 		Voter voter = mapper.map(voterLoginDto, Voter.class);
 		Voter voter2 = voterDao.findByEmail(voter.getEmail());
+		
 		if (voter2 != null && voter.getPassword().equals(voter2.getPassword())) {
 			return "Login Successfull";
 		}

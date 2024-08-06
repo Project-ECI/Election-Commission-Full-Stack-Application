@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eci.dto.PartyLoginDto;
 import com.eci.dto.PartyRegistrationDto;
 import com.eci.service.PartyService;
 
@@ -20,5 +21,10 @@ public class PartyController {
 	@PostMapping("/register")
 	public ResponseEntity<?> partyRegistration(@RequestBody PartyRegistrationDto partyDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.registerParty(partyDto));
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> partyLogin(@RequestBody PartyLoginDto partyDto){
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.loginParty(partyDto));
 	}
 }
