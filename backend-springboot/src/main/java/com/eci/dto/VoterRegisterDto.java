@@ -2,7 +2,6 @@ package com.eci.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
