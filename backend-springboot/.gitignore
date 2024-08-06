@@ -1,0 +1,128 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+# Java & Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/public
+!**/src/main/**/resources
+
+# Eclipse
+*.launch
+.settings/
+.classpath
+.project
+.metadata/
+bin/
+tmp/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Environment variable files
+.env
+
+# Byte-compiled / packaged files
+*.war
+*.jar
+*.ear
+
+# Generated files
+generated/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Spring Boot specific
+spring.log
+
+# User-specific files
+*.env
+*.local
+*.pid
+*.seed
+
+# Docker
+**/Dockerfile
+**/docker-compose.yml
+**/.dockerignore
+
+# AWS Elastic Beanstalk files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Kubernetes
+**/k8s/
+**/kubernetes/
+*.kubeconfig
+*.kubectl
+
+# SonarQube
+.sonar/
+sonar-report.txt
+
+# Swagger
+**/swagger-ui/
+
+# Testing
+surefire-reports/
+test-output/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
