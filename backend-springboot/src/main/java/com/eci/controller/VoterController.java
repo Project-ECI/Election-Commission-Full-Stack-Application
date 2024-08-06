@@ -11,11 +11,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dao.VoterDao;
+import com.eci.dto.VoterLoginDto;
+import com.eci.dto.VoterRegisterDto;
 import com.eci.entity.Voter;
+import com.eci.service.VoterService;
 
 @RestController
 @RequestMapping("/voter")
 public class VoterController {
 	@Autowired
-	private VoterDao voterDao;
+	private VoterService voterService;
+
+	@PostMapping("/register")
+	public ResponseEntity<?> voterRegister(@RequestBody VoterRegisterDto voterRegisterDto) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(voterService.registerVoter(voterRegisterDto));
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<?> loginVoter(@RequestBody VoterLoginDto loginDto) {
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(voterService.loginVoter(loginDto));
+	}
+
 }
