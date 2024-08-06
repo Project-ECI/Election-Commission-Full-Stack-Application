@@ -1,5 +1,8 @@
 package com.eci.service;
 
-public interface PartyService {
+import com.eci.dto.PartyRegistrationDto;
 
+public interface PartyService {
+	public PartyRegistrationDto registerParty(PartyRegistrationDto partyDto);
+	
 }

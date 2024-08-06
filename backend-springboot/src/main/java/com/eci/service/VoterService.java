@@ -1,7 +1,5 @@
 package com.eci.service;
 
-import org.springframework.http.ResponseEntity;
-
 import com.eci.dto.VoterLoginDto;
 import com.eci.dto.VoterRegisterDto;
 
