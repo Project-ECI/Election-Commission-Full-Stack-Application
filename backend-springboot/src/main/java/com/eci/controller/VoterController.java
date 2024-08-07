@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eci.dao.VoterDao;
 import com.eci.dto.VoteDto;
 import com.eci.dto.VoterLoginDto;
 import com.eci.dto.VoterRegisterDto;
+import com.eci.entity.Candidate;
 import com.eci.entity.Voter;
+import com.eci.service.CandidateService;
 import com.eci.service.VoterService;
 
 @RestController
@@ -21,6 +24,9 @@ import com.eci.service.VoterService;
 public class VoterController {
 	@Autowired
 	private VoterService voterService;
+	
+	@Autowired
+	private CandidateService candidateService;
 
 	@PostMapping("/register")
 	public ResponseEntity<?> voterRegister(@RequestBody VoterRegisterDto voterRegisterDto) {
@@ -34,12 +40,6 @@ public class VoterController {
 	
 	@PostMapping("/vote")
 	public ResponseEntity<?> vote(@RequestBody VoteDto dto){
-		// get voter with voter id
-		Optional<Voter> voter = voterService.getVoterById(dto.getVoterId());
-		// get candidate with candidate id
-		// check if voter.distrcit == candidate.constituency
-			// if true isVoted = true and votes++
-			// else return "failed"
-		return null;
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(voterService.vote(dto));
 	}
 }
