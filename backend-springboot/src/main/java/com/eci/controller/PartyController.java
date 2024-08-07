@@ -3,6 +3,7 @@ package com.eci.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,4 +28,10 @@ public class PartyController {
 	public ResponseEntity<?> partyLogin(@RequestBody PartyLoginDto partyDto){
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.loginParty(partyDto));
 	}
+	
+	@GetMapping
+	public ResponseEntity<?> getAllParty(){
+		return ResponseEntity.status(HttpStatus.OK).body(partyService.getAllParty());
+	}
+	
 }

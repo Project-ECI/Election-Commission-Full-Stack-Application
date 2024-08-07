@@ -7,8 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PartyLoginDto {
-	private String partyName;
-	private String objective;
+public class GetAllPartyDto {
 	private String email;
+	private String password;
 }
