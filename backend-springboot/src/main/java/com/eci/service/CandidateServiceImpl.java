@@ -96,4 +96,9 @@ public class CandidateServiceImpl implements CandidateService {
 		}
 		return "Login Fail";
 	}
+
+	@Override
+	public Optional<Candidate> getCandidateById(Long id) {
+		return candidateDao.findById(id);
+	}
 }
