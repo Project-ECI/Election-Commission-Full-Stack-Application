@@ -23,11 +23,16 @@ public class Party {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long partyId;
+	
 	private String partyName;
+	
 	private String objective;
+	
 	private String email;
+	
 	private String password;
 	@ManyToOne
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId")
+	
 	private District districtId;
 }

@@ -23,5 +23,6 @@ public class Feedback {
 	private Long feedbackId;
 	
 	private String feedbackTitle;
+	
 	private String feedbackDescription;
 }

@@ -1,7 +1,7 @@
 package com.eci.service;
 
-import com.eci.dto.AdminLoginDto;
+import com.eci.dto.LoginDto;
 
 public interface AdminService {
-	public String loginAdmin(AdminLoginDto adminLoginDto);
+	public String loginAdmin(LoginDto adminLoginDto);
 }

@@ -1,7 +1,7 @@
 package com.eci.service;
 
-import com.eci.dto.ElectionDto;
+import com.eci.dto.ElectionDateDto;
 
 public interface ElectionService {
-	public String addElectionDate(ElectionDto dto);
+	public String addElectionDate(ElectionDateDto dto);
 }

@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eci.dao.PartyDao;
+
 import com.eci.dto.GetAllPartyDto;
-import com.eci.dto.PartyLoginDto;
+import com.eci.dto.LoginDto;
 import com.eci.dto.PartyRegistrationDto;
+
 import com.eci.entity.Party;
 
 @Service
@@ -32,7 +34,7 @@ public class PartyServiceImpl implements PartyService {
 	}
 
 	@Override
-	public String loginParty(PartyLoginDto partyDto) {
+	public String loginParty(LoginDto partyDto) {
 		Party party = mapper.map(partyDto, Party.class);
 		Party party2 = partyDao.findByEmail(party.getEmail());
 

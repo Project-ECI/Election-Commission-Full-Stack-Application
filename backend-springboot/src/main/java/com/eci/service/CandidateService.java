@@ -2,17 +2,17 @@ package com.eci.service;
 
 import java.util.Optional;
 
-import com.eci.dto.CandidateLoginDto;
+import com.eci.dto.LoginDto;
 import com.eci.dto.CandidateNominationDto;
-import com.eci.dto.CandidateRegisterDto;
+import com.eci.dto.CandidateRegistrationDto;
 
 import com.eci.entity.Candidate;
 
 
 public interface CandidateService {
-	public String loginCandidate(CandidateLoginDto candidLoginDto);
+	public String loginCandidate(LoginDto candidLoginDto);
 
-	public CandidateRegisterDto registerCandidate(CandidateRegisterDto candidateRegisterDto);
+	public CandidateRegistrationDto registerCandidate(CandidateRegistrationDto candidateRegisterDto);
 
 	public CandidateNominationDto nominateCandidate(CandidateNominationDto dto);
 	

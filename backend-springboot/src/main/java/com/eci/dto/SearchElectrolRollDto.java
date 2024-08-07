@@ -7,7 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CandidateLoginDto {
-	private String email;
-	private String password;
+public class SearchElectrolRollDto {
+	private Long voterId;
+	private String fullName;
+	private boolean gender;
 }

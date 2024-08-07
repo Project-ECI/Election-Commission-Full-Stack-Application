@@ -7,11 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class VoterKnowYourCandidate {
-
+public class KnowYourCandidateDto {
 	private String candiateName;
-
 	private String partyName;
-
 	private boolean isIndependent;
 }

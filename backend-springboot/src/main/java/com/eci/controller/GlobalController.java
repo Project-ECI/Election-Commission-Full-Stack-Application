@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eci.dao.VoterDao;
 import com.eci.dto.FeedbackDto;
-import com.eci.dto.SearchElectrolRoll;
+
 import com.eci.service.FeedbackService;
 import com.eci.service.VoterService;
 
@@ -20,8 +19,10 @@ import com.eci.service.VoterService;
 public class GlobalController {
 	@Autowired
 	private FeedbackService feedbackService;
+	
 	@Autowired
 	private VoterService voterService;
+	
 	@PostMapping("/feedback")
 	public ResponseEntity<?> giveFeedback(@RequestBody FeedbackDto dto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(feedbackService.addFeedback(dto));

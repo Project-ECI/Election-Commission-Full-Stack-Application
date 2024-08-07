@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eci.dao.AdminDao;
-import com.eci.dto.AdminLoginDto;
+import com.eci.dto.LoginDto;
 import com.eci.entity.Admin;
 
 @Service
@@ -20,7 +20,7 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDao adminDao;
 
 	@Override
-	public String loginAdmin(AdminLoginDto adminLoginDto) {
+	public String loginAdmin(LoginDto adminLoginDto) {
 		Admin admin = mapper.map(adminLoginDto, Admin.class);
 		Admin validAdmin = adminDao.findByEmail(admin.getEmail());
 

@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class VoterRegisterDto {
+public class VoterRegisterationDto {
 	private String fullName;
 	private LocalDate dob;
 	private boolean gender;

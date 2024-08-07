@@ -21,6 +21,8 @@ public class State {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long stateId;
+	
 	private String stateName;
+	
 	private String stateCode;
 }

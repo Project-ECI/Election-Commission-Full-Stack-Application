@@ -11,9 +11,11 @@ import com.eci.dao.CandidateDao;
 import com.eci.dao.DistrictDao;
 import com.eci.dao.PartyDao;
 import com.eci.dao.VoterDao;
-import com.eci.dto.CandidateLoginDto;
+
+import com.eci.dto.LoginDto;
 import com.eci.dto.CandidateNominationDto;
-import com.eci.dto.CandidateRegisterDto;
+import com.eci.dto.CandidateRegistrationDto;
+
 import com.eci.entity.Candidate;
 import com.eci.entity.District;
 import com.eci.entity.Party;
@@ -38,16 +40,16 @@ public class CandidateServiceImpl implements CandidateService {
 	private PartyDao partyDao;
 
 	@Override
-	public CandidateRegisterDto registerCandidate(CandidateRegisterDto candidateRegisterDto) {
+	public CandidateRegistrationDto registerCandidate(CandidateRegistrationDto candidateRegisterDto) {
 		Optional<Voter> voter = voterDao.findById(candidateRegisterDto.getVoterId());
 		if (voter.isPresent() && voter.get().getPassword().equals(candidateRegisterDto.getPassword())) {
 			Candidate validCandidate = new Candidate();
 			validCandidate.setVoterId(voter.get());
 			Candidate savedCandidate = candidateDao.save(validCandidate);
 
-			mapper.typeMap(Candidate.class, CandidateRegisterDto.class).addMappings(
-					mapper -> mapper.map(src -> src.getVoterId().getVoterId(), CandidateRegisterDto::setVoterId));
-			return mapper.map(savedCandidate, CandidateRegisterDto.class);
+			mapper.typeMap(Candidate.class, CandidateRegistrationDto.class).addMappings(
+					mapper -> mapper.map(src -> src.getVoterId().getVoterId(), CandidateRegistrationDto::setVoterId));
+			return mapper.map(savedCandidate, CandidateRegistrationDto.class);
 		}
 		return null;
 	}
@@ -87,7 +89,7 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 	@Override
-	public String loginCandidate(CandidateLoginDto candidLoginDto) {
+	public String loginCandidate(LoginDto candidLoginDto) {
 		Voter voter = mapper.map(candidLoginDto, Voter.class);
 		Voter voter2 = voterDao.findByEmail(voter.getEmail());
 

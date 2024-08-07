@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.eci.dao.DistrictDao;
 import com.eci.dao.ElectionDao;
-import com.eci.dto.ElectionDto;
+
+import com.eci.dto.ElectionDateDto;
+
 import com.eci.entity.District;
 import com.eci.entity.Election;
 
@@ -26,7 +28,7 @@ public class ElectionServiceImpl implements ElectionService {
 	private ModelMapper mapper;
 
 	@Override
-	public String addElectionDate(ElectionDto dto) {
+	public String addElectionDate(ElectionDateDto dto) {
 		Optional<District> district = districtDao.findById(dto.getDistrictId());
 
 		// if districtId is valid

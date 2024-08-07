@@ -24,7 +24,9 @@ public class District {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long districtId;
+	
 	private String districtName;
+	
 	@ManyToOne
 	@JoinColumn(name = "state_id", referencedColumnName = "stateId")
 	private State stateId;

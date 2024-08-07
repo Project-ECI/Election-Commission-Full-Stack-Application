@@ -28,13 +28,16 @@ public class Voter {
 	private Long voterId;
 	
 	private String fullName;
+	
 	private LocalDate dob;
+	
 	private boolean gender;
 	
 	@Column(unique = true)
 	private String email;
 	
 	private String password;
+	
 	private String mobileNo;
 	
 	@ManyToOne
@@ -42,5 +45,4 @@ public class Voter {
 	private District districtId;
 
 	private boolean isVoted;
-
 }
