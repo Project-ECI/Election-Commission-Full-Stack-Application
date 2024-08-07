@@ -1,5 +1,7 @@
 package com.eci.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -7,13 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.eci.dao.CandidateDao;
 import com.eci.dao.DistrictDao;
 import com.eci.dao.ElectionDao;
-
+import com.eci.dao.PartyDao;
+import com.eci.dao.VoterDao;
 import com.eci.dto.ElectionDateDto;
-
+import com.eci.dto.ElectionResultDto;
+import com.eci.entity.Candidate;
 import com.eci.entity.District;
 import com.eci.entity.Election;
+import com.eci.entity.Party;
+import com.eci.entity.Voter;
 
 @Service
 @Transactional
@@ -23,6 +30,15 @@ public class ElectionServiceImpl implements ElectionService {
 
 	@Autowired
 	private DistrictDao districtDao;
+
+	@Autowired
+	private CandidateDao candidateDao;
+
+	@Autowired
+	private VoterDao voterDao;
+
+	@Autowired
+	private PartyDao partyDao;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -54,4 +70,56 @@ public class ElectionServiceImpl implements ElectionService {
 
 	}
 
+	@Override
+	public List<ElectionResultDto> getResult() {
+		List<Candidate> listOfCandidate = candidateDao.findAll();
+		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
+
+		for (Candidate candidate : listOfCandidate) {
+			ElectionResultDto dto = new ElectionResultDto();
+			if (candidate.getParty() != null) {
+				Optional<Party> party = partyDao.findById(candidate.getParty().getPartyId());
+				dto.setPartyName(party.get().getPartyName());
+				dto.setIndependent(false);
+			} else {
+				dto.setIndependent(true);
+				dto.setPartyName(null);
+			}
+			Optional<Voter> voter = voterDao.findById(candidate.getVoterId().getVoterId());
+			dto.setCandiateName(voter.get().getFullName());
+			dto.setVotes(candidate.getVotes());
+			dto.setDistrictName(candidate.getConstituency().getDistrictName());
+			list.add(dto);
+		}
+		return list;
+	}
+
+	@Override
+	public List<ElectionResultDto>getResultConstituency(Long voterId){
+		Optional<Voter> voter=voterDao.findById(voterId);
+		List<Candidate> listOfCandidate = candidateDao.findByConstituency(voter.get().getDistrictId());
+		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
+
+		for (Candidate candidate : listOfCandidate) {
+			System.out.println(candidate);
+		}
+
+		for (Candidate candidate : listOfCandidate) {
+			ElectionResultDto dto = new ElectionResultDto();
+			if (candidate.getParty() != null) {
+				Optional<Party> party = partyDao.findById(candidate.getParty().getPartyId());
+				dto.setPartyName(party.get().getPartyName());
+				dto.setIndependent(false);
+			} else {
+				dto.setIndependent(true);
+				dto.setPartyName(null);
+			}
+			Optional<Voter> voter1 = voterDao.findById(candidate.getVoterId().getVoterId());
+			dto.setCandiateName(voter1.get().getFullName());
+			dto.setVotes(candidate.getVotes());
+			dto.setDistrictName(candidate.getConstituency().getDistrictName());
+			list.add(dto);
+		}
+		return list;
+	}
 }

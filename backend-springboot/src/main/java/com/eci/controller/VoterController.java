@@ -3,6 +3,7 @@ package com.eci.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eci.dto.VoteDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.VoterRegisterationDto;
-
+import com.eci.service.ElectionService;
 import com.eci.service.VoterService;
 
 @RestController
@@ -20,6 +21,10 @@ import com.eci.service.VoterService;
 public class VoterController {
 	@Autowired
 	private VoterService voterService;
+	
+
+	@Autowired
+	private ElectionService electionService;
 
 	@PostMapping("/register")
 	public ResponseEntity<?> voterRegister(@RequestBody VoterRegisterationDto voterRegisterDto) {
@@ -39,5 +44,10 @@ public class VoterController {
 	@PostMapping("/know-your-candidate")
 	public ResponseEntity<?> knowYourCandidate(@RequestParam Long voterId){
 		return  ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidate(voterId));
+	}
+	
+	@GetMapping("/view-result")
+	public ResponseEntity<?> getResult(@RequestParam Long voterId){
+		return ResponseEntity.status(HttpStatus.OK).body(electionService.getResultConstituency(voterId));
 	}
 }

@@ -12,4 +12,5 @@ import lombok.ToString;
 public class ElectionDateDto {
 	private LocalDate electionDate;
 	private Long districtId;
+	
 }
