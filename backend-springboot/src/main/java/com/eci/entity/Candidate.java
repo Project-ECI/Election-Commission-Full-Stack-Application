@@ -24,9 +24,11 @@ public class Candidate {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long candidateId;
+	
 	@OneToOne
 	@JoinColumn(name = "voter_id", referencedColumnName = "voterId")
 	private Voter voterId;
+	
 	@ManyToOne
 	@JoinColumn(name = "party_id", referencedColumnName = "partyId")
 	private Party party;
@@ -36,4 +38,6 @@ public class Candidate {
 	@ManyToOne
 	@JoinColumn(name = "constituency_id", referencedColumnName = "districtId")
 	private District constituency;
+	
+	private int votes;
 }

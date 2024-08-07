@@ -26,20 +26,21 @@ public class Voter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long voterId;
+	
 	private String fullName;
 	private LocalDate dob;
 	private boolean gender;
+	
 	@Column(unique = true)
 	private String email;
+	
 	private String password;
 	private String mobileNo;
+	
 	@ManyToOne
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId")
 	private District districtId;
 
-	public Voter(String email, String password) {
-		this.email = email;
-		this.password = password;
-	}
+	private boolean isVoted;
 
 }
