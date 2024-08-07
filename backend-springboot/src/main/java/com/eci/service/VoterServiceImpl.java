@@ -13,6 +13,7 @@ import com.eci.dao.CandidateDao;
 import com.eci.dao.DistrictDao;
 import com.eci.dao.PartyDao;
 import com.eci.dao.VoterDao;
+import com.eci.dto.SearchElectrolRoll;
 import com.eci.dto.VoteDto;
 import com.eci.dto.VoterKnowYourCandidate;
 import com.eci.dto.VoterLoginDto;
@@ -100,6 +101,15 @@ public class VoterServiceImpl implements VoterService {
 				list.add(yourCandidate);
 				return list;
 			}
+		}
+		return null;
+	}
+
+	@Override
+	public SearchElectrolRoll searchVoter(Long voterId) {
+		Optional<Voter> voter = voterDao.findById(voterId);
+		if (voter.isPresent()) {
+			return mapper.map(voter.get(), SearchElectrolRoll.class);
 		}
 		return null;
 	}

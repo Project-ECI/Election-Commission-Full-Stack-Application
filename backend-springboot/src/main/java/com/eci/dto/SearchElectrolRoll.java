@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class VoterSearchElectrolRoll {
+public class SearchElectrolRoll {
 	private Long voterId;
 	private String fullName;
 	private boolean gender;
