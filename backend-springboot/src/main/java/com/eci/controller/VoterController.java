@@ -21,7 +21,6 @@ import com.eci.service.VoterService;
 public class VoterController {
 	@Autowired
 	private VoterService voterService;
-	
 
 	@Autowired
 	private ElectionService electionService;
@@ -40,14 +39,19 @@ public class VoterController {
 	public ResponseEntity<?> vote(@RequestBody VoteDto dto) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(voterService.vote(dto));
 	}
-	
+
 	@PostMapping("/know-your-candidate")
-	public ResponseEntity<?> knowYourCandidate(@RequestParam Long voterId){
-		return  ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidate(voterId));
+	public ResponseEntity<?> knowYourCandidate(@RequestParam Long voterId) {
+		return ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidate(voterId));
 	}
-	
+
 	@GetMapping("/view-result")
-	public ResponseEntity<?> getResult(@RequestParam Long voterId){
+	public ResponseEntity<?> getResult(@RequestParam Long voterId) {
 		return ResponseEntity.status(HttpStatus.OK).body(electionService.getResultConstituency(voterId));
+	}
+
+	@GetMapping("/view-election-date")
+	public ResponseEntity<?> getElectionDate(@RequestParam Long voterId) {
+		return ResponseEntity.status(HttpStatus.OK).body(electionService.getConstituencyElection(voterId));
 	}
 }

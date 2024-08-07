@@ -95,14 +95,10 @@ public class ElectionServiceImpl implements ElectionService {
 	}
 
 	@Override
-	public List<ElectionResultDto>getResultConstituency(Long voterId){
-		Optional<Voter> voter=voterDao.findById(voterId);
+	public List<ElectionResultDto> getResultConstituency(Long voterId) {
+		Optional<Voter> voter = voterDao.findById(voterId);
 		List<Candidate> listOfCandidate = candidateDao.findByConstituency(voter.get().getDistrictId());
 		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
-
-		for (Candidate candidate : listOfCandidate) {
-			System.out.println(candidate);
-		}
 
 		for (Candidate candidate : listOfCandidate) {
 			ElectionResultDto dto = new ElectionResultDto();
@@ -121,5 +117,30 @@ public class ElectionServiceImpl implements ElectionService {
 			list.add(dto);
 		}
 		return list;
+	}
+
+	@Override
+	public List<ElectionDateDto> getElectionDate() {
+		List<Election> allElection = electionDao.findAll();
+		List<ElectionDateDto> list = new ArrayList<ElectionDateDto>();
+		for (Election election : allElection) {
+			ElectionDateDto dto = new ElectionDateDto();
+			dto.setDistrictId(election.getDistrictId().getDistrictId());
+			dto.setElectionDate(election.getElectionDate());
+			list.add(dto);
+		}
+		return list;
+	}
+
+	@Override
+	public ElectionDateDto getConstituencyElection(Long voterId) {
+		Optional<Voter> voter = voterDao.findById(voterId);
+		System.out.println(voter.get());
+		Optional<Election> election = electionDao.findByDistrictId(voter.get().getDistrictId());
+		System.out.println(election.get());
+		ElectionDateDto dto = new ElectionDateDto();
+		dto.setDistrictId(election.get().getDistrictId().getDistrictId());
+		dto.setElectionDate(election.get().getElectionDate());
+		return dto;
 	}
 }

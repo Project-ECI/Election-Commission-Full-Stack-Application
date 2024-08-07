@@ -4,14 +4,15 @@ import java.util.List;
 
 import com.eci.dto.ElectionDateDto;
 import com.eci.dto.ElectionResultDto;
-import com.eci.entity.Voter;
 
 public interface ElectionService {
 	public String addElectionDate(ElectionDateDto dto);
 
 	public List<ElectionResultDto> getResult();
-	
-	//public List<ElectionResultDto> getResultConstituency(Long districtId);
 
 	public List<ElectionResultDto> getResultConstituency(Long voterId);
+	
+	public List<ElectionDateDto> getElectionDate();
+	
+	public ElectionDateDto getConstituencyElection(Long voterId);
 }
