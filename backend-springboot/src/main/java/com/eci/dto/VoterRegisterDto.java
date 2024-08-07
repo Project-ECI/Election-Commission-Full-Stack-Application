@@ -2,9 +2,6 @@ package com.eci.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import com.eci.entity.District;
 
 import lombok.Getter;

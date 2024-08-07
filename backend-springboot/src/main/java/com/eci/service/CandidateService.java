@@ -5,7 +5,6 @@ import java.util.Optional;
 import com.eci.dto.CandidateLoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegisterDto;
-import com.eci.dto.VoterLoginDto;
 
 import com.eci.entity.Candidate;
 

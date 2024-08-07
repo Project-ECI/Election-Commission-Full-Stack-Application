@@ -6,11 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eci.dao.AdminDao;
-import com.eci.dao.VoterDao;
 import com.eci.dto.AdminLoginDto;
-import com.eci.dto.CandidateLoginDto;
 import com.eci.entity.Admin;
-import com.eci.entity.Voter;
 
 @Service
 @Transactional
