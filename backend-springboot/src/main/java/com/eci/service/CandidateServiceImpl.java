@@ -11,6 +11,7 @@ import com.eci.dao.CandidateDao;
 import com.eci.dao.DistrictDao;
 import com.eci.dao.PartyDao;
 import com.eci.dao.VoterDao;
+import com.eci.dto.CandidateLoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegisterDto;
 import com.eci.entity.Candidate;
@@ -83,5 +84,16 @@ public class CandidateServiceImpl implements CandidateService {
 			return candidateNominationDto;
 		}
 		return null;
+	}
+
+	@Override
+	public String loginCandidate(CandidateLoginDto candidLoginDto) {
+		Voter voter = mapper.map(candidLoginDto, Voter.class);
+		Voter voter2 = voterDao.findByEmail(voter.getEmail());
+
+		if (voter2 != null && voter.getPassword().equals(voter2.getPassword())) {
+			return "Login Successfull";
+		}
+		return "Login Fail";
 	}
 }

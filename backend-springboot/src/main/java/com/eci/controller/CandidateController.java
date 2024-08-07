@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eci.dto.CandidateLoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegisterDto;
 import com.eci.service.CandidateService;
@@ -17,12 +18,17 @@ import com.eci.service.CandidateService;
 public class CandidateController {
 	@Autowired
 	private CandidateService candidateService;
-	
+
+	@PostMapping("/login")
+	public ResponseEntity<?> loginCandidate(@RequestBody CandidateLoginDto dto) {
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(candidateService.loginCandidate(dto));
+	}
+
 	@PostMapping("/register")
 	public ResponseEntity<?> candidateRegister(@RequestBody CandidateRegisterDto candidateRegisterDto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.registerCandidate(candidateRegisterDto));
 	}
-	
+
 	@PostMapping("/nomination")
 	public ResponseEntity<?> candidateNomination(@RequestBody CandidateNominationDto dto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.nominateCandidate(dto));
