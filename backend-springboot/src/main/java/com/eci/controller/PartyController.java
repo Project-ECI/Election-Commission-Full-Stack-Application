@@ -30,9 +30,6 @@ public class PartyController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.loginParty(partyDto));
 	}
 	
-	@GetMapping
-	public ResponseEntity<?> getAllParty(){
-		return ResponseEntity.status(HttpStatus.OK).body(partyService.getAllParty());
-	}
+	
 	
 }
