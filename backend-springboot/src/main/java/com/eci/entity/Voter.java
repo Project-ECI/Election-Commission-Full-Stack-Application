@@ -10,7 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,6 +42,8 @@ public class Voter {
 	private String password;
 	
 	private String mobileNo;
+	
+	private boolean isActive;
 	
 	@ManyToOne
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId")

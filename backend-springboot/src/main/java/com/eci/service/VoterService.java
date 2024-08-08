@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.eci.dto.SearchElectrolRollDto;
 import com.eci.dto.VoteDto;
+import com.eci.dto.VoterDeleteDto;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.VoterRegisterationDto;
@@ -23,4 +24,6 @@ public interface VoterService {
 	public List<KnowYourCandidateDto> knowYourCandidate(Long voterId);
 	
 	public SearchElectrolRollDto searchVoter(Long voterId);
+	
+	public String voterDelete(VoterDeleteDto voter);
 }

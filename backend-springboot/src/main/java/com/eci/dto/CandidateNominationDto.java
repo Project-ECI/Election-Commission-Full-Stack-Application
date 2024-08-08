@@ -17,5 +17,4 @@ public class CandidateNominationDto {
 	private boolean isIndependent;
 
 	private District constituency;
-
 }

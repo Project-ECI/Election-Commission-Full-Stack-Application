@@ -15,6 +15,7 @@ import com.eci.dao.VoterDao;
 
 import com.eci.dto.SearchElectrolRollDto;
 import com.eci.dto.VoteDto;
+import com.eci.dto.VoterDeleteDto;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.VoterRegisterationDto;
@@ -34,13 +35,14 @@ public class VoterServiceImpl implements VoterService {
 
 	@Autowired
 	private PartyDao partyDao;
-	
+
 	@Autowired
 	private ModelMapper mapper;
 
 	@Override
 	public VoterRegisterationDto registerVoter(VoterRegisterationDto registerDto) {
 		Voter voter = mapper.map(registerDto, Voter.class);
+		voter.setActive(true);
 		Voter savedVoter = voterDao.save(voter);
 
 		return mapper.map(savedVoter, VoterRegisterationDto.class);
@@ -51,7 +53,7 @@ public class VoterServiceImpl implements VoterService {
 		Voter voter = mapper.map(voterLoginDto, Voter.class);
 		Voter voter2 = voterDao.findByEmail(voter.getEmail());
 
-		if (voter2 != null && voter.getPassword().equals(voter2.getPassword())) {
+		if (voter2 != null && voter.getPassword().equals(voter2.getPassword()) && voter2.isActive()==true) {
 			return "Login Successfull";
 		}
 		return "Login Fail";
@@ -85,15 +87,14 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public List<KnowYourCandidateDto> knowYourCandidate(Long voterId) {
-		Optional<Voter> id = voterDao.findById(voterId);
-		if (id.isPresent()) {
-
-			List<Candidate> listOfCandidate = candidateDao.findByConstituency(id.get().getDistrictId());
-
+		Optional<Voter> voter = voterDao.findById(voterId);
+		if (voter.isPresent()) {
+			List<Candidate> listOfCandidate = candidateDao.findByConstituency(voter.get().getDistrictId());
 			List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
 			for (Candidate candidate : listOfCandidate) {
 				KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
-				yourCandidate.setCandiateName(id.get().getFullName());
+				Optional<Voter> voter2 = voterDao.findById(candidate.getVoterId().getVoterId());
+				yourCandidate.setCandiateName(voter2.get().getFullName());
 				Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
 				yourCandidate.setPartyName(partyOpt.get().getPartyName());
 				yourCandidate.setIndependent(candidate.isIndependent());
@@ -111,5 +112,16 @@ public class VoterServiceImpl implements VoterService {
 			return mapper.map(voter.get(), SearchElectrolRollDto.class);
 		}
 		return null;
+	}
+
+	@Override
+	public String voterDelete(VoterDeleteDto voter1) {
+		Optional<Voter> voter = voterDao.findById(voter1.getVoterId());
+		if (voter.isPresent() && voter.get().isActive() == true) {
+			voter.get().setActive(false);
+			voterDao.save(voter.get());
+			return "voter Deleted Successfully";
+		}
+		return "voter not found";
 	}
 }
