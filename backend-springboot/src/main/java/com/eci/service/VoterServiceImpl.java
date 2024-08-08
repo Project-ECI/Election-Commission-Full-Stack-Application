@@ -51,9 +51,9 @@ public class VoterServiceImpl implements VoterService {
 	@Override
 	public String loginVoter(LoginDto voterLoginDto) {
 		Voter voter = mapper.map(voterLoginDto, Voter.class);
-		Voter voter2 = voterDao.findByEmail(voter.getEmail());
+		Optional<Voter> voter2 = voterDao.findByEmail(voter.getEmail());
 
-		if (voter2 != null && voter.getPassword().equals(voter2.getPassword()) && voter2.isActive()==true) {
+		if (voter2.isPresent() && voter.getPassword().equals(voter2.get().getPassword()) && voter2.get().isActive()==true) {
 			return "Login Successfull";
 		}
 		return "Login Fail";

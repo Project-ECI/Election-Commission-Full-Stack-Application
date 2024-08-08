@@ -40,4 +40,6 @@ public class Candidate {
 	private District constituency;
 	
 	private int votes;
+	
+	private boolean isActive;
 }

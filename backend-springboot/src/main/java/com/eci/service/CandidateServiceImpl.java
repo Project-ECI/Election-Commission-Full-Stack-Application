@@ -15,7 +15,7 @@ import com.eci.dao.VoterDao;
 import com.eci.dto.LoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegistrationDto;
-
+import com.eci.dto.DeleteDto;
 import com.eci.entity.Candidate;
 import com.eci.entity.District;
 import com.eci.entity.Party;
@@ -42,14 +42,19 @@ public class CandidateServiceImpl implements CandidateService {
 	@Override
 	public CandidateRegistrationDto registerCandidate(CandidateRegistrationDto candidateRegisterDto) {
 		Optional<Voter> voter = voterDao.findById(candidateRegisterDto.getVoterId());
-		if (voter.isPresent() && voter.get().getPassword().equals(candidateRegisterDto.getPassword())) {
-			Candidate validCandidate = new Candidate();
-			validCandidate.setVoterId(voter.get());
-			Candidate savedCandidate = candidateDao.save(validCandidate);
+	
+		System.out.println(voter.get());
+		if (voter.isPresent() && voter.get().isActive() == true) {
+			if (voter.get().getPassword().equals(candidateRegisterDto.getPassword())) {
+				Candidate validCandidate = new Candidate();
+				validCandidate.setActive(true);
+				validCandidate.setVoterId(voter.get());
+				Candidate savedCandidate = candidateDao.save(validCandidate);
 
-			mapper.typeMap(Candidate.class, CandidateRegistrationDto.class).addMappings(
-					mapper -> mapper.map(src -> src.getVoterId().getVoterId(), CandidateRegistrationDto::setVoterId));
-			return mapper.map(savedCandidate, CandidateRegistrationDto.class);
+				mapper.typeMap(Candidate.class, CandidateRegistrationDto.class).addMappings(mapper -> mapper
+						.map(src -> src.getVoterId().getVoterId(), CandidateRegistrationDto::setVoterId));
+				return mapper.map(savedCandidate, CandidateRegistrationDto.class);
+			}
 		}
 		return null;
 	}
@@ -90,11 +95,14 @@ public class CandidateServiceImpl implements CandidateService {
 
 	@Override
 	public String loginCandidate(LoginDto candidLoginDto) {
-		Voter voter = mapper.map(candidLoginDto, Voter.class);
-		Voter voter2 = voterDao.findByEmail(voter.getEmail());
-
-		if (voter2 != null && voter.getPassword().equals(voter2.getPassword())) {
-			return "Login Successfull";
+		Optional<Voter> voter = voterDao.findByEmail(candidLoginDto.getEmail());
+		Optional<Candidate> candidate = candidateDao.findByVoterId(voter.get());
+		System.out.println(voter.get());
+		System.out.println(candidate);
+		if (voter.isPresent() && candidate.isPresent()) {
+			if (voter.get().getPassword().equals(candidLoginDto.getPassword()) && candidate.get().isActive() == true) {
+				return "Login Successfull";
+			}
 		}
 		return "Login Fail";
 	}
@@ -102,5 +110,17 @@ public class CandidateServiceImpl implements CandidateService {
 	@Override
 	public Optional<Candidate> getCandidateById(Long id) {
 		return candidateDao.findById(id);
+	}
+
+	@Override
+	public String candidateDelete(DeleteDto candidate) {
+		Optional<Candidate> findCandidate = candidateDao.findById(candidate.getId());
+		System.out.println(findCandidate.get());
+		if (findCandidate.isPresent() && findCandidate.get().isActive() == true) {
+			findCandidate.get().setActive(false);
+			candidateDao.save(findCandidate.get());
+			return "Candidate Deleted Successfully";
+		}
+		return "Candidate not found";
 	}
 }
