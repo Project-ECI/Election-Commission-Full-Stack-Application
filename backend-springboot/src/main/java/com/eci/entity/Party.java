@@ -35,4 +35,6 @@ public class Party {
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId")
 	
 	private District districtId;
+	
+	private boolean isActive;
 }

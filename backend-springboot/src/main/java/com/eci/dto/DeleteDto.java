@@ -7,6 +7,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class VoterDeleteDto {
-	private long voterId;
+public class DeleteDto {
+	private long id;
 }

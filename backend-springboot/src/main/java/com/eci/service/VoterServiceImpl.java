@@ -15,7 +15,7 @@ import com.eci.dao.VoterDao;
 
 import com.eci.dto.SearchElectrolRollDto;
 import com.eci.dto.VoteDto;
-import com.eci.dto.VoterDeleteDto;
+import com.eci.dto.DeleteDto;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.VoterRegisterationDto;
@@ -115,8 +115,8 @@ public class VoterServiceImpl implements VoterService {
 	}
 
 	@Override
-	public String voterDelete(VoterDeleteDto voter1) {
-		Optional<Voter> voter = voterDao.findById(voter1.getVoterId());
+	public String voterDelete(DeleteDto voter1) {
+		Optional<Voter> voter = voterDao.findById(voter1.getId());
 		if (voter.isPresent() && voter.get().isActive() == true) {
 			voter.get().setActive(false);
 			voterDao.save(voter.get());

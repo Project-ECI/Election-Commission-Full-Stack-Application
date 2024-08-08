@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.LoginDto;
-import com.eci.dto.VoterDeleteDto;
+import com.eci.dto.DeleteDto;
 import com.eci.dto.ElectionDateDto;
 
 import com.eci.service.AdminService;
 import com.eci.service.ElectionService;
+import com.eci.service.PartyService;
 import com.eci.service.VoterService;
 
 @RestController
@@ -25,8 +26,13 @@ public class AdminController {
 	
 	@Autowired
 	private ElectionService electionService;
+	
 	@Autowired
 	private VoterService voterService;
+	
+	@Autowired
+	private PartyService partyService;
+	
 	@PostMapping("/login")
 	public ResponseEntity<?> loginVoter(@RequestBody LoginDto loginDto) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(adminService.loginAdmin(loginDto));
@@ -38,7 +44,12 @@ public class AdminController {
 	}
 	
 	@DeleteMapping("/delete-voter")
-	public ResponseEntity<?> deleteVoter(@RequestBody VoterDeleteDto deleteDto ){
+	public ResponseEntity<?> deleteVoter(@RequestBody DeleteDto deleteDto ){
 		return ResponseEntity.ok(voterService.voterDelete(deleteDto));
+	}
+	
+	@DeleteMapping("/delete-party")
+	public ResponseEntity<?> deleteParty(@RequestBody DeleteDto deleteDto ){
+		return ResponseEntity.ok(partyService.deleteParty(deleteDto));
 	}
 }
