@@ -10,12 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eci.dao.CandidateDao;
+import com.eci.dao.DistrictDao;
 import com.eci.dao.PartyDao;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.PartyRegistrationDto;
 import com.eci.entity.Candidate;
+import com.eci.dto.UpdatePartyDto;
+import com.eci.entity.District;
 import com.eci.entity.Party;
 
 @Service
@@ -23,6 +26,9 @@ import com.eci.entity.Party;
 public class PartyServiceImpl implements PartyService {
 	@Autowired
 	private PartyDao partyDao;
+	
+	@Autowired
+	private DistrictDao districtDao;
 
 	@Autowired
 	private CandidateDao candidateDao;
@@ -76,5 +82,24 @@ public class PartyServiceImpl implements PartyService {
 			return "Party Deleted Successfully";
 		}
 		return "Party not found";
+	}
+
+	@Override
+	public String updateProfile(UpdatePartyDto dto) {
+		Optional<Party> partyOpt = partyDao.findById(dto.getPartyId());
+		
+		if(partyOpt.isPresent()) {
+			Party partyToBeUpdated = partyOpt.get();
+			Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
+			
+			partyToBeUpdated.setDistrictId(districtOpt.get());
+			partyToBeUpdated.setEmail(dto.getEmail());
+			partyToBeUpdated.setObjective(dto.getObjective());
+			partyToBeUpdated.setPartyName(dto.getPartyName());
+
+			partyDao.save(partyToBeUpdated);
+			return "Party details updated";
+		}
+		return "Party doesn't exist";
 	}
 }
