@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.LoginDto;
 import com.eci.dto.PartyRegistrationDto;
-
+import com.eci.dto.UpdatePartyDto;
 import com.eci.service.PartyService;
 
 @RestController
@@ -29,6 +30,9 @@ public class PartyController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.loginParty(partyDto));
 	}
 	
-	
+	@PutMapping("/update-profile")
+	public ResponseEntity<?> updateProfile(@RequestBody UpdatePartyDto dto){
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.updateProfile(dto));
+	}
 	
 }
