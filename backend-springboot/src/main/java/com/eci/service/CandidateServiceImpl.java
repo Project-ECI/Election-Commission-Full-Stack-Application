@@ -114,4 +114,15 @@ public class CandidateServiceImpl implements CandidateService {
 		}
 		return "Candidate not found";
 	}
+
+	@Override
+	public String formStatus(Long candidateId) {
+		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
+		if (candidateOpt.get().isAccepted())
+			return "Your Form Accepted By Party";
+		else if (candidateOpt.get().isAccepted() == false && candidateOpt.get().isRejected() == false)
+			return "Your form is pending";
+		else
+			return "Your form is Rejected by party";
+	}
 }

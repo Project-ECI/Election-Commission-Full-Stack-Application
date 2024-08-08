@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.LoginDto;
@@ -33,5 +34,10 @@ public class CandidateController {
 	@PostMapping("/nomination")
 	public ResponseEntity<?> candidateNomination(@RequestBody CandidateNominationDto dto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.nominateCandidate(dto));
+	}
+	
+	@PostMapping("/form/status")
+	public ResponseEntity<?> formStatus(@RequestParam Long candidateId) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.formStatus(candidateId));
 	}
 }
