@@ -13,4 +13,8 @@ public class PartyCandidateResponseDto {
 	private String candidateName;
 	
 	private String constituency;
+	
+	private boolean isAccpeted;
+	
+	private boolean isRejected;
 }

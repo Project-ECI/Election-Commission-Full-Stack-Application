@@ -131,12 +131,17 @@ public class PartyServiceImpl implements PartyService {
 			List<PartyCandidateResponseDto> partyCandidateList = new ArrayList<PartyCandidateResponseDto>();
 
 			for (Candidate candidate : candidateList) {
-				PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
-				responseDto.setCandidateId(candidate.getCandidateId());
-				Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
-				responseDto.setCandidateName(voterOpt.get().getFullName());
-				responseDto.setConstituency(districtOpt.get().getDistrictName());
-				partyCandidateList.add(responseDto);
+				if (candidate.isRejected() == false) {
+					PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
+					responseDto.setCandidateId(candidate.getCandidateId());
+					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
+					responseDto.setCandidateName(voterOpt.get().getFullName());
+					responseDto.setConstituency(districtOpt.get().getDistrictName());
+					responseDto.setAccpeted(candidate.isAccepted());
+					responseDto.setRejected(candidate.isRejected());
+					partyCandidateList.add(responseDto);
+				}
+
 			}
 			return partyCandidateList;
 		}
