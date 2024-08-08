@@ -41,19 +41,23 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public VoterRegisterationDto registerVoter(VoterRegisterationDto registerDto) {
-		Voter voter = mapper.map(registerDto, Voter.class);
-		voter.setActive(true);
-		Voter savedVoter = voterDao.save(voter);
-
-		return mapper.map(savedVoter, VoterRegisterationDto.class);
+		Optional<Voter> voterOpt = voterDao.findByEmail(registerDto.getEmail());
+		if (voterOpt.isEmpty()) {
+			Voter voter = mapper.map(registerDto, Voter.class);
+			voter.setActive(true);
+			Voter savedVoter = voterDao.save(voter);
+			return mapper.map(savedVoter, VoterRegisterationDto.class);
+		}
+		return null;
 	}
 
 	@Override
 	public String loginVoter(LoginDto voterLoginDto) {
 		Voter voter = mapper.map(voterLoginDto, Voter.class);
-		Optional<Voter> voter2 = voterDao.findByEmail(voter.getEmail());
+		Optional<Voter> voterOpt = voterDao.findByEmail(voter.getEmail());
 
-		if (voter2.isPresent() && voter.getPassword().equals(voter2.get().getPassword()) && voter2.get().isActive()==true) {
+		if (voterOpt.isPresent() && voter.getPassword().equals(voterOpt.get().getPassword())
+				&& voterOpt.get().isActive() == true) {
 			return "Login Successfull";
 		}
 		return "Login Fail";
@@ -87,9 +91,9 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public List<KnowYourCandidateDto> knowYourCandidate(Long voterId) {
-		Optional<Voter> voter = voterDao.findById(voterId);
-		if (voter.isPresent()) {
-			List<Candidate> listOfCandidate = candidateDao.findByConstituency(voter.get().getDistrictId());
+		Optional<Voter> voterOpt = voterDao.findById(voterId);
+		if (voterOpt.isPresent()) {
+			List<Candidate> listOfCandidate = candidateDao.findByConstituency(voterOpt.get().getDistrictId());
 			List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
 			for (Candidate candidate : listOfCandidate) {
 				KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
@@ -107,19 +111,24 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public SearchElectrolRollDto searchVoter(Long voterId) {
-		Optional<Voter> voter = voterDao.findById(voterId);
-		if (voter.isPresent()) {
-			return mapper.map(voter.get(), SearchElectrolRollDto.class);
+		Optional<Voter> voterOpt = voterDao.findById(voterId);
+		if (voterOpt.isPresent()) {
+			return mapper.map(voterOpt.get(), SearchElectrolRollDto.class);
 		}
 		return null;
 	}
 
 	@Override
 	public String voterDelete(DeleteDto voter1) {
-		Optional<Voter> voter = voterDao.findById(voter1.getId());
-		if (voter.isPresent() && voter.get().isActive() == true) {
-			voter.get().setActive(false);
-			voterDao.save(voter.get());
+		Optional<Voter> voterOpt = voterDao.findById(voter1.getId());
+		if (voterOpt.isPresent() && voterOpt.get().isActive() == true) {
+			Optional<Candidate> candiateOpt = candidateDao.findByVoterId(voterOpt.get());
+			if (candiateOpt.isPresent()) {
+				candiateOpt.get().setActive(false);
+				candidateDao.save(candiateOpt.get());
+			}
+			voterOpt.get().setActive(false);
+			voterDao.save(voterOpt.get());
 			return "voter Deleted Successfully";
 		}
 		return "voter not found";

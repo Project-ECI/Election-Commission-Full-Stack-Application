@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.LoginDto;
-import com.eci.dao.CandidateDao;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.ElectionDateDto;
 
@@ -43,21 +42,21 @@ public class AdminController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(adminService.loginAdmin(loginDto));
 	}
 	
-	@PostMapping("/set-election")
+	@PostMapping("/set/election")
 	public ResponseEntity<?> setElectionDates(@RequestBody ElectionDateDto dto){
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(electionService.addElectionDate(dto));
 	}
 	
-	@DeleteMapping("/delete-voter")
+	@DeleteMapping("/delete/voter")
 	public ResponseEntity<?> deleteVoter(@RequestBody DeleteDto deleteDto ){
 		return ResponseEntity.ok(voterService.voterDelete(deleteDto));
 	}
 
-	@DeleteMapping("/delete-party")
+	@DeleteMapping("/delete/party")
 	public ResponseEntity<?> deleteParty(@RequestBody DeleteDto deleteDto ){
 		return ResponseEntity.ok(partyService.deleteParty(deleteDto));
 	}
-	@DeleteMapping("/delete-candidate")
+	@DeleteMapping("/delete/candidate")
 	public ResponseEntity<?> deleteCandidate(@RequestBody DeleteDto deleteDto ){
 		return ResponseEntity.ok(candidateService.candidateDelete(deleteDto));
 	}

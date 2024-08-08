@@ -16,7 +16,6 @@ import com.eci.dto.LoginDto;
 import com.eci.dto.PartyRegistrationDto;
 
 import com.eci.entity.Party;
-import com.eci.entity.Voter;
 
 @Service
 @Transactional

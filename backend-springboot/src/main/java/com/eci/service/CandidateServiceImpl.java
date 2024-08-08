@@ -41,27 +41,41 @@ public class CandidateServiceImpl implements CandidateService {
 
 	@Override
 	public CandidateRegistrationDto registerCandidate(CandidateRegistrationDto candidateRegisterDto) {
-		Optional<Voter> voter = voterDao.findById(candidateRegisterDto.getVoterId());
-	
-		System.out.println(voter.get());
-		if (voter.isPresent() && voter.get().isActive() == true) {
-			if (voter.get().getPassword().equals(candidateRegisterDto.getPassword())) {
-				Candidate validCandidate = new Candidate();
-				validCandidate.setActive(true);
-				validCandidate.setVoterId(voter.get());
-				Candidate savedCandidate = candidateDao.save(validCandidate);
+		Optional<Voter> voterOpt = voterDao.findById(candidateRegisterDto.getVoterId());
 
-				mapper.typeMap(Candidate.class, CandidateRegistrationDto.class).addMappings(mapper -> mapper
-						.map(src -> src.getVoterId().getVoterId(), CandidateRegistrationDto::setVoterId));
-				return mapper.map(savedCandidate, CandidateRegistrationDto.class);
+		if (voterOpt.isPresent() && voterOpt.get().isActive() == true) {
+			if (voterOpt.get().getPassword().equals(candidateRegisterDto.getPassword())) {
+				Optional<Candidate> candidateOpt = candidateDao.findByVoterId(voterOpt.get());
+				if (candidateOpt.isEmpty()) {
+					Candidate validCandidate = new Candidate();
+					validCandidate.setActive(true);
+					validCandidate.setVoterId(voterOpt.get());
+					Candidate savedCandidate = candidateDao.save(validCandidate);
+
+					mapper.typeMap(Candidate.class, CandidateRegistrationDto.class).addMappings(mapper -> mapper
+							.map(src -> src.getVoterId().getVoterId(), CandidateRegistrationDto::setVoterId));
+					return mapper.map(savedCandidate, CandidateRegistrationDto.class);
+				}
 			}
 		}
 		return null;
 	}
 
+	@Override
+	public String loginCandidate(LoginDto candidLoginDto) {
+		Optional<Voter> voterOpt = voterDao.findByEmail(candidLoginDto.getEmail());
+		Optional<Candidate> candidateOpt = candidateDao.findByVoterId(voterOpt.get());
+		if (voterOpt.isPresent() && candidateOpt.isPresent()) {
+			if (voterOpt.get().getPassword().equals(candidLoginDto.getPassword()) && candidateOpt.get().isActive() == true) {
+				return "Login Successfull";
+			}
+		}
+		return "Login Fail";
+	}
+
 	public CandidateNominationDto nominateCandidate(CandidateNominationDto dto) {
-		Optional<Candidate> candidate = candidateDao.findById(dto.getCandidateId());
-		if (candidate.isPresent()) {
+		Optional<Candidate> candidateOpt = candidateDao.findById(dto.getCandidateId());
+		if (candidateOpt.isPresent()) {
 			Optional<Party> partyOpt = partyDao.findById(dto.getParty().getPartyId());
 			Optional<District> districtOpt = districtDao.findById(dto.getConstituency().getDistrictId());
 
@@ -80,7 +94,7 @@ public class CandidateServiceImpl implements CandidateService {
 			}
 
 			Candidate candidate1 = new Candidate();
-			candidate1.setVoterId(candidate.get().getVoterId());
+			candidate1.setVoterId(candidateOpt.get().getVoterId());
 			candidate1.setCandidateId(dto.getCandidateId());
 			candidate1.setConstituency(constituency);
 			candidate1.setParty(candidateNominationDto.getParty());
@@ -94,31 +108,17 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 	@Override
-	public String loginCandidate(LoginDto candidLoginDto) {
-		Optional<Voter> voter = voterDao.findByEmail(candidLoginDto.getEmail());
-		Optional<Candidate> candidate = candidateDao.findByVoterId(voter.get());
-		System.out.println(voter.get());
-		System.out.println(candidate);
-		if (voter.isPresent() && candidate.isPresent()) {
-			if (voter.get().getPassword().equals(candidLoginDto.getPassword()) && candidate.get().isActive() == true) {
-				return "Login Successfull";
-			}
-		}
-		return "Login Fail";
-	}
-
-	@Override
 	public Optional<Candidate> getCandidateById(Long id) {
 		return candidateDao.findById(id);
 	}
 
 	@Override
 	public String candidateDelete(DeleteDto candidate) {
-		Optional<Candidate> findCandidate = candidateDao.findById(candidate.getId());
-		System.out.println(findCandidate.get());
-		if (findCandidate.isPresent() && findCandidate.get().isActive() == true) {
-			findCandidate.get().setActive(false);
-			candidateDao.save(findCandidate.get());
+		Optional<Candidate> candidateOpt = candidateDao.findById(candidate.getId());
+		System.out.println(candidateOpt.get());
+		if (candidateOpt.isPresent() && candidateOpt.get().isActive() == true) {
+			candidateOpt.get().setActive(false);
+			candidateDao.save(candidateOpt.get());
 			return "Candidate Deleted Successfully";
 		}
 		return "Candidate not found";
