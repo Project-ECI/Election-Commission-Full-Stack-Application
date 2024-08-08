@@ -26,7 +26,6 @@ public class PartyServiceImpl implements PartyService {
 
 	@Autowired
 	private CandidateDao candidateDao;
-
 	
 	@Autowired
 	private ModelMapper mapper;

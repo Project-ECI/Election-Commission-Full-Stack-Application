@@ -26,4 +26,6 @@ public interface VoterService {
 	public SearchElectrolRollDto searchVoter(Long voterId);
 	
 	public String voterDelete(DeleteDto voter);
+	
+	
 }

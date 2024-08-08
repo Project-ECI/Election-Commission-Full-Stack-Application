@@ -15,6 +15,7 @@ import com.eci.dao.VoterDao;
 import com.eci.dto.LoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegistrationDto;
+import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
 import com.eci.entity.Candidate;
 import com.eci.entity.District;
@@ -123,4 +124,6 @@ public class CandidateServiceImpl implements CandidateService {
 		}
 		return "Candidate not found";
 	}
+
+	
 }

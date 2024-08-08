@@ -16,4 +16,6 @@ public interface CandidateDao extends JpaRepository<Candidate, Long> {
 	public Optional<Candidate> findByVoterId(Voter voterId);
 	
 	public List<Candidate> findAllByParty(Party partyId);
+	
+	
 }
