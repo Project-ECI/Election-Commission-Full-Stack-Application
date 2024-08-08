@@ -17,6 +17,7 @@ import com.eci.dao.VoterDao;
 import com.eci.dto.SearchElectrolRollDto;
 import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoteDto;
+import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;
@@ -142,13 +143,13 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public String updateProfile(UpdateVoterDto dto) {
-		Optional<Voter> voter = voterDao.findById(dto.getVoterId());
+		Optional<Voter> voterOpt = voterDao.findById(dto.getVoterId());
 		
-		if (voter.isPresent()) {
-			Voter voterToBeUpdated = voter.get();
-			Optional<District> district = districtDao.findById(voterToBeUpdated.getDistrictId().getDistrictId());
+		if (voterOpt.isPresent()) {
+			Voter voterToBeUpdated = voterOpt.get();
+			Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
 			
-			voterToBeUpdated.setDistrictId(district.get());
+			voterToBeUpdated.setDistrictId(districtOpt.get());
 			voterToBeUpdated.setEmail(dto.getEmail());
 			voterToBeUpdated.setFullName(dto.getFullName());
 			voterToBeUpdated.setMobileNo(dto.getMobileNo());
@@ -157,5 +158,15 @@ public class VoterServiceImpl implements VoterService {
 			return "Voter details updated";
 		}
 		return "No such voter exists";
+	}
+
+	@Override
+	public String changePassword(ChangePasswordDto passwordDto) {
+		Optional<Voter> voterOpt = voterDao.findByEmail(passwordDto.getEmail());
+		if (voterOpt.isPresent()&& voterOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
+			voterOpt.get().setPassword(passwordDto.getNewPassword());
+			return "Password Change Successfully";
+		}
+		return "Password Change failed";
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.VoteDto;
+import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoterRegisterationDto;
@@ -60,5 +61,10 @@ public class VoterController {
 	@PutMapping("/update-profile")
 	public ResponseEntity<?> updateProfile(@RequestBody UpdateVoterDto dto){
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.updateProfile(dto));
+	}
+	
+	@PutMapping("/change-password")
+	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordDto dto){
+		return ResponseEntity.status(HttpStatus.OK).body(voterService.changePassword(dto));
 	}
 }

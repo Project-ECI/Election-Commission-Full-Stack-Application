@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.eci.dto.SearchElectrolRollDto;
 import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoteDto;
+import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;
@@ -30,4 +31,5 @@ public interface VoterService {
 
 	public String updateProfile(UpdateVoterDto dto);
 
+	public String changePassword(ChangePasswordDto passwordDto);
 }
