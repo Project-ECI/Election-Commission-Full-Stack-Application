@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eci.dao.CandidateDao;
+import com.eci.dao.DistrictDao;
 import com.eci.dao.PartyDao;
 import com.eci.dao.VoterDao;
 
 import com.eci.dto.SearchElectrolRollDto;
+import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoteDto;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.KnowYourCandidateDto;
@@ -21,6 +23,7 @@ import com.eci.dto.LoginDto;
 import com.eci.dto.VoterRegisterationDto;
 
 import com.eci.entity.Candidate;
+import com.eci.entity.District;
 import com.eci.entity.Party;
 import com.eci.entity.Voter;
 
@@ -35,6 +38,9 @@ public class VoterServiceImpl implements VoterService {
 
 	@Autowired
 	private PartyDao partyDao;
+	
+	@Autowired
+	private DistrictDao districtDao;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -132,5 +138,24 @@ public class VoterServiceImpl implements VoterService {
 			return "voter Deleted Successfully";
 		}
 		return "voter not found";
+	}
+
+	@Override
+	public String updateProfile(UpdateVoterDto dto) {
+		Optional<Voter> voter = voterDao.findById(dto.getVoterId());
+		
+		if (voter.isPresent()) {
+			Voter voterToBeUpdated = voter.get();
+			Optional<District> district = districtDao.findById(voterToBeUpdated.getDistrictId().getDistrictId());
+			
+			voterToBeUpdated.setDistrictId(district.get());
+			voterToBeUpdated.setEmail(dto.getEmail());
+			voterToBeUpdated.setFullName(dto.getFullName());
+			voterToBeUpdated.setMobileNo(dto.getMobileNo());
+			
+			voterDao.save(voterToBeUpdated);
+			return "Voter details updated";
+		}
+		return "No such voter exists";
 	}
 }

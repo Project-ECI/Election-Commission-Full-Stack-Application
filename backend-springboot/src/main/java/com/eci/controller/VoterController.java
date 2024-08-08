@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.VoteDto;
 import com.eci.dto.LoginDto;
+import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoterRegisterationDto;
 import com.eci.service.ElectionService;
 import com.eci.service.VoterService;
@@ -53,5 +55,10 @@ public class VoterController {
 	@GetMapping("/view-election-date")
 	public ResponseEntity<?> getElectionDate(@RequestParam Long voterId) {
 		return ResponseEntity.status(HttpStatus.OK).body(electionService.getConstituencyElection(voterId));
+	}
+	
+	@PutMapping("/update-profile")
+	public ResponseEntity<?> updateProfile(@RequestBody UpdateVoterDto dto){
+		return ResponseEntity.status(HttpStatus.OK).body(voterService.updateProfile(dto));
 	}
 }
