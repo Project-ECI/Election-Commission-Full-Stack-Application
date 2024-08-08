@@ -28,7 +28,4 @@ public class PartyController {
 	public ResponseEntity<?> partyLogin(@RequestBody LoginDto partyDto){
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.loginParty(partyDto));
 	}
-	
-	
-	
 }

@@ -15,18 +15,19 @@ import com.eci.entity.Voter;
 
 public interface VoterService {
 	public VoterRegisterationDto registerVoter(VoterRegisterationDto voterRegisterDto);
-	
+
 	public String loginVoter(LoginDto voterLoginDto);
-	
+
 	public Optional<Voter> getVoterById(Long id);
-	
+
 	public String vote(VoteDto voteDto);
-	
+
 	public List<KnowYourCandidateDto> knowYourCandidate(Long voterId);
-	
+
 	public SearchElectrolRollDto searchVoter(Long voterId);
-	
+
 	public String voterDelete(DeleteDto voter);
-	
+
 	public String updateProfile(UpdateVoterDto dto);
+
 }

@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.eci.dao.CandidateDao;
 import com.eci.dao.PartyDao;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.PartyRegistrationDto;
-
+import com.eci.entity.Candidate;
 import com.eci.entity.Party;
 
 @Service
@@ -23,6 +24,9 @@ public class PartyServiceImpl implements PartyService {
 	@Autowired
 	private PartyDao partyDao;
 
+	@Autowired
+	private CandidateDao candidateDao;
+	
 	@Autowired
 	private ModelMapper mapper;
 
@@ -47,23 +51,28 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public List<GetAllPartyDto> getAllParty() {
-		List<Party> allParty = partyDao.findAll();
+		List<Party> partyList = partyDao.findAll();
 
-		List<GetAllPartyDto> allPartyDtos = new ArrayList<>();
+		List<GetAllPartyDto> partyDtoList = new ArrayList<>();
 
-		for (Party party : allParty) {
+		for (Party party : partyList) {
 			GetAllPartyDto partyDto = mapper.map(party, GetAllPartyDto.class);
-			allPartyDtos.add(partyDto);
+			partyDtoList.add(partyDto);
 		}
-		return allPartyDtos;
+		return partyDtoList;
 	}
 
 	@Override
 	public String deleteParty(DeleteDto party) {
-	Optional<Party> party1 = partyDao.findById(party.getId());
-		if (party1.isPresent() && party1.get().isActive() == true) {
-			party1.get().setActive(false);
-			partyDao.save(party1.get());
+	Optional<Party> partyOpt = partyDao.findById(party.getId());
+		if (partyOpt.isPresent() && partyOpt.get().isActive() == true) {
+			List<Candidate> candiateList = candidateDao.findAllByParty(partyOpt.get());
+			for(Candidate candidate:candiateList) {
+				candidate.setActive(false);
+				candidateDao.save(candidate);
+			}
+			partyOpt.get().setActive(false);
+			partyDao.save(partyOpt.get());
 			return "Party Deleted Successfully";
 		}
 		return "Party not found";
