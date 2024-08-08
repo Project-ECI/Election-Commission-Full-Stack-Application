@@ -14,6 +14,7 @@ import com.eci.dao.DistrictDao;
 import com.eci.dao.PartyDao;
 import com.eci.dao.VoterDao;
 import com.eci.dto.CandidateAcceptDto;
+import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.LoginDto;
@@ -141,7 +142,6 @@ public class PartyServiceImpl implements PartyService {
 					responseDto.setRejected(candidate.isRejected());
 					partyCandidateList.add(responseDto);
 				}
-
 			}
 			return partyCandidateList;
 		}
@@ -168,4 +168,17 @@ public class PartyServiceImpl implements PartyService {
 		}
 		return "Candidate form failed";
 	}
+
+	@Override
+	public String changePassword(ChangePasswordDto passwordDto) {
+		Optional<Party> partyOpt = partyDao.findByEmail(passwordDto.getEmail());
+		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
+			partyOpt.get().setPassword(passwordDto.getNewPassword());
+			partyDao.save(partyOpt.get());
+			return "Password Change Successfully";
+		}
+		return "Password Change failed";
+	}
+	
+	
 }

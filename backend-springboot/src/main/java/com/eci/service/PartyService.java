@@ -3,6 +3,7 @@ package com.eci.service;
 import java.util.List;
 
 import com.eci.dto.CandidateAcceptDto;
+import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.LoginDto;
@@ -25,4 +26,6 @@ public interface PartyService {
 	public List<PartyCandidateResponseDto> getAllForm(PartyCandidateRequestDto dto);
 	
 	public String acceptForm(CandidateAcceptDto dto);
+	
+	public String changePassword(ChangePasswordDto passwordDto);
 }
