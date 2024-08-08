@@ -15,7 +15,7 @@ import com.eci.dto.VoterRegisterationDto;
 import com.eci.entity.Voter;
 
 public interface VoterService {
-	public VoterRegisterationDto registerVoter(VoterRegisterationDto voterRegisterDto);
+	public String registerVoter(VoterRegisterationDto voterRegisterDto);
 
 	public String loginVoter(LoginDto voterLoginDto);
 

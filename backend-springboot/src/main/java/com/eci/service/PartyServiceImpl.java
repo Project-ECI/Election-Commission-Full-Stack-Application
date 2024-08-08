@@ -26,31 +26,41 @@ import com.eci.entity.Party;
 public class PartyServiceImpl implements PartyService {
 	@Autowired
 	private PartyDao partyDao;
-	
+
 	@Autowired
 	private DistrictDao districtDao;
 
 	@Autowired
 	private CandidateDao candidateDao;
-	
+
 	@Autowired
 	private ModelMapper mapper;
 
 	@Override
-	public PartyRegistrationDto registerParty(PartyRegistrationDto partyDto) {
-		Party party = mapper.map(partyDto, Party.class);
-		party.setActive(true);
-		Party savedParty = partyDao.save(party);
-
-		return mapper.map(savedParty, PartyRegistrationDto.class);
+	public String registerParty(PartyRegistrationDto partyDto) {
+		Optional<Party> partyOpt = partyDao.findByEmail(partyDto.getEmail());
+		if (partyOpt.isEmpty()) {
+			Party party = new Party();
+			party.setActive(true);
+			party.setPartyName(partyDto.getPartyName());
+			party.setEmail(partyDto.getEmail());
+			party.setPassword(partyDto.getPassword());
+			party.setObjective(partyDto.getObjective());
+			Optional<District> districtOpt = districtDao.findById(partyDto.getDistrictId());
+			party.setDistrictId(districtOpt.get());
+			Party savedParty = partyDao.save(party);
+			return "Party Registration successfull " + savedParty.toString();
+		}
+		return "Party regitration fail";
 	}
 
 	@Override
 	public String loginParty(LoginDto partyDto) {
 		Party party = mapper.map(partyDto, Party.class);
-		Party party2 = partyDao.findByEmail(party.getEmail());
+		Optional<Party> partyOpt = partyDao.findByEmail(party.getEmail());
 
-		if (party2 != null && party.getPassword().equals(party2.getPassword())&&party2.isActive()==true)
+		if (partyOpt.isPresent() && party.getPassword().equals(partyOpt.get().getPassword())
+				&& partyOpt.get().isActive() == true)
 			return "success";
 		return "fail";
 	}
@@ -70,10 +80,10 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public String deleteParty(DeleteDto party) {
-	Optional<Party> partyOpt = partyDao.findById(party.getId());
+		Optional<Party> partyOpt = partyDao.findById(party.getId());
 		if (partyOpt.isPresent() && partyOpt.get().isActive() == true) {
 			List<Candidate> candiateList = candidateDao.findAllByParty(partyOpt.get());
-			for(Candidate candidate:candiateList) {
+			for (Candidate candidate : candiateList) {
 				candidate.setActive(false);
 				candidateDao.save(candidate);
 			}
@@ -87,11 +97,11 @@ public class PartyServiceImpl implements PartyService {
 	@Override
 	public String updateProfile(UpdatePartyDto dto) {
 		Optional<Party> partyOpt = partyDao.findById(dto.getPartyId());
-		
-		if(partyOpt.isPresent()) {
+
+		if (partyOpt.isPresent()) {
 			Party partyToBeUpdated = partyOpt.get();
 			Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
-			
+
 			partyToBeUpdated.setDistrictId(districtOpt.get());
 			partyToBeUpdated.setEmail(dto.getEmail());
 			partyToBeUpdated.setObjective(dto.getObjective());

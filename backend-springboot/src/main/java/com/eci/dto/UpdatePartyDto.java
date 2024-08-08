@@ -8,9 +8,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UpdatePartyDto {
-	Long partyId;
-	String email;
-	String objective;
-	String partyName;
-	Long districtId;
+	private Long partyId;
+
+	private String email;
+
+	private String objective;
+
+	private String partyName;
+
+	private Long districtId;
 }

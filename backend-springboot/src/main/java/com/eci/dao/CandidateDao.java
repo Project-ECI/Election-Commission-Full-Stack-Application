@@ -12,10 +12,8 @@ import com.eci.entity.Voter;
 
 public interface CandidateDao extends JpaRepository<Candidate, Long> {
 	public List<Candidate> findByConstituency(District districtId);
-	
+
 	public Optional<Candidate> findByVoterId(Voter voterId);
-	
+
 	public List<Candidate> findAllByParty(Party partyId);
-	
-	
 }

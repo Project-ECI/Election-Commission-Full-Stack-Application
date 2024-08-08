@@ -9,7 +9,7 @@ import com.eci.dto.PartyRegistrationDto;
 import com.eci.dto.UpdatePartyDto;
 
 public interface PartyService {
-	public PartyRegistrationDto registerParty(PartyRegistrationDto partyDto);
+	public String registerParty(PartyRegistrationDto partyDto);
 	
 	public String loginParty(LoginDto partyDto);
 	

@@ -13,9 +13,9 @@ import com.eci.entity.Candidate;
 public interface CandidateService {
 	public String loginCandidate(LoginDto candidLoginDto);
 
-	public CandidateRegistrationDto registerCandidate(CandidateRegistrationDto candidateRegisterDto);
+	public String registerCandidate(CandidateRegistrationDto candidateRegisterDto);
 
-	public CandidateNominationDto nominateCandidate(CandidateNominationDto dto);
+	public String nominateCandidate(CandidateNominationDto dto);
 	
 	public Optional<Candidate> getCandidateById(Long id);
 	

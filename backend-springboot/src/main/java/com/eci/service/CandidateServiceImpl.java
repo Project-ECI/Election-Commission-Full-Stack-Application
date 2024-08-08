@@ -15,7 +15,6 @@ import com.eci.dao.VoterDao;
 import com.eci.dto.LoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegistrationDto;
-import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
 import com.eci.entity.Candidate;
 import com.eci.entity.District;
@@ -41,7 +40,7 @@ public class CandidateServiceImpl implements CandidateService {
 	private PartyDao partyDao;
 
 	@Override
-	public CandidateRegistrationDto registerCandidate(CandidateRegistrationDto candidateRegisterDto) {
+	public String registerCandidate(CandidateRegistrationDto candidateRegisterDto) {
 		Optional<Voter> voterOpt = voterDao.findById(candidateRegisterDto.getVoterId());
 
 		if (voterOpt.isPresent() && voterOpt.get().isActive() == true) {
@@ -52,14 +51,12 @@ public class CandidateServiceImpl implements CandidateService {
 					validCandidate.setActive(true);
 					validCandidate.setVoterId(voterOpt.get());
 					Candidate savedCandidate = candidateDao.save(validCandidate);
-
-					mapper.typeMap(Candidate.class, CandidateRegistrationDto.class).addMappings(mapper -> mapper
-							.map(src -> src.getVoterId().getVoterId(), CandidateRegistrationDto::setVoterId));
-					return mapper.map(savedCandidate, CandidateRegistrationDto.class);
+					return "candidate register successfully" + savedCandidate.toString();
 				}
 			}
+			return "voter not found";
 		}
-		return null;
+		return "candidate register failed";
 	}
 
 	@Override
@@ -67,45 +64,38 @@ public class CandidateServiceImpl implements CandidateService {
 		Optional<Voter> voterOpt = voterDao.findByEmail(candidLoginDto.getEmail());
 		Optional<Candidate> candidateOpt = candidateDao.findByVoterId(voterOpt.get());
 		if (voterOpt.isPresent() && candidateOpt.isPresent()) {
-			if (voterOpt.get().getPassword().equals(candidLoginDto.getPassword()) && candidateOpt.get().isActive() == true) {
+			if (voterOpt.get().getPassword().equals(candidLoginDto.getPassword())
+					&& candidateOpt.get().isActive() == true) {
 				return "Login Successfull";
 			}
 		}
 		return "Login Fail";
 	}
 
-	public CandidateNominationDto nominateCandidate(CandidateNominationDto dto) {
+	public String nominateCandidate(CandidateNominationDto dto) {
 		Optional<Candidate> candidateOpt = candidateDao.findById(dto.getCandidateId());
 		if (candidateOpt.isPresent()) {
-			Optional<Party> partyOpt = partyDao.findById(dto.getParty().getPartyId());
-			Optional<District> districtOpt = districtDao.findById(dto.getConstituency().getDistrictId());
-
-			District constituency = districtOpt.get();
-
-			CandidateNominationDto candidateNominationDto = new CandidateNominationDto();
-			candidateNominationDto.setConstituency(constituency);
+			Optional<Party> partyOpt = partyDao.findById(dto.getParty());
+			Optional<District> districtOpt = districtDao.findById(dto.getConstituency());
 
 			if (partyOpt.isPresent()) {
-				Party party = partyOpt.get();
-				candidateNominationDto.setParty(party);
-				candidateNominationDto.setIndependent(false);
+				dto.setIndependent(false);
 			} else {
-				candidateNominationDto.setParty(null);
-				candidateNominationDto.setIndependent(true);
+				dto.setParty(null);
+				dto.setIndependent(true);
 			}
 
 			Candidate candidate1 = new Candidate();
 			candidate1.setVoterId(candidateOpt.get().getVoterId());
 			candidate1.setCandidateId(dto.getCandidateId());
-			candidate1.setConstituency(constituency);
-			candidate1.setParty(candidateNominationDto.getParty());
-			candidate1.setIndependent(candidateNominationDto.isIndependent());
+			candidate1.setConstituency(districtOpt.get());
+			candidate1.setParty(partyOpt.get());
+			candidate1.setIndependent(dto.isIndependent());
 
-			candidateDao.save(candidate1);
-
-			return candidateNominationDto;
+			Candidate candidate = candidateDao.save(candidate1);
+			return "Candidate Nominate Successfully " + candidate;
 		}
-		return null;
+		return "Candidate Nominate Failed ";
 	}
 
 	@Override
@@ -124,6 +114,4 @@ public class CandidateServiceImpl implements CandidateService {
 		}
 		return "Candidate not found";
 	}
-
-	
 }

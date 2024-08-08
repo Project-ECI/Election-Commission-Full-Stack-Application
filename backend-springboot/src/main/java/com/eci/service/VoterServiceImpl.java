@@ -39,7 +39,7 @@ public class VoterServiceImpl implements VoterService {
 
 	@Autowired
 	private PartyDao partyDao;
-	
+
 	@Autowired
 	private DistrictDao districtDao;
 
@@ -47,15 +47,23 @@ public class VoterServiceImpl implements VoterService {
 	private ModelMapper mapper;
 
 	@Override
-	public VoterRegisterationDto registerVoter(VoterRegisterationDto registerDto) {
+	public String registerVoter(VoterRegisterationDto registerDto) {
+		Optional<District> districtOpt = districtDao.findById(registerDto.getDistrictId());
 		Optional<Voter> voterOpt = voterDao.findByEmail(registerDto.getEmail());
 		if (voterOpt.isEmpty()) {
-			Voter voter = mapper.map(registerDto, Voter.class);
+			Voter voter = new Voter();
+			voter.setFullName(registerDto.getFullName());
+			voter.setDob(registerDto.getDob());
+			voter.setEmail(registerDto.getEmail());
+			voter.setGender(registerDto.isGender());
+			voter.setMobileNo(registerDto.getMobileNo());
+			voter.setPassword(registerDto.getPassword());
 			voter.setActive(true);
+			voter.setDistrictId(districtOpt.get());
 			Voter savedVoter = voterDao.save(voter);
-			return mapper.map(savedVoter, VoterRegisterationDto.class);
+			return "Registration Successfull " + savedVoter.toString();
 		}
-		return null;
+		return "Registration Fail";
 	}
 
 	@Override
@@ -144,16 +152,16 @@ public class VoterServiceImpl implements VoterService {
 	@Override
 	public String updateProfile(UpdateVoterDto dto) {
 		Optional<Voter> voterOpt = voterDao.findById(dto.getVoterId());
-		
+
 		if (voterOpt.isPresent()) {
 			Voter voterToBeUpdated = voterOpt.get();
 			Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
-			
+
 			voterToBeUpdated.setDistrictId(districtOpt.get());
 			voterToBeUpdated.setEmail(dto.getEmail());
 			voterToBeUpdated.setFullName(dto.getFullName());
 			voterToBeUpdated.setMobileNo(dto.getMobileNo());
-			
+
 			voterDao.save(voterToBeUpdated);
 			return "Voter details updated";
 		}
@@ -163,7 +171,7 @@ public class VoterServiceImpl implements VoterService {
 	@Override
 	public String changePassword(ChangePasswordDto passwordDto) {
 		Optional<Voter> voterOpt = voterDao.findByEmail(passwordDto.getEmail());
-		if (voterOpt.isPresent()&& voterOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
+		if (voterOpt.isPresent() && voterOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
 			voterOpt.get().setPassword(passwordDto.getNewPassword());
 			return "Password Change Successfully";
 		}
