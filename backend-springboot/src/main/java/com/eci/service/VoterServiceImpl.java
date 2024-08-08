@@ -173,6 +173,7 @@ public class VoterServiceImpl implements VoterService {
 		Optional<Voter> voterOpt = voterDao.findByEmail(passwordDto.getEmail());
 		if (voterOpt.isPresent() && voterOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
 			voterOpt.get().setPassword(passwordDto.getNewPassword());
+			voterDao.save(voterOpt.get());
 			return "Password Change Successfully";
 		}
 		return "Password Change failed";

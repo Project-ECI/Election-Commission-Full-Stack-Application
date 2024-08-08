@@ -12,14 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eci.dao.CandidateDao;
 import com.eci.dao.DistrictDao;
 import com.eci.dao.PartyDao;
+import com.eci.dao.VoterDao;
+import com.eci.dto.CandidateAcceptDto;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.LoginDto;
+import com.eci.dto.PartyCandidateRequestDto;
+import com.eci.dto.PartyCandidateResponseDto;
 import com.eci.dto.PartyRegistrationDto;
 import com.eci.entity.Candidate;
 import com.eci.dto.UpdatePartyDto;
 import com.eci.entity.District;
 import com.eci.entity.Party;
+import com.eci.entity.Voter;
 
 @Service
 @Transactional
@@ -32,6 +37,9 @@ public class PartyServiceImpl implements PartyService {
 
 	@Autowired
 	private CandidateDao candidateDao;
+
+	@Autowired
+	private VoterDao voterDao;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -111,5 +119,48 @@ public class PartyServiceImpl implements PartyService {
 			return "Party details updated";
 		}
 		return "Party doesn't exist";
+	}
+
+	@Override
+	public List<PartyCandidateResponseDto> getAllForm(PartyCandidateRequestDto dto) {
+		Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
+		Optional<Party> partyOpt = partyDao.findById(dto.getPartyId());
+
+		if (partyOpt.isPresent() && districtOpt.isPresent()) {
+			List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt.get());
+			List<PartyCandidateResponseDto> partyCandidateList = new ArrayList<PartyCandidateResponseDto>();
+
+			for (Candidate candidate : candidateList) {
+				PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
+				responseDto.setCandidateId(candidate.getCandidateId());
+				Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
+				responseDto.setCandidateName(voterOpt.get().getFullName());
+				responseDto.setConstituency(districtOpt.get().getDistrictName());
+				partyCandidateList.add(responseDto);
+			}
+			return partyCandidateList;
+		}
+		return null;
+	}
+
+	@Override
+	public String acceptForm(CandidateAcceptDto dto) {
+		Optional<Candidate> candidateOpt = candidateDao.findById(dto.getCandidateId());
+		if (candidateOpt.isPresent()) {
+			Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
+			List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt.get());
+			for (Candidate candidate : candidateList) {
+				if (candidate.getParty().getPartyId() == dto.getPartyId()) {
+					candidate.setAccepted(false);
+					candidate.setRejected(true);
+					candidateDao.save(candidate);
+				}
+			}
+			candidateOpt.get().setAccepted(true);
+			candidateOpt.get().setRejected(false);
+			candidateDao.save(candidateOpt.get());
+			return "Candidate form accepted";
+		}
+		return "Candidate form failed";
 	}
 }

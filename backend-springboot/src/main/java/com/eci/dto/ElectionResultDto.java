@@ -8,10 +8,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ElectionResultDto {
-
 	private String candiateName;
+	
 	private String partyName;
+	
 	private boolean isIndependent;
+	
 	private int votes;
+	
 	private String districtName;
 }

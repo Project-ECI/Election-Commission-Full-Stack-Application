@@ -3,13 +3,16 @@ package com.eci.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eci.dto.CandidateAcceptDto;
 import com.eci.dto.LoginDto;
+import com.eci.dto.PartyCandidateRequestDto;
 import com.eci.dto.PartyRegistrationDto;
 import com.eci.dto.UpdatePartyDto;
 import com.eci.service.PartyService;
@@ -19,19 +22,31 @@ import com.eci.service.PartyService;
 public class PartyController {
 	@Autowired
 	private PartyService partyService;
-	
+
 	@PostMapping("/register")
-	public ResponseEntity<?> partyRegistration(@RequestBody PartyRegistrationDto partyDto){
+	public ResponseEntity<?> partyRegistration(@RequestBody PartyRegistrationDto partyDto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.registerParty(partyDto));
 	}
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<?> partyLogin(@RequestBody LoginDto partyDto){
+	public ResponseEntity<?> partyLogin(@RequestBody LoginDto partyDto) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.loginParty(partyDto));
 	}
-	
+
 	@PutMapping("/update-profile")
-	public ResponseEntity<?> updateProfile(@RequestBody UpdatePartyDto dto){
+	public ResponseEntity<?> updateProfile(@RequestBody UpdatePartyDto dto) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.updateProfile(dto));
+	}
+
+	@PostMapping("/get-candidate")
+	public ResponseEntity<?> getDistrictCandiate(@RequestBody PartyCandidateRequestDto dto) {
+		System.out.println("in controller");
+		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.getAllForm(dto));
+	}
+	
+	@PostMapping("/accept-candidate-form")
+	public ResponseEntity<?> acceptCandiate(@RequestBody CandidateAcceptDto dto) {
+		System.out.println("in controller");
+		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.acceptForm(dto));
 	}
 }

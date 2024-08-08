@@ -9,5 +9,6 @@ import lombok.ToString;
 @ToString
 public class VoteDto {
 	private long voterId;
+	
 	private long candidateId;
 }

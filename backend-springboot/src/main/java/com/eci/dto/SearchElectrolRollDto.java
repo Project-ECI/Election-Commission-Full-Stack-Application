@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class SearchElectrolRollDto {
 	private Long voterId;
+	
 	private String fullName;
+	
 	private boolean gender;
 }

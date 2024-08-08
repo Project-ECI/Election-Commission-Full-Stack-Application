@@ -9,5 +9,6 @@ import lombok.ToString;
 @ToString
 public class FeedbackDto {
 	private String feedbackTitle;
+	
 	private String feedbackDescription;
 }

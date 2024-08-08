@@ -48,5 +48,6 @@ public class Voter {
 	private District districtId;
 
 	private boolean isVoted;
+	
 	private boolean isActive;
 }

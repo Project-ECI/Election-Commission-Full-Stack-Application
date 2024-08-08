@@ -5,7 +5,6 @@ import java.util.Optional;
 import com.eci.dto.LoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegistrationDto;
-import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
 import com.eci.entity.Candidate;
 

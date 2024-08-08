@@ -42,4 +42,8 @@ public class Candidate {
 	private int votes;
 	
 	private boolean isActive;
+	
+	private boolean isAccepted;
+	
+	private boolean isRejected;
 }

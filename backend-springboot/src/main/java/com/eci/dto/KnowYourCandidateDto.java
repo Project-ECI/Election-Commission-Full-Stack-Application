@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class KnowYourCandidateDto {
 	private String candiateName;
+	
 	private String partyName;
+	
 	private boolean isIndependent;
 }

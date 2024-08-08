@@ -7,10 +7,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ChangePasswordDto {
-	private String email;
+public class CandidateAcceptDto {
+	private Long partyId;
+
+	private Long candidateId;
 	
-	private String oldPassword;
-	
-	private String newPassword;
+	private Long districtId;
 }

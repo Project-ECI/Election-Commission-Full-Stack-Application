@@ -9,8 +9,12 @@ import lombok.ToString;
 @ToString
 public class PartyRegistrationDto {
 	private String partyName;
+	
 	private String objective;
+	
 	private String email;
+	
 	private String password;
+	
 	private Long districtId;
 }
