@@ -31,4 +31,6 @@ public class Election {
 	@OneToOne
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId", unique = true)
 	private District districtId;
+	
+	private boolean isElectionDeclread;
 }

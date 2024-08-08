@@ -11,8 +11,10 @@ public interface ElectionService {
 	public List<ElectionResultDto> getResult();
 
 	public List<ElectionResultDto> getResultConstituency(Long voterId);
-	
+
 	public List<ElectionDateDto> getElectionDate();
-	
+
 	public ElectionDateDto getConstituencyElection(Long voterId);
+
+	public String declaredResult(Long districtId);
 }

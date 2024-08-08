@@ -143,4 +143,21 @@ public class ElectionServiceImpl implements ElectionService {
 		dto.setElectionDate(election.get().getElectionDate());
 		return dto;
 	}
+	
+	@Override
+	public String declaredResult(Long districtId) {
+		Optional<District> districtOpt = districtDao.findById(districtId);
+		if (districtOpt.isPresent()) {
+			List<Election> electionList = electionDao.findAllByDistrictId(districtOpt.get());
+			if (!electionList.isEmpty()) {
+				for (Election election : electionList) {
+					election.setElectionDeclread(true);
+					electionDao.save(election);
+				}
+			return "Election Declared";
+			}
+			return "No election set for specified district";
+		}
+		return "District not found";
+	}
 }
