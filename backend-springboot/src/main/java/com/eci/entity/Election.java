@@ -32,5 +32,5 @@ public class Election {
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId", unique = true)
 	private District districtId;
 	
-	private boolean isElectionDeclread;
+	private boolean isResultDeclared;
 }

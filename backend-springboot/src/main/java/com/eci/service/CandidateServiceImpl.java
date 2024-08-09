@@ -2,7 +2,6 @@ package com.eci.service;
 
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +25,6 @@ import com.eci.entity.Voter;
 public class CandidateServiceImpl implements CandidateService {
 	@Autowired
 	private CandidateDao candidateDao;
-
-	@Autowired
-	private ModelMapper mapper;
 
 	@Autowired
 	private DistrictDao districtDao;

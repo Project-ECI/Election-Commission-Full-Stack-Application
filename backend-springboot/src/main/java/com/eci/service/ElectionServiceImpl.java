@@ -1,5 +1,6 @@
 package com.eci.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,8 +78,8 @@ public class ElectionServiceImpl implements ElectionService {
 
 		for (Candidate candidate : listOfCandidate) {
 			Optional<Election> electionOpt = electionDao.findByDistrictId(candidate.getConstituency());
-			if (electionOpt.isPresent() && electionOpt.get().isElectionDeclread() == true) {
-				if (candidate.isAccepted() == true && candidate.isRejected() == false) {
+			if (electionOpt.isPresent() && electionOpt.get().isResultDeclared()) {
+				if (candidate.isAccepted() && candidate.isRejected() == false) {
 					ElectionResultDto dto = new ElectionResultDto();
 					if (candidate.getParty() != null) {
 						Optional<Party> party = partyDao.findById(candidate.getParty().getPartyId());
@@ -104,7 +105,7 @@ public class ElectionServiceImpl implements ElectionService {
 		Optional<Voter> voter = voterDao.findById(voterId);
 		Optional<Election> electionOpt = electionDao.findByDistrictId(voter.get().getDistrictId());
 		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
-		if (electionOpt.isPresent() && electionOpt.get().isElectionDeclread() == true) {
+		if (electionOpt.isPresent() && electionOpt.get().isResultDeclared() == true) {
 			List<Candidate> listOfCandidate = candidateDao.findByConstituency(voter.get().getDistrictId());
 
 			for (Candidate candidate : listOfCandidate) {
@@ -163,7 +164,7 @@ public class ElectionServiceImpl implements ElectionService {
 			List<Election> electionList = electionDao.findAllByDistrictId(districtOpt.get());
 			if (!electionList.isEmpty()) {
 				for (Election election : electionList) {
-					election.setElectionDeclread(true);
+					election.setResultDeclared(true);
 					electionDao.save(election);
 				}
 				return "Election Declared";
@@ -171,5 +172,22 @@ public class ElectionServiceImpl implements ElectionService {
 			return "No election set for specified district";
 		}
 		return "District not found";
+	}
+
+	@Override
+	public boolean isResultDeclared(Long districtId) {
+		Optional<District> districtOpt = districtDao.findById(districtId);
+		Optional<Election> electionDetailsOpt = electionDao.findByDistrictId(districtOpt.get());
+		
+		return electionDetailsOpt.get().isResultDeclared();
+	}
+
+	@Override
+	public boolean isElectionDate(Long districtId) {
+		Optional<District> districtOpt = districtDao.findById(districtId);
+		Optional<Election> electionDetailsOpt = electionDao.findByDistrictId(districtOpt.get());
+		
+		LocalDate electionDate = electionDetailsOpt.get().getElectionDate();
+		return electionDate.equals(LocalDate.now());
 	}
 }

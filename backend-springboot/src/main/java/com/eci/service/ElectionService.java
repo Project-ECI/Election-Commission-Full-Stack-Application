@@ -17,4 +17,8 @@ public interface ElectionService {
 	public ElectionDateDto getConstituencyElection(Long voterId);
 
 	public String declaredResult(Long districtId);
+	
+	public boolean isResultDeclared(Long districtId);
+	
+	public boolean isElectionDate(Long districtId);
 }
