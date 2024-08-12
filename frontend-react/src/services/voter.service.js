@@ -1,6 +1,14 @@
 import httpClient from "../http-common";
 
-const login = (data) => {
-  return httpClient.post("/voter/login", data);
+// Define the service object
+const voterService = {
+  login: (data) => {
+    return httpClient.post("/voter/login", data);
+  },
+  register: (data) => {
+    return httpClient.post("/voter/register", data);
+  },
 };
-export default login;
+
+// Export the service object as the default export
+export default voterService;

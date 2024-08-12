@@ -1,7 +1,6 @@
 package com.eci.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +29,8 @@ public class DistrictServiceImpl implements DistrictService {
 	private ModelMapper mapper;
 
 	@Override
-	public List<DistrictDto> findDistrictByState(Long stateId) {
+	public List<DistrictDto> findDistrictByState(String stateid) {
+		Long stateId=Long.parseLong(stateid);
 		Optional<State> stateOpt = stateDao.findById(stateId);
 		if (stateOpt.isPresent()) {
 			List<District> districtList = districtDao.findAllByStateId(stateOpt.get());

@@ -70,7 +70,7 @@ public class GlobalController {
 	}
 	
 	@GetMapping("/get-district")
-	public ResponseEntity<?> getdistrict(@RequestParam Long stateId) {
+	public ResponseEntity<?> getdistrict(@RequestParam String stateId) {
 		return ResponseEntity.status(HttpStatus.OK).body(districtService.findDistrictByState(stateId));
 	}
 }

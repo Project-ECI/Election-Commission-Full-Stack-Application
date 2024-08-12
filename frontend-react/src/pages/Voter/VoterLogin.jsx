@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
-import login from "../../services/voter.service";
+import voterService from "../../services/voter.service";
 
 function VoterLoginPage() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function VoterLoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await login(loginDto);
+      const response = await voterService.login(loginDto);
       console.log("Login successful:", response.data);
       navigate("/voter-homepage");
     } catch (err) {
