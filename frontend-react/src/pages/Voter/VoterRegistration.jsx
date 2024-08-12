@@ -39,6 +39,26 @@ function VoterRegPage() {
     districtId,
   };
 
+  const getMinimumDate = () => {
+    const today = new Date();
+    return new Date(
+      today.getFullYear() - 18,
+      today.getMonth(),
+      today.getDate()
+    );
+  };
+  const handleDobChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    const minDate = getMinimumDate();
+
+    if (selectedDate > minDate) {
+      alert("You must be at least 18 years old.");
+    } else {
+      setError("");
+    }
+
+    setDob(e.target.value);
+  };
   useEffect(() => {
     // Fetch state data from the backend when the component mounts
     const fetchStates = async () => {
@@ -57,7 +77,9 @@ function VoterRegPage() {
     const selectedState = e.target.value;
     setSelectedState(selectedState);
     const response = await getRespectiveDistrict(selectedState);
-    setCities(response.data);
+    if (response.data.length === 0) {
+      alert("no city found");
+    } else setCities(response.data);
   };
 
   const togglePasswordVisibility = () => {
@@ -126,15 +148,15 @@ function VoterRegPage() {
                 type="date"
                 className="form-control"
                 id="dob"
-                onChange={(e) => setDob(e.target.value)}
+                onChange={handleDobChange}
               />
             </div>
 
             {/* Gender */}
-            <div class="form-group mb-3">
-              <label for="gender">Gender</label>
+            <div className="form-group mb-3">
+              <label id="gender">Gender</label>
               <select
-                class="form-control"
+                className="form-control"
                 id="gender"
                 onChange={(e) => setGender(e.target.value)}
               >
@@ -173,7 +195,7 @@ function VoterRegPage() {
             <div className="form-group mb-3">
               <select
                 id="state"
-                class="form-control"
+                className="form-control"
                 value={selectedState}
                 onChange={handleStateChange}
               >
@@ -183,14 +205,14 @@ function VoterRegPage() {
                 ))}
               </select>
 
-              <i class="bi bi-arrow-down-square-fill form-icon2"></i>
+              <i className="bi bi-arrow-down-square-fill form-icon2"></i>
             </div>
 
             {/* City Dropdown */}
             <div className="form-group mb-3">
               <select
                 id="city"
-                class="form-control"
+                className="form-control"
                 disabled={cities.length === 0}
                 onChange={(e) => setDistrictId(e.target.value)}
               >
@@ -199,7 +221,7 @@ function VoterRegPage() {
                   <option value={city.districtId}>{city.districtName}</option>
                 ))}
               </select>
-              <i class="bi bi-arrow-down-square-fill form-icon2"></i>
+              <i className="bi bi-arrow-down-square-fill form-icon2"></i>
             </div>
 
             {/* Password */}

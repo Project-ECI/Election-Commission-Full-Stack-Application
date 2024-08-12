@@ -1,4 +1,4 @@
-import "../css/landingpage.css"
+import "../css/landingpage.css";
 
 import Navbar1 from "../components/Navbar1";
 import Footer1 from "../components/Footer1";
@@ -6,30 +6,30 @@ import Footer1 from "../components/Footer1";
 import main_image from "../assets/images/landing-page-main.png";
 import indian_map from "../assets/images/india-map.png";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function LandingPage() {
   const navigate = useNavigate();
-  
+
   const handlePartyReg = () => {
-    navigate('/party-reg');
+    navigate("/party-reg");
   };
   const handlePartyLogin = () => {
-    navigate('/party-login');
+    navigate("/party-login");
   };
 
   const handleVoterReg = () => {
-    navigate('/voter-reg');
+    navigate("/voter-reg");
   };
   const handleVoterLogin = () => {
-    navigate('/voter-login');
+    navigate("/voter-login");
   };
 
   const handleCandidateReg = () => {
-    navigate('/candidate-reg');
+    navigate("/candidate-reg");
   };
   const handleCandidateLogin = () => {
-    navigate('/candidate-login');
+    navigate("/candidate-login");
   };
 
   return (
@@ -52,38 +52,62 @@ function LandingPage() {
       <div id="user-section" className="user-section-container padding-10">
         <div className="user-section">
           <h1 className="font-mont">Parties</h1>
-          <button onClick={handlePartyReg} type="button" className="btn btn-outline-blue">
+          <button
+            onClick={handlePartyReg}
+            type="button"
+            className="btn btn-outline-blue"
+          >
             Party Registration
           </button>
           <button type="button" className="btn btn-outline-blue">
             Manage Applicants
           </button>
-          <button onClick={handlePartyLogin} type="button" className="btn btn-blue">
+          <button
+            onClick={handlePartyLogin}
+            type="button"
+            className="btn btn-blue"
+          >
             Login
           </button>
         </div>
 
         <div className="user-section">
           <h1 className="font-mont">Voters</h1>
-          <button onClick={handleVoterReg} type="button" className="btn btn-outline-blue">
+          <button
+            onClick={handleVoterReg}
+            type="button"
+            className="btn btn-outline-blue"
+          >
             Register To Vote
           </button>
           <button type="button" className="btn btn-outline-blue">
             Download Voter ID
           </button>
-          <button onClick={handleVoterLogin} type="button" className="btn btn-blue">
+          <button
+            onClick={handleVoterLogin}
+            type="button"
+            className="btn btn-blue"
+          >
             Login
           </button>
         </div>
         <div className="user-section">
           <h1 className="font-mont">Candidates</h1>
-          <button onClick={handleCandidateReg} type="button" className="btn btn-outline-blue">
+          <button
+            onClick={handleCandidateReg}
+            type="button"
+            className="btn btn-outline-blue"
+          >
             Register as Candidate
           </button>
           <button type="button" className="btn btn-outline-blue">
             Aplication Status
           </button>
-          <button onClick={handleCandidateLogin} type="button" className="btn btn-blue">
+          <button
+            onClick={handleCandidateLogin}
+            type="button"
+            className="btn btn-blue"
+          >
             Login
           </button>
         </div>

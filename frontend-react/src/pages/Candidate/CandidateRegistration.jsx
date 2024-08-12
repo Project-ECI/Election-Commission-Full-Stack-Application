@@ -1,23 +1,39 @@
-import "../../css/registration.css"
+import "../../css/registration.css";
 
 import Navbar2 from "../../components/Navbar2.jsx";
-import Footer1 from "../../components/Footer1"
+import Footer1 from "../../components/Footer1";
 
 import image from "../../assets/images/candidate-registration.png";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
+import candidateService from "../../services/candidate.service.js";
 
 function CandidateRegPage() {
+  const navigate = useNavigate();
   // Show and hide password
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const [voterId, setVoterId] = useState("");
+  const registerDto = { voterId, password };
+  const [error, setError] = useState("");
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await candidateService.register(registerDto);
+      console.log("Login successful:", response.data);
+      navigate("/voter-homepage");
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("Login failed. Please check your credentials.");
+    }
+  };
   return (
     <div>
       <Navbar2></Navbar2>
@@ -35,11 +51,17 @@ function CandidateRegPage() {
         <div className="reg-right-container">
           <h1 className="font-mont">Candidate Registration</h1>
 
-          <form action="">
+          <form onSubmit={handleSubmit}>
             {/* Party Name */}
             <div className="form-group mb-3">
               <label htmlFor="voter-id">Voter-Id</label>
-              <input type="text" className="form-control" id="voter-id" placeholder="Enter Voter-Id" />
+              <input
+                type="text"
+                className="form-control"
+                id="voter-id"
+                placeholder="Enter Voter-Id"
+                onChange={(e) => setVoterId(e.target.value)}
+              />
             </div>
 
             {/* Password */}
@@ -63,16 +85,29 @@ function CandidateRegPage() {
             </div>
 
             {/* Bottom Section */}
-            <p className="mb-1 mt-2 text-center">Don't have a Voter-Id? <Link className="blue-link" to="/voter-reg">Register as a voter first</Link></p>
-            <button className="btn btn-blue col-12" type="button">Register</button>
-            <p className="mb-0 mt-1 text-center">Already have an account? <Link className="blue-link" to="/candidate-login">Login</Link></p>
+            <p className="mb-1 mt-2 text-center">
+              Don't have a Voter-Id?{" "}
+              <Link className="blue-link" to="/voter-reg">
+                Register as a voter first
+              </Link>
+            </p>
+            <button className="btn btn-blue col-12" type="submit">
+              Register
+            </button>
+            <p className="mb-0 mt-1 text-center">
+              Already have an account?{" "}
+              <Link className="blue-link" to="/candidate-login">
+                Login
+              </Link>
+            </p>
+            {error && <p style={{ color: "red" }}>{error}</p>}
           </form>
         </div>
       </div>
 
       <Footer1></Footer1>
     </div>
-  )
+  );
 }
 
 export default CandidateRegPage;

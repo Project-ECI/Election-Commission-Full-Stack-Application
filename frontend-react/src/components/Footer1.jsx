@@ -56,14 +56,14 @@ function Footer1() {
       <div className="footer-bottom padding-10">
         <div className="footer-bottom-left">
           <p>Connect with us on: </p>
-          <i class="bi bi-instagram footer-icons"></i>
-          <i class="bi bi-facebook footer-icons"></i>
-          <i class="bi bi-twitter-x footer-icons"></i>
-          <i class="bi bi-envelope footer-icons"></i>
+          <i className="bi bi-instagram footer-icons"></i>
+          <i className="bi bi-facebook footer-icons"></i>
+          <i className="bi bi-twitter-x footer-icons"></i>
+          <i className="bi bi-envelope footer-icons"></i>
         </div>
         <div className="footer-bottom-right">
           <p>Github Repository: </p>
-          <i class="bi bi-github footer-icons"></i>
+          <i className="bi bi-github footer-icons"></i>
         </div>
       </div>
     </div>
