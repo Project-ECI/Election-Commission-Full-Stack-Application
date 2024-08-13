@@ -8,6 +8,9 @@ const candidateService = {
   register: (data) => {
     return httpClient.post("/candidate/register", data);
   },
+  nominate: (data) => {
+    return httpClient.post("/candidate/nomination", data);
+  },
 };
 
 // Export the service object as the default export

@@ -8,11 +8,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CandidateNominationDto {
-	private Long candidateId;
+	private String candidateId;
 
-	private Long party;
+	private String party;
 
 	private boolean isIndependent;
 
-	private Long constituency;
+	private String constituency;
 }

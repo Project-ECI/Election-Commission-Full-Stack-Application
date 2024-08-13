@@ -69,27 +69,34 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 	public String nominateCandidate(CandidateNominationDto dto) {
-		Optional<Candidate> candidateOpt = candidateDao.findById(dto.getCandidateId());
+		Long candidateId=Long.parseLong(dto.getCandidateId());
+		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
 		if (candidateOpt.isPresent()) {
-			Optional<Party> partyOpt = partyDao.findById(dto.getParty());
-			Optional<District> districtOpt = districtDao.findById(dto.getConstituency());
+			if (dto.getParty()!=null) {
+				Long partyId=Long.parseLong(dto.getParty());
+				Optional<Party> partyOpt = partyDao.findById(partyId);
+				Long districtId=Long.parseLong(dto.getConstituency());
+				Optional<District> districtOpt = districtDao.findById(districtId);
+				if (partyOpt.isPresent()) {
+					dto.setIndependent(false);
+				} else {
+					dto.setParty(null);
+					dto.setIndependent(true);
+				}
+				Candidate candidate1 = new Candidate();
+				candidate1.setVoterId(candidateOpt.get().getVoterId());
+				candidate1.setCandidateId(candidateId);
+				candidate1.setConstituency(districtOpt.get());
+				candidate1.setParty(partyOpt.get());
+				candidate1.setIndependent(dto.isIndependent());
 
-			if (partyOpt.isPresent()) {
-				dto.setIndependent(false);
-			} else {
-				dto.setParty(null);
-				dto.setIndependent(true);
+				Candidate candidate = candidateDao.save(candidate1);
+				return "Candidate Nominate Successfully " + candidate;
+
 			}
-
-			Candidate candidate1 = new Candidate();
-			candidate1.setVoterId(candidateOpt.get().getVoterId());
-			candidate1.setCandidateId(dto.getCandidateId());
-			candidate1.setConstituency(districtOpt.get());
-			candidate1.setParty(partyOpt.get());
-			candidate1.setIndependent(dto.isIndependent());
-
-			Candidate candidate = candidateDao.save(candidate1);
-			return "Candidate Nominate Successfully " + candidate;
+			
+			
+			
 		}
 		return "Candidate Nominate Failed ";
 	}

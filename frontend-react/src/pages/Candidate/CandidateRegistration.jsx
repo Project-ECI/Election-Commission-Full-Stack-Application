@@ -28,7 +28,7 @@ function CandidateRegPage() {
     try {
       const response = await candidateService.register(registerDto);
       console.log("Login successful:", response.data);
-      navigate("/voter-homepage");
+      navigate("/candidate-login");
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your credentials.");
