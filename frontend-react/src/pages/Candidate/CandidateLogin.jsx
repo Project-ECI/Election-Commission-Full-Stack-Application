@@ -26,8 +26,13 @@ function CandidateLoginPage() {
     e.preventDefault();
     try {
       const response = await candidateService.login(loginDto);
-      sessionStorage.setItem("id", response.data);
-      navigate("/candidate-homepage");
+      if (response.data === "fail") {
+        console.error("Login failed");
+        setError("Login failed. Please check your credentials.");
+      } else {
+        sessionStorage.setItem("id", response.data);
+        navigate("/candidate-homepage");
+      }
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your credentials.");

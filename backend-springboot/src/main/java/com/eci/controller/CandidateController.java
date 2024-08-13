@@ -36,8 +36,9 @@ public class CandidateController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.nominateCandidate(dto));
 	}
 	
-	@PostMapping("/form/status")
-	public ResponseEntity<?> formStatus(@RequestParam Long candidateId) {
+	@PostMapping("/form-status")
+	public ResponseEntity<?> formStatus(@RequestBody String candidateId) {
+		System.out.println("IN ***************************");
 		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.formStatus(candidateId));
 	}
 }

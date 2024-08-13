@@ -11,6 +11,9 @@ const candidateService = {
   nominate: (data) => {
     return httpClient.post("/candidate/nomination", data);
   },
+  applicationStatus: (id) => {
+    return httpClient.post("/candidate/form-status/", id);
+  },
 };
 
 // Export the service object as the default export

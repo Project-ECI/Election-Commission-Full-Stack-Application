@@ -87,17 +87,11 @@ function Nominate() {
     try {
       if (selectedCity && (isIndependent || selectedParty)) {
         const response = await candidateService.nominate(dto);
-        
-        console.log({
-          stateId: selectedState,
-          cityId: selectedCity,
-          partyId: isIndependent ? null : selectedParty,
-          isIndependent,
-        });
+
 
         navigate("/candidate-homepage");
       } else {
-        console.error("Please complete all required fields.");
+        alert("Please complete all required fields.");
       }
     } catch (err) {
       console.error("Candidate submission failed:", err);

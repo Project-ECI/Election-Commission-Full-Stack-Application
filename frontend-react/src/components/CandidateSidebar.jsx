@@ -14,7 +14,9 @@ function CandidateSidebar() {
     // navigate("/know-candidate");
   };
 
-  const applicationStatus = () => {};
+  const applicationStatus = () => {
+    navigate("/application-status");
+  };
 
   return (
     <div className="left-homepage-container">

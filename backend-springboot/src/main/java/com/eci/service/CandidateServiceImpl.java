@@ -65,7 +65,7 @@ public class CandidateServiceImpl implements CandidateService {
 				return candidateOpt.get().getCandidateId().toString();
 			}
 		}
-		return "Login Fail";
+		return "fail";
 	}
 
 	public String nominateCandidate(CandidateNominationDto dto) {
@@ -92,11 +92,7 @@ public class CandidateServiceImpl implements CandidateService {
 
 				Candidate candidate = candidateDao.save(candidate1);
 				return "Candidate Nominate Successfully " + candidate;
-
-			}
-			
-			
-			
+			}	
 		}
 		return "Candidate Nominate Failed ";
 	}
@@ -119,7 +115,8 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 	@Override
-	public String formStatus(Long candidateId) {
+	public String formStatus(String candidateid) {
+		Long candidateId=Long.parseLong(candidateid);
 		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
 		if (candidateOpt.get().isAccepted())
 			return "Your Form Accepted By Party";
