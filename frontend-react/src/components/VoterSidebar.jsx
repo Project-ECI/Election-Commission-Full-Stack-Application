@@ -3,7 +3,7 @@ import user_avatar from "../assets/images/user-avatar.png";
 
 import { useNavigate } from "react-router-dom";
 
-function Sidebar() {
+function VoterSidebar() {
   const navigate = useNavigate();
 
   const handleCastVote = () => {
@@ -124,4 +124,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default VoterSidebar;

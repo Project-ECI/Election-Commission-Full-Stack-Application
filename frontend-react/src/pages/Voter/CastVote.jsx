@@ -3,12 +3,12 @@ import "../../css/voter-homepage.css";
 
 import Footer1 from "../../components/Footer1.jsx";
 import Navbar3 from "../../components/Navbar3.jsx";
-import Sidebar from "../../components/Sidebar.jsx";
 
 import image from "../../assets/images/image-for-loginpage.png";
 import { useEffect, useState } from "react";
 import voterService from "../../services/voter.service.js";
 import { useNavigate } from "react-router-dom";
+import VoterSidebar from "../../components/VoterSidebar.jsx";
 
 function CastVote() {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ function CastVote() {
       <Navbar3 />
 
       <div className="homepage-container">
-        <Sidebar />
+        <VoterSidebar />
         <div className="right-homepage-container">
           <div className="upper">
             <h1 className="font-mont">Welcome Back!</h1>

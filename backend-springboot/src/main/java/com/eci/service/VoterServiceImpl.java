@@ -219,4 +219,33 @@ public class VoterServiceImpl implements VoterService {
 		}
 		return "Password Change failed";
 	}
+
+	@Override
+	public List<KnowYourCandidateDto> knowYourCandidateGlobal(String districtid) {
+		Long districtId = Long.parseLong(districtid);
+		Optional<District> districtOpt = districtDao.findById(districtId);
+		if (districtOpt.isPresent()) {
+			List<Candidate> listOfCandidate = candidateDao.findByConstituency(districtOpt.get());
+			List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
+			for (Candidate candidate : listOfCandidate) {
+				if (!candidate.isRejected()) {
+					KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
+					Optional<Voter> voterOpt1 = voterDao.findById(candidate.getVoterId().getVoterId());
+					yourCandidate.setCandiateName(voterOpt1.get().getFullName());
+					if (candidate.getParty() == null) {
+						yourCandidate.setIndependent(candidate.isIndependent());
+						yourCandidate.setPartyName(null);
+					} else {
+						Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
+						yourCandidate.setPartyName(partyOpt.get().getPartyName());
+					}
+					yourCandidate.setCandidateId(candidate.getCandidateId());
+					list.add(yourCandidate);
+				}
+
+			}
+			return list;
+		}
+		return null;
+	}
 }

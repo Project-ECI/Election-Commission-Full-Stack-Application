@@ -62,7 +62,7 @@ public class CandidateServiceImpl implements CandidateService {
 		if (voterOpt.isPresent() && candidateOpt.isPresent()) {
 			if (voterOpt.get().getPassword().equals(candidLoginDto.getPassword())
 					&& candidateOpt.get().isActive() == true) {
-				return "Login Successfull";
+				return candidateOpt.get().getCandidateId().toString();
 			}
 		}
 		return "Login Fail";

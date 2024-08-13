@@ -1,46 +1,70 @@
 import "../../css/knowYourCandidate.css";
 import Footer1 from "../../components/Footer1.jsx";
 import Navbar3 from "../../components/Navbar3.jsx";
-import image1 from "../../assets/images/virat.png";
-import image2 from "../../assets/images/download.png";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import Sidebar from "../../components/Sidebar.jsx";
+import getAllStates from "../../services/state.service";
+import getRespectiveDistrict from "../../services/district.service";
+// import KnowYourCandidateService from "../../services/knowYourCandidate.service";
 
 function KnowYourCandidate() {
-  const userInfo = {
-    name: "Virat",
-    address: "Party Name",
-    avatar: image1, // Replace with actual path to user's image
-  };
+  const [candidateDto, setCandidateDto] = useState([]);
+  const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState([]);
 
-  const handleStateChange = (e) => {
-    const selectedState = e.target.value;
-    setSelectedState(selectedState);
+  useEffect(() => {
+    // Fetch state data from the backend when the component mounts
+    const fetchStates = async () => {
+      try {
+        const response = await getAllStates();
+        setStates(response.data); // Update state with fetched data
+      } catch (err) {
+        console.error("Failed to fetch states:", err);
+      }
+    };
 
-    switch (selectedState) {
-      case "Maharashtra":
-        setCities(["Pune", "Mumbai", "Nagpur"]);
-        break;
-      case "Goa":
-        setCities(["South Goa", "North Goa", "Panaji"]);
-        break;
-      case "Gujrat":
-        setCities(["Gandhinagar", "Ahmedabad", "Surat"]);
-        break;
-      default:
-        setCities([]);
-        break;
+    fetchStates();
+  }, []);
+
+  const handleStateChange = async (e) => {
+    const stateId = e.target.value;
+    setSelectedState(stateId);
+    setSelectedCity(""); // Reset city selection
+    setCities([]); // Clear cities when a new state is selected
+
+    if (stateId) {
+      try {
+        const response = await getRespectiveDistrict(stateId);
+        if (response.data.length === 0) {
+          alert("No cities found");
+        } else {
+          setCities(response.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch cities:", err);
+      }
     }
-    setSelectedCity(""); // Reset selected city when state changes
   };
 
-  const handleCityChange = (e) => {
-    const selectedCity = e.target.value;
-    setSelectedCity(selectedCity);
+  const handleCityChange = async (e) => {
+    const cityId = e.target.value;
+    setSelectedCity(cityId);
+
+    if (cityId) {
+      try {
+        const response = await global.knowCandidateGlobal(cityId);
+        if (response.data.length === 0) {
+          console.log("No candidate found");
+          setCandidateDto([]);
+        } else {
+          setCandidateDto(response.data); // Assume response.data is an array of candidates
+        }
+      } catch (err) {
+        console.error("Failed to fetch candidates:", err);
+      }
+    }
   };
 
   return (
@@ -48,12 +72,12 @@ function KnowYourCandidate() {
       <Navbar3 />
 
       <div className="homepage-container">
-        <Sidebar></Sidebar>
-
         <div className="right-homepage-container">
           <div className="upper">
             <h1 className="font-mont">Know Your Candidate</h1>
-            <div className="form-group dropdown">
+
+            {/* State Dropdown */}
+            <div className="form-group mb-3">
               <select
                 id="state"
                 className="form-control"
@@ -61,15 +85,18 @@ function KnowYourCandidate() {
                 onChange={handleStateChange}
               >
                 <option value="">Select State</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Goa">Goa</option>
-                <option value="Gujrat">Gujrat</option>
+                {states.map((state) => (
+                  <option key={state.stateId} value={state.stateId}>
+                    {state.stateName}
+                  </option>
+                ))}
               </select>
+
               <i className="bi bi-arrow-down-square-fill form-icon2"></i>
             </div>
 
             {/* City Dropdown */}
-            <div className="form-group dropdown">
+            <div className="form-group mb-3">
               <select
                 id="city"
                 className="form-control"
@@ -79,40 +106,42 @@ function KnowYourCandidate() {
               >
                 <option value="">Select City</option>
                 {cities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
+                  <option value={city.districtId}>{city.districtName}</option>
                 ))}
               </select>
               <i className="bi bi-arrow-down-square-fill form-icon2"></i>
             </div>
           </div>
-          {selectedCity && (
+          {candidateDto.length > 0 && (
             <div className="lower">
               <div className="content">
                 <div className="left">
-                  <div className="id-card">
-                    <div className="id-header">
-                      <img
-                        src={userInfo.avatar}
-                        alt="User Avatar"
-                        className="user-avatar"
-                      />
-                      <h2>{userInfo.name}</h2>
-                    </div>
-                    <div className="id-body" style={{ display: "flex" }}>
-                      <div className="rightdiv">
-                        <h3>Party :</h3>
-                        <h2>{userInfo.address}</h2>
-                      </div>
-                      <img
-                        src={image2}
-                        alt="User Avatar"
-                        className="user-avatar"
-                        style={{ marginRight: "50px" }}
-                      />
-                    </div>
-                  </div>
+                  <ul>
+                    {candidateDto.map((dto, index) => (
+                      <li key={index} className="id-card">
+                        <div className="id-header">
+                          <img
+                            // src={userInfo.avatar}
+                            alt="User Avatar"
+                            className="user-avatar"
+                          />
+                          <h2>{dto.candidateName}</h2>
+                        </div>
+                        <div className="id-body" style={{ display: "flex" }}>
+                          <div className="rightdiv">
+                            <h3>Party :</h3>
+                            <h2>{dto.partyName || "Independent Candidate"}</h2>
+                          </div>
+                          <img
+                            // src={image2}
+                            alt="User Avatar"
+                            className="user-avatar"
+                            style={{ marginRight: "50px" }}
+                          />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>

@@ -2,17 +2,17 @@ import "../../css/voter-homepage.css";
 
 import Navbar3 from "../../components/Navbar3.jsx";
 import Footer1 from "../../components/Footer1.jsx";
-import VoterSidebar from "../../components/VoterSidebar.jsx";
 
 import React from "react";
+import CandidateSidebar from "../../components/CandidateSidebar.jsx";
 
-function VoterHomepage() {
+function CandidateHomepage() {
   return (
     <React.Fragment>
       <Navbar3></Navbar3>
 
       <div className="homepage-container">
-        <VoterSidebar></VoterSidebar>
+        <CandidateSidebar></CandidateSidebar>
 
         <div className="right-homepage-container">
           <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
@@ -79,4 +79,4 @@ function VoterHomepage() {
   );
 }
 
-export default VoterHomepage;
+export default CandidateHomepage;

@@ -59,6 +59,7 @@ function VoterRegPage() {
 
     setDob(e.target.value);
   };
+  
   useEffect(() => {
     // Fetch state data from the backend when the component mounts
     const fetchStates = async () => {

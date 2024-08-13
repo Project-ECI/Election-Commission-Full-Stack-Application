@@ -73,4 +73,9 @@ public class GlobalController {
 	public ResponseEntity<?> getdistrict(@RequestParam String stateId) {
 		return ResponseEntity.status(HttpStatus.OK).body(districtService.findDistrictByState(stateId));
 	}
+	
+	@GetMapping("/know-your-candidate")
+	public ResponseEntity<?> knowYourCandidate(@RequestParam String districtId) {
+		return ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidateGlobal(districtId));
+	}
 }
