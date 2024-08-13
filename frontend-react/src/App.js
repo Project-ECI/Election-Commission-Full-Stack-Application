@@ -17,31 +17,40 @@ import { Route, Routes } from "react-router-dom";
 import KnowCandidate from "./pages/Voter/KnowCandidate";
 import CandidateHomepage from "./pages/Candidate/CandidateHomepage";
 import Nominate from "./pages/Candidate/Nominate";
-import ApplicationStatus from "./pages/Candidate/ViewApplication";
+import AdminLogin from "./pages/Admin/AdminLogin";
+import AdminHomepage from "./pages/Admin/AdminHomepage"
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/voter-reg" element={<VoterRegPage />} />
-        <Route path="/voter-login" element={<VoterLoginPage />} />
-        <Route path="/candidate-reg" element={<CandidateRegPage />} />
-        <Route path="/candidate-login" element={<CandidateLoginPage />} />
-        <Route path="/party-reg" element={<PartyRegPage />} />
-        <Route path="/party-login" element={<PartyLoginPage />} />
-        <Route path="/become-good-voter" element={<VoterGuide />} />
-        <Route path="/become-good-party" element={<PartyArticle />} />
-        <Route path="/voter-homepage" element={<VoterHomepage />} />
-        <Route path="/cast-vote" element={<CastVote />} />
+
+        <Route path="/voter/registration" element={<VoterRegPage />} />
+        <Route path="/voter/login" element={<VoterLoginPage />} />
+        <Route path="/voter/home" element={<VoterHomepage />} />
+        <Route path="/voter/cast-vote" element={<CastVote />} />
+        <Route path="/voter/know-candidate" element={<KnowCandidate />} />{" "}
+
+        <Route path="/candidate/registration" element={<CandidateRegPage />} />
+        <Route path="/candidate/login" element={<CandidateLoginPage />} />
+        <Route path="/candidate/home" element={<CandidateHomepage />} />
+        <Route path="/candidate/nominate" element={<Nominate />} />
+
+        <Route path="/party/registration" element={<PartyRegPage />} />
+        <Route path="/party/login" element={<PartyLoginPage />} />
+
+        <Route path="/article/voter" element={<VoterGuide />} />
+        <Route path="/article/party" element={<PartyArticle />} />
         <Route path="/know-your-candidate" element={<KnowYourCandidate />} />
-        <Route path="/know-candidate" element={<KnowCandidate />} />{" "}
-        <Route path="/candidate-homepage" element={<CandidateHomepage />} />
-        <Route path="/nominate" element={<Nominate />} />
-        <Route path="/application-status" element={<ApplicationStatus />} />
+
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="admin/home" element={<AdminHomepage />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
+
+// <Route path="/application-status" element={<ApplicationStatus />} />
