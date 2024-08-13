@@ -19,6 +19,8 @@ import CandidateHomepage from "./pages/Candidate/CandidateHomepage";
 import Nominate from "./pages/Candidate/Nominate";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminHomepage from "./pages/Admin/AdminHomepage"
+import SetElectionDate from "./pages/Admin/SetElectionDate"
+import DeclareResults from "./pages/Admin/DeclareResults";
 
 function App() {
   return (
@@ -45,7 +47,9 @@ function App() {
         <Route path="/know-your-candidate" element={<KnowYourCandidate />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="admin/home" element={<AdminHomepage />} />
+        <Route path="/admin/home" element={<AdminHomepage />} />
+        <Route path="/admin/set-date" element={<SetElectionDate/>}/>
+        <Route path="/admin/declare-results" element={<DeclareResults/>}/>
       </Routes>
     </div>
   );
