@@ -66,7 +66,7 @@ function PartyRegPage() {
     try {
       const response = await partyService.register(registerDto);
       console.log("login successfull" + response);
-      navigate("/party-login");
+      navigate("/party/login");
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your credentials.");

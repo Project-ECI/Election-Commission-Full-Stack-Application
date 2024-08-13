@@ -11,7 +11,7 @@ function PartySidebar() {
   };
 
   const handleKYC = () => {
-    navigate("/know-candidate");
+    // navigate("/know-candidate");
   };
 
   return (

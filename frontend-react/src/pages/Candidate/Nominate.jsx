@@ -88,8 +88,7 @@ function Nominate() {
       if (selectedCity && (isIndependent || selectedParty)) {
         const response = await candidateService.nominate(dto);
 
-
-        navigate("/candidate-homepage");
+        navigate("/candidate/home");
       } else {
         alert("Please complete all required fields.");
       }

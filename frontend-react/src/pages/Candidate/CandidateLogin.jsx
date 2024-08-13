@@ -31,7 +31,7 @@ function CandidateLoginPage() {
         setError("Login failed. Please check your credentials.");
       } else {
         sessionStorage.setItem("id", response.data);
-        navigate("/candidate-homepage");
+        navigate("/candidate/home");
       }
     } catch (err) {
       console.error("Login failed:", err);

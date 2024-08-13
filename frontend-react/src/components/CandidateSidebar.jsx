@@ -7,7 +7,7 @@ function CandidateSidebar() {
   const navigate = useNavigate();
 
   const nominate = () => {
-    navigate("/nominate");
+    navigate("/candidate/nominate");
   };
 
   const handleKYC = () => {
