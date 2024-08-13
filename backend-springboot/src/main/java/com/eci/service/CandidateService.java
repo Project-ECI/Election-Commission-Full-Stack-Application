@@ -20,5 +20,5 @@ public interface CandidateService {
 	
 	public String candidateDelete(DeleteDto candidate);
 	
-	public String formStatus(Long candidateId);
+	public String formStatus(String candidateId);
 }

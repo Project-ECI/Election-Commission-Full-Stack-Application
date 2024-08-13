@@ -115,7 +115,8 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 	@Override
-	public String formStatus(Long candidateId) {
+	public String formStatus(String candidateid) {
+		Long candidateId=Long.parseLong(candidateid);
 		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
 		if (candidateOpt.get().isAccepted())
 			return "Your Form Accepted By Party";

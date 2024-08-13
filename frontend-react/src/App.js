@@ -17,6 +17,7 @@ import { Route, Routes } from "react-router-dom";
 import KnowCandidate from "./pages/Voter/KnowCandidate";
 import CandidateHomepage from "./pages/Candidate/CandidateHomepage";
 import Nominate from "./pages/Candidate/Nominate";
+import ApplicationStatus from "./pages/Candidate/ViewApplication";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/know-candidate" element={<KnowCandidate />} />{" "}
         <Route path="/candidate-homepage" element={<CandidateHomepage />} />
         <Route path="/nominate" element={<Nominate />} />
+        <Route path="/application-status" element={<ApplicationStatus />} />
       </Routes>
     </div>
   );
