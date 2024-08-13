@@ -7,11 +7,11 @@ function VoterSidebar() {
   const navigate = useNavigate();
 
   const handleCastVote = () => {
-    navigate("/cast-vote");
+    navigate("/voter/cast-vote");
   };
 
   const handleKYC = () => {
-    navigate("/know-candidate");
+    navigate("/voter/know-candidate");
   };
 
   return (

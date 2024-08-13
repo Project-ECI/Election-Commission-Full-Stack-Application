@@ -9,7 +9,7 @@ function Navbar3() {
   const navigate = useNavigate();
   const handleLogout = () => {
     sessionStorage.clear();
-    navigate("/voter-login");
+    navigate("/voter/login");
   };
   return (
     <nav className="navbar padding-10 shadow">

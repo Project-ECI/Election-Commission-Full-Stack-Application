@@ -34,7 +34,7 @@ function ApplicationStatus() {
   }, []);
 
   const handleNavigateHome = () => {
-    navigate("/candidate-homepage");
+    navigate("/candidate/home");
   };
 
   return (

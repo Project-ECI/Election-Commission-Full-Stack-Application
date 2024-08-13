@@ -12,24 +12,24 @@ function LandingPage() {
   const navigate = useNavigate();
 
   const handlePartyReg = () => {
-    navigate("/party-reg");
+    navigate("/party/registration");
   };
   const handlePartyLogin = () => {
-    navigate("/party-login");
+    navigate("/party/login");
   };
 
   const handleVoterReg = () => {
-    navigate("/voter-reg");
+    navigate("/voter/registration");
   };
   const handleVoterLogin = () => {
-    navigate("/voter-login");
+    navigate("/voter/login");
   };
 
   const handleCandidateReg = () => {
-    navigate("/candidate-reg");
+    navigate("/candidate/registration");
   };
   const handleCandidateLogin = () => {
-    navigate("/candidate-login");
+    navigate("/candidate/login");
   };
 
   return (

@@ -124,13 +124,17 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public List<PartyCandidateResponseDto> getAllForm(PartyCandidateRequestDto dto) {
-		Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
-		Optional<Party> partyOpt = partyDao.findById(dto.getPartyId());
+		List<PartyCandidateResponseDto> partyCandidateList = new ArrayList<PartyCandidateResponseDto>();
 
+		Long partyId = Long.parseLong(dto.getPartyId());
+		Long districtId = Long.parseLong(dto.getDistrictId());
+		Optional<District> districtOpt = districtDao.findById(districtId);
+		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent() && districtOpt.isPresent()) {
 			List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt.get());
-			List<PartyCandidateResponseDto> partyCandidateList = new ArrayList<PartyCandidateResponseDto>();
-
+			if (candidateList.isEmpty()) {
+				return partyCandidateList;
+			}
 			for (Candidate candidate : candidateList) {
 				if (candidate.isRejected() == false) {
 					PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
@@ -138,24 +142,30 @@ public class PartyServiceImpl implements PartyService {
 					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
 					responseDto.setCandidateName(voterOpt.get().getFullName());
 					responseDto.setConstituency(districtOpt.get().getDistrictName());
-					responseDto.setAccpeted(candidate.isAccepted());
-					responseDto.setRejected(candidate.isRejected());
+					if (candidate.isAccepted()) {
+						responseDto.setIsAccepted("Accepted");
+						responseDto.setIsRejected("false");
+					}else if(candidate.isRejected())
+					{responseDto.setIsAccepted(null);
+					responseDto.setIsRejected("True");}
 					partyCandidateList.add(responseDto);
 				}
 			}
-			return partyCandidateList;
 		}
-		return null;
+		return partyCandidateList;
 	}
 
 	@Override
 	public String acceptForm(CandidateAcceptDto dto) {
-		Optional<Candidate> candidateOpt = candidateDao.findById(dto.getCandidateId());
+		Long candidateId=Long.parseLong(dto.getCandidateId());
+		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
 		if (candidateOpt.isPresent()) {
-			Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
+			Long districtId=Long.parseLong(dto.getDistrictId());
+			Optional<District> districtOpt = districtDao.findById(districtId);
 			List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt.get());
 			for (Candidate candidate : candidateList) {
-				if (candidate.getParty().getPartyId() == dto.getPartyId()) {
+				Long partyId=Long.parseLong(dto.getPartyId());
+				if (candidate.getParty().getPartyId() == partyId) {
 					candidate.setAccepted(false);
 					candidate.setRejected(true);
 					candidateDao.save(candidate);
@@ -179,6 +189,5 @@ public class PartyServiceImpl implements PartyService {
 		}
 		return "Password Change failed";
 	}
-	
-	
+
 }

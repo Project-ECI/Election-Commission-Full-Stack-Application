@@ -49,7 +49,7 @@ function CastVote() {
           candidateId: selectedCandidate,
         });
         console.log(response.data);
-        navigate("/voter-homepage");
+        navigate("/voter/home");
       } else {
         console.error("No candidate selected");
       }

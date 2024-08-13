@@ -40,7 +40,6 @@ public class PartyController {
 
 	@PostMapping("/get-candidate")
 	public ResponseEntity<?> getDistrictCandiate(@RequestBody PartyCandidateRequestDto dto) {
-		System.out.println("in controller");
 		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.getAllForm(dto));
 	}
 	

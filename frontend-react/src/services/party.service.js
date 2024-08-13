@@ -10,6 +10,12 @@ const partyService = {
   allParty: () => {
     return httpClient.get("/eci/all-parties");
   },
+  getcandidateList: (data) => {
+    return httpClient.post("/party/get-candidate", data);
+  },
+  acceptForm: (data) => {
+    return httpClient.post("/party/accept-candidate-form", data);
+  },
 };
 
 export default partyService;

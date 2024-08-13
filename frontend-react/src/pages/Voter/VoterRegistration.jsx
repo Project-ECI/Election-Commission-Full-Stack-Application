@@ -59,7 +59,7 @@ function VoterRegPage() {
 
     setDob(e.target.value);
   };
-  
+
   useEffect(() => {
     // Fetch state data from the backend when the component mounts
     const fetchStates = async () => {
@@ -93,7 +93,7 @@ function VoterRegPage() {
       const response = await voterService.register(registerDto);
       console.log(registerDto);
       console.log("registration successful:");
-      navigate("/voter-login");
+      navigate("/voter/login");
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your credentials.");
