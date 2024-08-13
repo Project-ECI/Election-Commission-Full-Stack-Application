@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PartyCandidateRequestDto {
-	private Long partyId;
+	private String partyId;
 	
-	private Long districtId;
+	private String districtId;
 }

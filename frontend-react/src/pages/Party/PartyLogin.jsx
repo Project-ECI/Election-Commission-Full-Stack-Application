@@ -8,7 +8,7 @@ import image from "../../assets/images/party-login.png";
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import partyService from "../../services/party.service.js";
+import partyService from "../../services/party.service";
 
 function PartyLoginPage() {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ function PartyLoginPage() {
         setError("Login failed. Please check your credentials.");
       } else {
         sessionStorage.setItem("id", response.data);
-        navigate("/party-homepage");
+        navigate("/party/home");
       }
     } catch (err) {
       console.error("Login failed:", err);

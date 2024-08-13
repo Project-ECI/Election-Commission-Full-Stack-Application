@@ -3,19 +3,15 @@ import user_avatar from "../assets/images/user-avatar.png";
 
 import { useNavigate } from "react-router-dom";
 
-function CandidateSidebar() {
+function PartySidebar() {
   const navigate = useNavigate();
 
-  const nominate = () => {
-    navigate("/nominate");
+  const partyCandidate = () => {
+    navigate("/party/candidate/list");
   };
 
   const handleKYC = () => {
-    // navigate("/know-candidate");
-  };
-
-  const applicationStatus = () => {
-    navigate("/candidate/application-status");
+    navigate("/know-candidate");
   };
 
   return (
@@ -32,25 +28,18 @@ function CandidateSidebar() {
         <div className="sidebar-section2 mt-3">
           <p className="sidebar-username">Services</p>
           <div className="sidebar-icons-container">
-            <div onClick={nominate} className="icon-container">
+            <div onClick={partyCandidate} className="icon-container">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                 <path d="M96 80c0-26.5 21.5-48 48-48H432c26.5 0 48 21.5 48 48V384H96V80zm313 47c-9.4-9.4-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L409 161c9.4-9.4 9.4-24.6 0-33.9zM0 336c0-26.5 21.5-48 48-48H64V416H512V288h16c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V336z" />
               </svg>
-              <span>Nominate Your form</span>
-            </div>
-
-            <div onClick={applicationStatus} className="icon-container">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-              </svg>
-              <span>View Application Status</span>
+              <span>Party Candidate</span>
             </div>
 
             <div onClick={handleKYC} className="icon-container">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
               </svg>
-              <span>View other Candidate</span>
+              <span>Know Your Candidate</span>
             </div>
 
             <div className="icon-container">
@@ -135,4 +124,4 @@ function CandidateSidebar() {
   );
 }
 
-export default CandidateSidebar;
+export default PartySidebar;

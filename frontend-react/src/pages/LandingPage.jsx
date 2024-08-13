@@ -15,7 +15,7 @@ function LandingPage() {
     navigate("/party-reg");
   };
   const handlePartyLogin = () => {
-    navigate("/party-login");
+    navigate("/party/login");
   };
 
   const handleVoterReg = () => {
