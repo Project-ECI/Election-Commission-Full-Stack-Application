@@ -23,7 +23,7 @@ public interface VoterService {
 
 	public String vote(VoteDto voteDto);
 
-	public List<KnowYourCandidateDto> knowYourCandidate(Long voterId);
+	public List<KnowYourCandidateDto> knowYourCandidate(String voterId);
 
 	public SearchElectrolRollDto searchVoter(Long voterId);
 

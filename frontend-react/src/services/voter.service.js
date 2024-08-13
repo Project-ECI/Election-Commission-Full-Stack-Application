@@ -8,6 +8,9 @@ const voterService = {
   register: (data) => {
     return httpClient.post("/voter/register", data);
   },
+  knowCandidate: (id) => {
+    return httpClient.post("/voter/know-your-candidate", id);
+  },
 };
 
 // Export the service object as the default export

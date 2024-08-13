@@ -24,7 +24,7 @@ function VoterLoginPage() {
     e.preventDefault();
     try {
       const response = await voterService.login(loginDto);
-      console.log("Login successful:", response.data);
+      sessionStorage.setItem("id", response.data);
       navigate("/voter-homepage");
     } catch (err) {
       console.error("Login failed:", err);

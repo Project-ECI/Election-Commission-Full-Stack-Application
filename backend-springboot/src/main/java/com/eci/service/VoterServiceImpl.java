@@ -76,7 +76,7 @@ public class VoterServiceImpl implements VoterService {
 
 		if (voterOpt.isPresent() && voter.getPassword().equals(voterOpt.get().getPassword())
 				&& voterOpt.get().isActive() == true) {
-			return "Login Successfull";
+			return voterOpt.get().getVoterId().toString();
 		}
 		return "Login Fail";
 	}
@@ -116,21 +116,29 @@ public class VoterServiceImpl implements VoterService {
 	}
 
 	@Override
-	public List<KnowYourCandidateDto> knowYourCandidate(Long voterId) {
+	public List<KnowYourCandidateDto> knowYourCandidate(String voterid) {
+		Long voterId = Long.parseLong(voterid);
 		Optional<Voter> voterOpt = voterDao.findById(voterId);
 		if (voterOpt.isPresent()) {
 			List<Candidate> listOfCandidate = candidateDao.findByConstituency(voterOpt.get().getDistrictId());
 			List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
 			for (Candidate candidate : listOfCandidate) {
-				KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
-				Optional<Voter> voter2 = voterDao.findById(candidate.getVoterId().getVoterId());
-				yourCandidate.setCandiateName(voter2.get().getFullName());
-				Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
-				yourCandidate.setPartyName(partyOpt.get().getPartyName());
-				yourCandidate.setIndependent(candidate.isIndependent());
-				list.add(yourCandidate);
-				return list;
+				if (!candidate.isRejected()) {
+					KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
+					Optional<Voter> voterOpt1 = voterDao.findById(candidate.getVoterId().getVoterId());
+					yourCandidate.setCandiateName(voterOpt1.get().getFullName());
+					if (candidate.getParty() == null) {
+						yourCandidate.setIndependent(candidate.isIndependent());
+						yourCandidate.setPartyName(null);
+					} else {
+						Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
+						yourCandidate.setPartyName(partyOpt.get().getPartyName());
+					}
+					list.add(yourCandidate);
+				}
+
 			}
+			return list;
 		}
 		return null;
 	}

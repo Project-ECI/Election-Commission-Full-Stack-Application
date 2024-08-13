@@ -3,8 +3,14 @@ import logo from "../assets/images/logo.png";
 
 // import { Link } from 'react-router-dom';
 import { HashLink as Link } from "react-router-hash-link";
+import { useNavigate } from "react-router-dom";
 
 function Navbar3() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate("/voter-login");
+  };
   return (
     <nav className="navbar padding-10 shadow">
       <div className="nav-left-container mt-1 mb-1">
@@ -29,7 +35,9 @@ function Navbar3() {
         <Link to="#footer" className="nav-links">
           Profile
         </Link>
-        <button className="btn btn-danger">Logout</button>
+        <button className="btn btn-danger" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
 
       <button

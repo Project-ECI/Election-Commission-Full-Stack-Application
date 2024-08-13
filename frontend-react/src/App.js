@@ -14,6 +14,7 @@ import PartyArticle from "./pages/FooterLinks/PartyArticle";
 import CastVote from "./pages/Voter/CastVote";
 import KnowYourCandidate from "./pages/FooterLinks/KnowYourCandidate";
 import { Route, Routes } from "react-router-dom";
+import KnowCandidate from "./pages/Voter/KnowCandidate";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/voter-homepage" element={<VoterHomepage />} />
         <Route path="/cast-vote" element={<CastVote />} />
         <Route path="/know-your-candidate" element={<KnowYourCandidate />} />
+        <Route path="/know-candidate" element={<KnowCandidate />} />
       </Routes>
     </div>
   );

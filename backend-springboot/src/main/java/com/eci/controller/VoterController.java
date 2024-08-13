@@ -44,7 +44,7 @@ public class VoterController {
 	}
 
 	@PostMapping("/know-your-candidate")
-	public ResponseEntity<?> knowYourCandidate(@RequestParam Long voterId) {
+	public ResponseEntity<?> knowYourCandidate(@RequestBody String voterId) {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidate(voterId));
 	}
 

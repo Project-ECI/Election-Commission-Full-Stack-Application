@@ -19,12 +19,4 @@ public class KnowYourCandidateDto {
 
 	private boolean isIndependent;
 
-//	Optional<Voter> voter2 = voterDao.findById(candidate.getVoterId().getVoterId());
-//	yourCandidate.setCandiateName(voter2.get().getFullName());
-//	Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
-//	yourCandidate.setPartyName(partyOpt.get().getPartyName());
-//	yourCandidate.setIndependent(candidate.isIndependent());
-
-
-
 }
