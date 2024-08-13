@@ -78,7 +78,7 @@ public class VoterServiceImpl implements VoterService {
 				&& voterOpt.get().isActive() == true) {
 			return voterOpt.get().getVoterId().toString();
 		}
-		return "Login Fail";
+		return "fail";
 	}
 
 	@Override

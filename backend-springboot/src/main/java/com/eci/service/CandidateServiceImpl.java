@@ -65,7 +65,7 @@ public class CandidateServiceImpl implements CandidateService {
 				return candidateOpt.get().getCandidateId().toString();
 			}
 		}
-		return "Login Fail";
+		return "fail";
 	}
 
 	public String nominateCandidate(CandidateNominationDto dto) {
@@ -92,11 +92,7 @@ public class CandidateServiceImpl implements CandidateService {
 
 				Candidate candidate = candidateDao.save(candidate1);
 				return "Candidate Nominate Successfully " + candidate;
-
-			}
-			
-			
-			
+			}	
 		}
 		return "Candidate Nominate Failed ";
 	}

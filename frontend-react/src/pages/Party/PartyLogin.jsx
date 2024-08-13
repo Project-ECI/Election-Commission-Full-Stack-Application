@@ -26,8 +26,13 @@ function PartyLoginPage() {
     e.preventDefault();
     try {
       const response = await partyService.login(loginDto);
-      console.log("Login successful:", response.data);
-      navigate("/voter-homepage");
+      if (response.data === "fail") {
+        console.error("Login failed");
+        setError("Login failed. Please check your credentials.");
+      } else {
+        sessionStorage.setItem("id", response.data);
+        navigate("/party-homepage");
+      }
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your credentials.");

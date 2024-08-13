@@ -70,7 +70,7 @@ public class PartyServiceImpl implements PartyService {
 
 		if (partyOpt.isPresent() && party.getPassword().equals(partyOpt.get().getPassword())
 				&& partyOpt.get().isActive() == true)
-			return "success";
+			return partyOpt.get().getPartyId().toString();
 		return "fail";
 	}
 
