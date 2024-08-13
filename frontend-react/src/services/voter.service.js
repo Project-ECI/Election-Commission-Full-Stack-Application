@@ -11,6 +11,9 @@ const voterService = {
   knowCandidate: (id) => {
     return httpClient.post("/voter/know-your-candidate", id);
   },
+  castVote: (data) => {
+    return httpClient.post("/voter/vote", data);
+  },
 };
 
 // Export the service object as the default export

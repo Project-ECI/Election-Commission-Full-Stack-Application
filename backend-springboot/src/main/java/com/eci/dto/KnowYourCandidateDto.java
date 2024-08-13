@@ -13,6 +13,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class KnowYourCandidateDto {
+	private Long candidateId;
+	
 	private String candiateName;
 
 	private String partyName;

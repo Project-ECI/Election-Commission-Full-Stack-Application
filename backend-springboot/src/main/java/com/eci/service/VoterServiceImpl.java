@@ -88,37 +88,58 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public String vote(VoteDto voteDto) {
-		Optional<Voter> voterOpt = voterDao.findById(voteDto.getVoterId());
-		Optional<Candidate> candidateOpt = candidateDao.findById(voteDto.getCandidateId());
-
-		// if the voter and candidate exists
-		if (voterOpt.isPresent() && candidateOpt.isPresent()) {
-			Voter voter = voterOpt.get();
-			Candidate candidate = candidateOpt.get();
-			Long districtId = voter.getDistrictId().getDistrictId();
-
-			// can't vote if results are declared or voter has already voted
-			if (electionService.isResultDeclared(districtId) || voter.isVoted()) {
-				return "Can't vote: Either results are declared or you have already voted";
+		try {
+			// Check if the IDs are not null or empty
+			if (voteDto.getVoterId() == null || voteDto.getVoterId().isEmpty()) {
+				return "Invalid Voter ID";
+			}
+			if (voteDto.getCandidateId() == null || voteDto.getCandidateId().isEmpty()) {
+				return "Invalid Candidate ID";
 			}
 
-			// can vote if it's election date and constituency matches
-			if (voter.getDistrictId() == candidate.getConstituency() && electionService.isElectionDate(districtId)) {
-				voter.setVoted(true);
-				candidate.setVotes(candidate.getVotes() + 1);
-				voterDao.save(voter);
-				candidateDao.save(candidate);
-				return "success";
+			Long voterId = Long.parseLong(voteDto.getVoterId());
+			Long candidateId = Long.parseLong(voteDto.getCandidateId());
+
+			Optional<Voter> voterOpt = voterDao.findById(voterId);
+			Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
+
+			// if the voter and candidate exists
+			if (voterOpt.isPresent() && candidateOpt.isPresent()) {
+				Voter voter = voterOpt.get();
+				Candidate candidate = candidateOpt.get();
+				Long districtId = voter.getDistrictId().getDistrictId();
+
+				// can't vote if results are declared or voter has already voted
+				if (electionService.isResultDeclared(districtId) || voter.isVoted()) {
+					return "Can't vote: Either results are declared or you have already voted";
+				}
+
+				// can vote if it's election date and constituency matches
+				// if (voter.getDistrictId().equals(candidate.getConstituency()) &&
+				// electionService.isElectionDate(districtId))
+				if (voter.getDistrictId().equals(candidate.getConstituency())) {
+					voter.setVoted(true);
+					candidate.setVotes(candidate.getVotes() + 1);
+					voterDao.save(voter);
+					candidateDao.save(candidate);
+					return "success";
+				}
+				return "constituency mismatch";
 			}
-			return "constituency mismatch";
+			return "voter/candidate doesn't exist";
+		} catch (NumberFormatException e) {
+			// Log the error and return a meaningful message
+			System.err.println("Number format exception: " + e.getMessage());
+			return "Invalid input format for voter or candidate ID";
 		}
-		return "voter/candidate doesn't exist";
 	}
 
 	@Override
 	public List<KnowYourCandidateDto> knowYourCandidate(String voterid) {
 		Long voterId = Long.parseLong(voterid);
 		Optional<Voter> voterOpt = voterDao.findById(voterId);
+		// if
+		// (voterOpt.isPresent()&&electionService.isElectionDate(voterOpt.get().getDistrictId().getDistrictId()))
 		if (voterOpt.isPresent()) {
 			List<Candidate> listOfCandidate = candidateDao.findByConstituency(voterOpt.get().getDistrictId());
 			List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
@@ -134,6 +155,7 @@ public class VoterServiceImpl implements VoterService {
 						Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
 						yourCandidate.setPartyName(partyOpt.get().getPartyName());
 					}
+					yourCandidate.setCandidateId(candidate.getCandidateId());
 					list.add(yourCandidate);
 				}
 

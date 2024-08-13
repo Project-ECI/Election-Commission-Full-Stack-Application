@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class VoteDto {
-	private long voterId;
+	private String voterId;
 	
-	private long candidateId;
+	private String candidateId;
 }
