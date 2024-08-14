@@ -8,6 +8,8 @@ import VoterHomepage from "./pages/Voter/VoterHomepage";
 import KnowYourCandidate from "./pages/Voter/KnowYourCandidate";
 import VotingPage from "./pages/Voter/VotingPage";
 import SearchInElectoralRoll from "./pages/Voter/SearchInElectoralRoll";
+import VoterFeedback from "./pages/Voter/VoterFeedback";
+import VoterComplaint from "./pages/Voter/VoterComplaint";
 
 import CandidateRegPage from "./pages/Candidate/CandidateRegistration";
 import CandidateLoginPage from "./pages/Candidate/CandidateLogin";
@@ -44,6 +46,8 @@ function App() {
         <Route path="/voter/know-your-candidate" element={<KnowYourCandidate />} />
         <Route path="/voter/cast-vote" element={<VotingPage />} />
         <Route path="/voter/search-in-electoral-roll" element={<SearchInElectoralRoll />} />
+        <Route path="/voter/feedback" element={<VoterFeedback />} />
+        <Route path="/voter/complaint" element={<VoterComplaint />} />
 
         {/* candidate */}
         <Route path="/candidate/registration" element={<CandidateRegPage />} />

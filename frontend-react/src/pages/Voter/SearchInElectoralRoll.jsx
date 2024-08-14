@@ -21,7 +21,6 @@ function SearchInElectoralRoll() {
                 <div className="right-homepage-container">
                     <div className="registration-container">
                         <div className="reg-left-container">
-                            <h1 className="font-mont">Welcome Back!</h1>
                             <img src={image} className="img-fluid" width="320px" alt="" />
                         </div>
 
@@ -30,11 +29,11 @@ function SearchInElectoralRoll() {
 
                             <form>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="username">Voter-Id</label>
+                                    <label htmlFor="voter-id">Voter-Id</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="email"
+                                        id="voter-id"
                                         placeholder="Enter Voter-Id"
                                     />
                                 </div>
