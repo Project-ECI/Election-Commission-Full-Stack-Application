@@ -64,8 +64,8 @@ public class AdminController {
 		return ResponseEntity.ok(candidateService.candidateDelete(deleteDto));
 	}
 	
-	@PutMapping("/declared-election")
-	public ResponseEntity<?> declaredElectionResult(@RequestParam Long districtId) {
+	@PutMapping("/declare-results")
+	public ResponseEntity<?> declaredElectionResult(@RequestBody String districtId) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(electionService.declaredResult(districtId));
 	}
 }

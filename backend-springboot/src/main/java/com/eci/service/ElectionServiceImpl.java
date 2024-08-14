@@ -161,7 +161,8 @@ public class ElectionServiceImpl implements ElectionService {
 	}
 
 	@Override
-	public String declaredResult(Long districtId) {
+	public String declaredResult(String districtid) {
+		Long districtId=Long.parseLong(districtid);
 		Optional<District> districtOpt = districtDao.findById(districtId);
 		if (districtOpt.isPresent()) {
 			List<Election> electionList = electionDao.findAllByDistrictId(districtOpt.get());
