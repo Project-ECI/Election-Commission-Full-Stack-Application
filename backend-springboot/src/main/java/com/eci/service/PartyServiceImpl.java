@@ -176,15 +176,15 @@ public class PartyServiceImpl implements PartyService {
 			List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt.get());
 
 			for (Candidate candidate : candidateList) {
-				//checking candidate for particular party
+				// checking candidate for particular party
 				if (candidate.getParty().getPartyId() == partyId) {
-					//saving data 
+					// saving data
 					candidate.setAccepted(false);
 					candidate.setRejected(true);
 					candidateDao.save(candidate);
 				}
 			}
-			//saving data
+			// saving data
 			candidateOpt.get().setAccepted(true);
 			candidateOpt.get().setRejected(false);
 			candidateDao.save(candidateOpt.get());
@@ -202,6 +202,46 @@ public class PartyServiceImpl implements PartyService {
 			return "Password Change Successfully";
 		}
 		return "Password Change failed";
+	}
+
+	@Override
+	public List<PartyCandidateResponseDto> partyCandidate(String partyid) {
+		// parse partyId string to long
+		Long partyId = Long.parseLong(partyid);
+
+		Optional<Party> partyOpt = partyDao.findById(partyId);
+
+		List<PartyCandidateResponseDto> partyCandidateList = new ArrayList<PartyCandidateResponseDto>();
+
+		List<Candidate> candidateList = candidateDao.findAllByParty(partyOpt.get());
+
+		if (candidateList.isEmpty()) {
+			return null;
+		} else {
+
+			for (Candidate candidate : candidateList) {
+
+				if (candidate.isAccepted()) {
+					PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
+					responseDto.setCandidateId(candidate.getCandidateId());
+					
+					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
+					responseDto.setCandidateName(voterOpt.get().getFullName());
+
+					if (candidate.isAccepted()) {
+						responseDto.setIsAccepted("Accepted");
+						responseDto.setIsRejected("false");
+					} else if (candidate.isRejected()) {
+						responseDto.setIsAccepted(null);
+						responseDto.setIsRejected("True");
+					}
+					Optional<District> districtOpt = districtDao.findById(candidate.getConstituency().getDistrictId());
+					responseDto.setConstituency(districtOpt.get().getDistrictName());
+					partyCandidateList.add(responseDto);
+				}
+			}
+		}
+		return partyCandidateList;
 	}
 
 }

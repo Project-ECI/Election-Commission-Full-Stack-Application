@@ -16,6 +16,9 @@ const partyService = {
   acceptForm: (data) => {
     return httpClient.post("/party/accept-candidate-form", data);
   },
+  getAcceptedCandidateList: (partyId) => {
+    return httpClient.post("/party/accepted-candidate", partyId);
+  },
 };
 
 export default partyService;
