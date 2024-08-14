@@ -1,22 +1,32 @@
 import "../../css/voter-homepage.css";
-
 import Navbar3 from "../../components/Navbar3.jsx";
 import Footer1 from "../../components/Footer1.jsx";
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PartySidebar from "../../components/PartySidebar.jsx";
 
 function PartyHomepage() {
+  const [partyName, setPartyName] = useState("");
+
+  useEffect(() => {
+    const partyString = sessionStorage.getItem("party");
+    if (partyString) {
+      // Use regex to extract the partyName from the object string
+      const match = partyString.match(/partyName=(.*?)(,|$)/);
+      if (match) {
+        setPartyName(match[1]); // Set the partyName state
+      }
+    }
+  }, []); // Empty dependency array to run once on mount
   return (
     <React.Fragment>
-      <Navbar3></Navbar3>
+      <Navbar3 />
 
       <div className="homepage-container">
-        <PartySidebar></PartySidebar>
+        <PartySidebar />
 
         <div className="right-homepage-container">
           <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
-            Welcome Username!
+            Welcome {partyName}
           </h1>
           <div className="placeholder-glow">
             <span className="placeholder bg-success voter-card"></span>
@@ -44,10 +54,10 @@ function PartyHomepage() {
             </p>
 
             <p className="placeholder-glow">
-              <span class="placeholder col-10"></span>
-              <span class="placeholder col-6"></span>
-              <span class="placeholder col-10"></span>
-              <span class="placeholder col-8"></span>
+              <span className="placeholder col-10"></span>
+              <span className="placeholder col-6"></span>
+              <span className="placeholder col-10"></span>
+              <span className="placeholder col-8"></span>
             </p>
 
             <p className="placeholder-glow">
@@ -74,7 +84,7 @@ function PartyHomepage() {
         </div>
       </div>
 
-      <Footer1></Footer1>
+      <Footer1 />
     </React.Fragment>
   );
 }

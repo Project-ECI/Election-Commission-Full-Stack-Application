@@ -1,6 +1,7 @@
 package com.eci.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoteDto;
 import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
+import com.eci.dto.GetAllVoterForAdmin;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.VoterRegisterationDto;
@@ -175,8 +177,9 @@ public class VoterServiceImpl implements VoterService {
 	}
 
 	@Override
-	public String voterDelete(DeleteDto voter1) {
-		Optional<Voter> voterOpt = voterDao.findById(voter1.getId());
+	public String voterDelete(String id) {
+		Long voterId=Long.parseLong(id);
+		Optional<Voter> voterOpt = voterDao.findById(voterId);
 		if (voterOpt.isPresent() && voterOpt.get().isActive() == true) {
 			Optional<Candidate> candiateOpt = candidateDao.findByVoterId(voterOpt.get());
 			if (candiateOpt.isPresent()) {
@@ -247,5 +250,24 @@ public class VoterServiceImpl implements VoterService {
 			return list;
 		}
 		return null;
+	}
+
+	@Override
+	public List<GetAllVoterForAdmin> getVoterForAdmin() {
+		List<Voter> voterList = voterDao.findAll();
+
+		List<GetAllVoterForAdmin> dtoList = new ArrayList<GetAllVoterForAdmin>();
+
+		for (Voter voter : voterList) {
+			if (voter.isActive()) {
+				GetAllVoterForAdmin dto=new GetAllVoterForAdmin();
+				dto.setEmail(voter.getEmail());
+				dto.setFullName(voter.getFullName());
+				dto.setMobileNo(voter.getMobileNo());
+				dto.setVoterId(voter.getVoterId().toString());
+				dtoList.add(dto);
+			}
+		}
+		return dtoList;
 	}
 }

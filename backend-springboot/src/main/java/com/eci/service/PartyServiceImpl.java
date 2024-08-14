@@ -17,6 +17,7 @@ import com.eci.dto.CandidateAcceptDto;
 import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllPartyDto;
+import com.eci.dto.GetAllpartyForAdmin;
 import com.eci.dto.LoginDto;
 import com.eci.dto.PartyCandidateRequestDto;
 import com.eci.dto.PartyCandidateResponseDto;
@@ -70,7 +71,7 @@ public class PartyServiceImpl implements PartyService {
 
 		if (partyOpt.isPresent() && party.getPassword().equals(partyOpt.get().getPassword())
 				&& partyOpt.get().isActive() == true)
-			return partyOpt.get().getPartyId().toString();
+			return partyOpt.get().toString();
 		return "fail";
 	}
 
@@ -88,8 +89,9 @@ public class PartyServiceImpl implements PartyService {
 	}
 
 	@Override
-	public String deleteParty(DeleteDto party) {
-		Optional<Party> partyOpt = partyDao.findById(party.getId());
+	public String deleteParty(String id) {
+		Long partyId=Long.parseLong(id);
+		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent() && partyOpt.get().isActive() == true) {
 			List<Candidate> candiateList = candidateDao.findAllByParty(partyOpt.get());
 			for (Candidate candidate : candiateList) {
@@ -242,6 +244,24 @@ public class PartyServiceImpl implements PartyService {
 			}
 		}
 		return partyCandidateList;
+	}
+
+	@Override
+	public List<GetAllpartyForAdmin> getPartyForAdmin() {
+		List<Party> partyList = partyDao.findAll();
+		List<GetAllpartyForAdmin> dtoList=new ArrayList<GetAllpartyForAdmin>();
+		
+		for(Party party:partyList) {
+			if (party.isActive()) {
+				GetAllpartyForAdmin dto= new GetAllpartyForAdmin();
+				dto.setEmail(party.getEmail());
+				dto.setFullName(party.getPartyName());
+				dto.setObjective(party.getObjective());
+				dto.setPartyId(party.getPartyId().toString());
+				dtoList.add(dto);
+			}
+		}
+		return dtoList;
 	}
 
 }
