@@ -116,6 +116,14 @@
     color: #333;
 }
 
+.editable-form-buttons{
+    display: flex;
+    gap: 10px;
+}
+
+.editable-form-buttons button{
+    width: 50%;
+}
 /* Media Queries */
 @media (max-width: 1000px) {
     .registration-container {

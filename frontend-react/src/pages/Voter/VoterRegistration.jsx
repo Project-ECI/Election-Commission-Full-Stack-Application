@@ -100,6 +100,7 @@ function VoterRegPage() {
       setError("Login failed. Please check your credentials.");
     }
   };
+  
   return (
     <div>
       <Navbar2></Navbar2>

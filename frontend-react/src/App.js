@@ -11,6 +11,7 @@ import SearchInElectoralRoll from "./pages/Voter/SearchInElectoralRoll";
 import VoterFeedback from "./pages/Voter/VoterFeedback";
 import VoterComplaint from "./pages/Voter/VoterComplaint";
 import VoterSettings from "./pages/Voter/VoterSettings";
+import VoterProfile from "./pages/Voter/VoterProfile";
 
 import CandidateRegPage from "./pages/Candidate/CandidateRegistration";
 import CandidateLoginPage from "./pages/Candidate/CandidateLogin";
@@ -31,9 +32,9 @@ import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminHomepage from "./pages/Admin/AdminHomepage";
 import SetElectionDate from "./pages/Admin/SetElectionDate";
 import DeclareResults from "./pages/Admin/DeclareResults";
+import ManageUsers from "./pages/Admin/ManageUser";
 
 import { Route, Routes } from "react-router-dom";
-import ManageUsers from "./pages/Admin/ManageUser";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
         <Route path="/voter/feedback" element={<VoterFeedback />} />
         <Route path="/voter/complaint" element={<VoterComplaint />} />
         <Route path="/voter/settings" element={<VoterSettings />} />
+        <Route path="/voter/profile" element={<VoterProfile/> } />
         {/* candidate */}
         <Route path="/candidate/registration" element={<CandidateRegPage />} />
         <Route path="/candidate/login" element={<CandidateLoginPage />} />
