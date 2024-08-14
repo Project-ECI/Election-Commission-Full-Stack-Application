@@ -12,7 +12,7 @@ import PartyRegPage from "./pages/Party/PartyRegistration";
 import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
 import CastVote from "./pages/Voter/CastVote";
-import KnowYourCandidate from "./pages/FooterLinks/KnowYourCandidate";
+import KnowYourCandidate from "./pages/Voter/KnowYourCandiate";
 import { Route, Routes } from "react-router-dom";
 import KnowCandidate from "./pages/Voter/KnowCandidate";
 import CandidateHomepage from "./pages/Candidate/CandidateHomepage";
@@ -55,8 +55,10 @@ function App() {
         <Route path="/admin/set-date" element={<SetElectionDate />} />
         <Route path="/admin/declare-results" element={<DeclareResults />} />
         <Route path="admin/home" element={<AdminHomepage />} />
-        <Route path="/party/candidate/list" element={<CandidateList />} />{" "}
+        <Route path="/party/candidate/list" element={<CandidateList />} />
         <Route path="/party/home" element={<PartyHomepage />} />
+
+        <Route path="/voter/know-your-candidate" element={<KnowYourCandidate/>} />
       </Routes>
     </div>
   );
