@@ -66,10 +66,6 @@ function KnowYourCandidate() {
                         </div>
                     ))
                     }
-
-
-
-
                 </div>
             </div>
             <Footer1 />

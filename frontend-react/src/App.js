@@ -12,7 +12,7 @@ import PartyRegPage from "./pages/Party/PartyRegistration";
 import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
 import CastVote from "./pages/Voter/CastVote";
-import KnowYourCandidate from "./pages/Voter/KnowYourCandiate";
+import KnowYourCandidate from "./pages/Voter/KnowYourCandidate";
 import { Route, Routes } from "react-router-dom";
 import KnowCandidate from "./pages/Voter/KnowCandidate";
 import CandidateHomepage from "./pages/Candidate/CandidateHomepage";
@@ -26,7 +26,11 @@ import DeclareResults from "./pages/Admin/DeclareResults";
 import ApplicationStatus from "./pages/Candidate/ViewApplication";
 import CandidateList from "./pages/Party/CandidateList";
 import PartyHomepage from "./pages/Party/PartyHomepage";
+<<<<<<< HEAD
 import PartyCandidate from "./pages/Party/PartyCandidate";
+=======
+import VotingPage from "./pages/Voter/VotingPage";
+>>>>>>> test
 
 function App() {
   return (
@@ -58,6 +62,7 @@ function App() {
         <Route path="admin/home" element={<AdminHomepage />} />
         <Route path="/party/candidate/list" element={<CandidateList />} />
         <Route path="/party/home" element={<PartyHomepage />} />
+<<<<<<< HEAD
         <Route
           path="/voter/know-your-candidate"
           element={<KnowYourCandidate />}
@@ -65,6 +70,11 @@ function App() {
         <Route path="/party/candidate/list" element={<CandidateList />} />{" "}
         <Route path="/party/home" element={<PartyHomepage />} />{" "}
         <Route path="/party/party-candidate" element={<PartyCandidate />} />
+=======
+
+        <Route path="/voter/know-your-candidate" element={<KnowYourCandidate/>} />
+        <Route path="/voter/vote" element={<VotingPage/>} />
+>>>>>>> test
       </Routes>
     </div>
   );
