@@ -7,16 +7,16 @@
     background-color: var(--blue);
 }
 
-.left-kyc-container{
-    width: 60%;
-    padding: 30px;
+.left-kyc-container {
+    /* width: 60%; */
+    padding: 15px;
     background-color: white;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
 
 .candidate-image {
-    width: 100%;
+    width: 200px;
     height: 200px;
     border-radius: 5px;
 }
@@ -30,19 +30,62 @@
     gap: 10px;
 }
 
-.right-kyc-container > div{
+.right-kyc-container>div {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-left: 10px;
 }
 
-.right-kyc-container p, .right-kyc-container h5{
+.right-kyc-container p,
+.right-kyc-container h5 {
     margin: 0;
 }
 
-.candidate-symbol{
+.candidate-symbol {
     width: 100px;
     height: 100px;
     border-radius: 5px;
+}
+
+/* Voting Page */
+.kyc-container input[type="radio"] {
+    display: none;
+}
+
+/* style the label to look like radio button */
+.kyc-container label {
+    display: inline-block;
+    width: 50px;
+    height: 33px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+    margin-right: 20px;
+}
+
+/* Change the label when the radio is checked */
+.kyc-container input[type="radio"]:checked+label {
+    background-color: #66FF00;
+    border-color: #66FF00;
+}
+
+
+/* Inner circle to indicate selection */
+.kyc-container input[type="radio"]:checked+label::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.vote-button{
+    width: 100%;
 }
