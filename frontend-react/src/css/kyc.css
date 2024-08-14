@@ -32,7 +32,7 @@
 
 .right-kyc-container>div {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 10px;
     margin-left: 10px;
 }
