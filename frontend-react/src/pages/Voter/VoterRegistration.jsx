@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import getAllStates from "../../services/state.service";
 import getRespectiveDistrict from "../../services/district.service";
 import voterService from "../../services/voter.service";
+
 function VoterRegPage() {
   const navigate = useNavigate();
   // Show and hide password
