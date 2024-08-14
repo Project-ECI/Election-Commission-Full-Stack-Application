@@ -8,6 +8,7 @@ import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoteDto;
 import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.DeleteDto;
+import com.eci.dto.GetAllVoterForAdmin;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.VoterRegisterationDto;
@@ -29,9 +30,11 @@ public interface VoterService {
 
 	public SearchElectrolRollDto searchVoter(Long voterId);
 
-	public String voterDelete(DeleteDto voter);
+	public String voterDelete(String id);
 
 	public String updateProfile(UpdateVoterDto dto);
 
 	public String changePassword(ChangePasswordDto passwordDto);
+	
+	public List<GetAllVoterForAdmin> getVoterForAdmin();
 }

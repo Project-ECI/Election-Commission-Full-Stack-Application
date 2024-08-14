@@ -27,6 +27,7 @@ import ApplicationStatus from "./pages/Candidate/ViewApplication";
 import CandidateList from "./pages/Party/CandidateList";
 import PartyHomepage from "./pages/Party/PartyHomepage";
 import PartyCandidate from "./pages/Party/PartyCandidate";
+import ManageUsers from "./pages/Admin/ManageUser";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
         <Route path="/party/candidate/list" element={<CandidateList />} />{" "}
         <Route path="/party/home" element={<PartyHomepage />} />{" "}
         <Route path="/party/party-candidate" element={<PartyCandidate />} />
+        <Route path="/admin/manage/user" element={<ManageUsers />} />
       </Routes>
     </div>
   );

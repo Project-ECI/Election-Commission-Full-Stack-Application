@@ -1,5 +1,7 @@
 package com.eci.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.eci.dto.LoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegistrationDto;
 import com.eci.dto.DeleteDto;
+import com.eci.dto.GetAllVoterForAdmin;
 import com.eci.entity.Candidate;
 import com.eci.entity.District;
 import com.eci.entity.Party;
@@ -103,8 +106,9 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 	@Override
-	public String candidateDelete(DeleteDto candidate) {
-		Optional<Candidate> candidateOpt = candidateDao.findById(candidate.getId());
+	public String candidateDelete(String id) {
+		Long candidateId=Long.parseLong(id);
+		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
 		System.out.println(candidateOpt.get());
 		if (candidateOpt.isPresent() && candidateOpt.get().isActive() == true) {
 			candidateOpt.get().setActive(false);
@@ -124,5 +128,23 @@ public class CandidateServiceImpl implements CandidateService {
 			return "Your form is pending";
 		else
 			return "Your form is Rejected by party";
+	}
+
+	@Override
+	public List<GetAllVoterForAdmin> getCndidateForAdmin() {
+		List<Candidate> candidateList = candidateDao.findAll();
+		List<GetAllVoterForAdmin> dtoList = new ArrayList<GetAllVoterForAdmin>();
+
+		for (Candidate candidate : candidateList) {
+			if (candidate.isActive()) {
+				GetAllVoterForAdmin dto=new GetAllVoterForAdmin();
+				dto.setEmail(candidate.getVoterId().getEmail());
+				dto.setFullName(candidate.getVoterId().getFullName());
+				dto.setMobileNo(candidate.getVoterId().getMobileNo());
+				dto.setVoterId(candidate.getCandidateId().toString());
+				dtoList.add(dto);
+			}
+		}
+		return dtoList;
 	}
 }
