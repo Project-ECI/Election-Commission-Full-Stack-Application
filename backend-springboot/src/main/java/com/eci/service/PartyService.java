@@ -25,6 +25,8 @@ public interface PartyService {
 	
 	public List<PartyCandidateResponseDto> getAllForm(PartyCandidateRequestDto dto);
 	
+	public List<PartyCandidateResponseDto> partyCandidate(String partyId);
+	
 	public String acceptForm(CandidateAcceptDto dto);
 	
 	public String changePassword(ChangePasswordDto passwordDto);

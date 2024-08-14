@@ -26,6 +26,7 @@ import DeclareResults from "./pages/Admin/DeclareResults";
 import ApplicationStatus from "./pages/Candidate/ViewApplication";
 import CandidateList from "./pages/Party/CandidateList";
 import PartyHomepage from "./pages/Party/PartyHomepage";
+import PartyCandidate from "./pages/Party/PartyCandidate";
 
 function App() {
   return (
@@ -57,8 +58,13 @@ function App() {
         <Route path="admin/home" element={<AdminHomepage />} />
         <Route path="/party/candidate/list" element={<CandidateList />} />
         <Route path="/party/home" element={<PartyHomepage />} />
-
-        <Route path="/voter/know-your-candidate" element={<KnowYourCandidate/>} />
+        <Route
+          path="/voter/know-your-candidate"
+          element={<KnowYourCandidate />}
+        />
+        <Route path="/party/candidate/list" element={<CandidateList />} />{" "}
+        <Route path="/party/home" element={<PartyHomepage />} />{" "}
+        <Route path="/party/party-candidate" element={<PartyCandidate />} />
       </Routes>
     </div>
   );
