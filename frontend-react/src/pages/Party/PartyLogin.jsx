@@ -31,6 +31,7 @@ function PartyLoginPage() {
         setError("Login failed. Please check your credentials.");
       } else {
         sessionStorage.setItem("id", response.data);
+        sessionStorage.setItem("role", "party");
         navigate("/party/home");
       }
     } catch (err) {

@@ -118,11 +118,6 @@ function CandidateList() {
         <PartySidebar />
         <div className="right-homepage-container">
           <div className="upper">
-            <h1 className="font-mont">Welcome Back!</h1>
-            <img src={image} className="img-fluid" width="320px" alt="" />
-          </div>
-
-          <div className="upper">
             <h1 className="font-mont">Know Your Candidate</h1>
 
             {/* State Dropdown */}

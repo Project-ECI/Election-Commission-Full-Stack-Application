@@ -145,9 +145,10 @@ public class PartyServiceImpl implements PartyService {
 					if (candidate.isAccepted()) {
 						responseDto.setIsAccepted("Accepted");
 						responseDto.setIsRejected("false");
-					}else if(candidate.isRejected())
-					{responseDto.setIsAccepted(null);
-					responseDto.setIsRejected("True");}
+					} else if (candidate.isRejected()) {
+						responseDto.setIsAccepted(null);
+						responseDto.setIsRejected("True");
+					}
 					partyCandidateList.add(responseDto);
 				}
 			}
@@ -157,20 +158,33 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public String acceptForm(CandidateAcceptDto dto) {
-		Long candidateId=Long.parseLong(dto.getCandidateId());
+		// parse candidateId string to long
+		Long candidateId = Long.parseLong(dto.getCandidateId());
+		// parse districtId string to long
+		Long districtId = Long.parseLong(dto.getDistrictId());
+		// parse partyId string to long
+		Long partyId = Long.parseLong(dto.getPartyId());
+
+		// find candidate by candidateId
 		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
-		if (candidateOpt.isPresent()) {
-			Long districtId=Long.parseLong(dto.getDistrictId());
-			Optional<District> districtOpt = districtDao.findById(districtId);
+		// find District by districtId
+		Optional<District> districtOpt = districtDao.findById(districtId);
+
+		// check if candidate and district is present or not
+		if (candidateOpt.isPresent() && districtOpt.isPresent()) {
+			// getting all candidate of constituency
 			List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt.get());
+
 			for (Candidate candidate : candidateList) {
-				Long partyId=Long.parseLong(dto.getPartyId());
+				//checking candidate for particular party
 				if (candidate.getParty().getPartyId() == partyId) {
+					//saving data 
 					candidate.setAccepted(false);
 					candidate.setRejected(true);
 					candidateDao.save(candidate);
 				}
 			}
+			//saving data
 			candidateOpt.get().setAccepted(true);
 			candidateOpt.get().setRejected(false);
 			candidateDao.save(candidateOpt.get());
