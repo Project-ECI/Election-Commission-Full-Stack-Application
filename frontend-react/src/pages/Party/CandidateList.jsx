@@ -4,7 +4,6 @@ import "../../css/voter-homepage.css";
 import Footer1 from "../../components/Footer1.jsx";
 import Navbar3 from "../../components/Navbar3.jsx";
 
-import image from "../../assets/images/image-for-loginpage.png";
 import { useEffect, useState } from "react";
 
 import partyService from "../../services/party.service.js";
@@ -96,20 +95,6 @@ function CandidateList() {
     }
   };
 
-  const handleReject = async (candidateId) => {
-    try {
-      // Call your API to reject the candidate
-      await partyService.rejectCandidate(candidateId);
-      // Update the candidate list state to reflect the change
-      setCandidateDto((prev) =>
-        prev.filter((dto) => dto.candidateId !== candidateId)
-      );
-      alert("Candidate rejected.");
-    } catch (err) {
-      console.error("Failed to reject candidate:", err);
-    }
-  };
-
   return (
     <div>
       <Navbar3 />
@@ -191,12 +176,6 @@ function CandidateList() {
                             className="btn btn-success"
                           >
                             Accept
-                          </button>
-                          <button
-                            onClick={() => handleReject(dto.candidateId)}
-                            className="btn btn-danger"
-                          >
-                            Reject
                           </button>
                         </div>
                       </li>
