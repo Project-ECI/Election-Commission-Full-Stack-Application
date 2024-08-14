@@ -46,7 +46,8 @@ public class ElectionServiceImpl implements ElectionService {
 
 	@Override
 	public String addElectionDate(ElectionDateDto dto) {
-		Optional<District> district = districtDao.findById(dto.getDistrictId());
+		Long districtId=Long.parseLong(dto.getDistrictId());
+		Optional<District> district = districtDao.findById(districtId);
 
 		// if districtId is valid
 		if (district.isPresent()) {
@@ -54,17 +55,19 @@ public class ElectionServiceImpl implements ElectionService {
 
 			// update election date
 			if (election.isPresent()) {
-				election.get().setElectionDate(dto.getElectionDate());
+				election.get().setElectionDate(LocalDate.parse(dto.getElectionDate()));
 				election.get().setDistrictId(district.get());
 				electionDao.save(election.get());
-				return election.toString();
+				return "update election date" +election.toString();
 			}
 			// add new election date
 			else {
-				Election election1 = mapper.map(dto, Election.class);
+				Election election1 = new Election();
 				election1.setDistrictId(district.get());
+				election1.setElectionDate(LocalDate.parse(dto.getElectionDate()));
+				election1.setResultDeclared(false);
 				electionDao.save(election1);
-				return election1.toString();
+				return  "add new election date"+ election1.toString();
 			}
 		}
 		return "Invalid District";
@@ -137,8 +140,8 @@ public class ElectionServiceImpl implements ElectionService {
 		List<ElectionDateDto> list = new ArrayList<ElectionDateDto>();
 		for (Election election : allElection) {
 			ElectionDateDto dto = new ElectionDateDto();
-			dto.setDistrictId(election.getDistrictId().getDistrictId());
-			dto.setElectionDate(election.getElectionDate());
+//			dto.setDistrictId(election.getDistrictId().getDistrictId());
+//			dto.setElectionDate(election.getElectionDate());
 			list.add(dto);
 		}
 		return list;
@@ -150,8 +153,8 @@ public class ElectionServiceImpl implements ElectionService {
 		if (voter.isPresent()) {
 			Optional<Election> election = electionDao.findByDistrictId(voter.get().getDistrictId());
 			ElectionDateDto dto = new ElectionDateDto();
-			dto.setDistrictId(election.get().getDistrictId().getDistrictId());
-			dto.setElectionDate(election.get().getElectionDate());
+//			dto.setDistrictId(election.get().getDistrictId().getDistrictId());
+//			dto.setElectionDate(election.get().getElectionDate());
 			return dto;
 		}
 		return null;

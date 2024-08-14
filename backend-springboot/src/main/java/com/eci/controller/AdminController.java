@@ -40,7 +40,7 @@ public class AdminController {
 	private CandidateService candidateService;
 
 	@PostMapping("/login")
-	public ResponseEntity<?> loginVoter(@RequestBody LoginDto loginDto) {
+	public ResponseEntity<?> loginAdmin(@RequestBody LoginDto loginDto) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(adminService.loginAdmin(loginDto));
 	}
 

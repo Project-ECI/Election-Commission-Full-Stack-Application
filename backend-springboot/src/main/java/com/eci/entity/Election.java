@@ -33,4 +33,6 @@ public class Election {
 	private District districtId;
 	
 	private boolean isResultDeclared;
+	
+
 }

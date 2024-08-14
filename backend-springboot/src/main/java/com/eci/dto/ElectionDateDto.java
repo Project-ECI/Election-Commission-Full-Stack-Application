@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ElectionDateDto {
-	private LocalDate electionDate;
+	private String electionDate;
 	
-	private Long districtId;
+	private String districtId;
 }
