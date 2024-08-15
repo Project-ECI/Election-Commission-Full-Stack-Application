@@ -46,6 +46,8 @@ import CandidateProfile from "./pages/Candidate/CandidateProfile";
 import CandidateSettings from "./pages/Candidate/CandidateSettings";
 import AdminProfile from "./pages/Admin/AdminProfile";
 import AdminSettings from "./pages/Admin/AdminSettings";
+import VoterAllDate from "./pages/Voter/VoterAllDate";
+import VoterDistrictDate from "./pages/Voter/VoterDistrictDate";
 
 function App() {
   return (
@@ -80,9 +82,8 @@ function App() {
         />
         <Route path="/candidate/feedback" element={<CandidateFeedback />} />
         <Route path="/candidate/complaint" element={<CandidateComplaint />} />
-        <Route path="/candidate/profile" element={<CandidateProfile/>} />
-        <Route path="/candidate/settings" element={<CandidateSettings/>} />
-
+        <Route path="/candidate/profile" element={<CandidateProfile />} />
+        <Route path="/candidate/settings" element={<CandidateSettings />} />
         {/* party */}
         <Route path="/party/registration" element={<PartyRegPage />} />
         <Route path="/party/login" element={<PartyLoginPage />} />
@@ -95,7 +96,6 @@ function App() {
         <Route path="/party/complaint" element={<PartyComplaint />} />
         <Route path="/party/settings" element={<PartySettings />} />
         <Route path="/party/profile" element={<PartyProfile />} />
-
         {/* admin */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/home" element={<AdminHomepage />} />
@@ -104,7 +104,6 @@ function App() {
         <Route path="admin/home" element={<AdminHomepage />} />
         <Route path="admin/settings" element={<AdminSettings />} />
         <Route path="admin/profile" element={<AdminProfile />} />
-
         <Route path="/article/voter" element={<VoterGuide />} />
         <Route path="/article/party" element={<PartyArticle />} />
         <Route path="/know-your-candidate" element={<KnowYourCandidate />} />
@@ -119,6 +118,8 @@ function App() {
         <Route path="/party/party-candidate" element={<PartyCandidate />} />
         <Route path="/admin/manage/user" element={<ManageUsers />} />
         <Route path="/admin/view/feedback" element={<ViewFeedback />} />
+        <Route path="/voter/all-election-date" element={<VoterAllDate />} />
+        <Route path="/voter/district-date" element={<VoterDistrictDate />} />
       </Routes>
     </div>
   );

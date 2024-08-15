@@ -14,6 +14,9 @@ const voterService = {
   castVote: (data) => {
     return httpClient.post("/voter/vote", data);
   },
+  viewDate: (voterId) => {
+    return httpClient.get(`/voter/view/election-date/${voterId}`);
+  },
 };
 
 // Export the service object as the default export

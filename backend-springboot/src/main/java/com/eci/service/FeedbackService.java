@@ -7,7 +7,7 @@ import com.eci.entity.Feedback;
 
 public interface FeedbackService {
 	
-	public Feedback addFeedback(String discription);
+	public String addFeedback(String discription);
 	
 	public List<FeedbackDto> getAllFeedbackForAdmin();
 }

@@ -3,11 +3,13 @@ import httpClient from "../http-common";
 // Define the service object
 const globalService = {
   knowCandidateGlobal: (id) => {
-    return httpClient.get("/eci/know-your-candidate", {
-      params: {
-        stateId: id, // Pass the id as a query parameter
-      },
-    });
+    return httpClient.get(`/eci/know-your-candidate/${id}`);
+  },
+  addFeedback: (data) => {
+    return httpClient.post("/eci/feedback", data);
+  },
+  getAllDate: () => {
+    return httpClient.get("/eci/view/election-date");
   },
 };
 

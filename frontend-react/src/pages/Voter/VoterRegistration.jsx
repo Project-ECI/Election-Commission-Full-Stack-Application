@@ -92,15 +92,14 @@ function VoterRegPage() {
     e.preventDefault();
     try {
       const response = await voterService.register(registerDto);
-      console.log(registerDto);
-      console.log("registration successful:");
+      console.log("registration successful:" + response);
       navigate("/voter/login");
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your credentials.");
     }
   };
-  
+
   return (
     <div>
       <Navbar2></Navbar2>
