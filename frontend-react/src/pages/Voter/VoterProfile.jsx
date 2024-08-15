@@ -1,11 +1,8 @@
+import React, { useEffect, useState } from "react";
 import image from "../../assets/images/image-for-loginpage.png";
-
 import Footer1 from "../../components/Footer1.jsx";
 import Navbar3 from "../../components/Navbar3.jsx";
-
-import React, { useEffect, useState } from "react";
 import VoterSidebar from "../../components/VoterSidebar.jsx";
-
 import getAllStates from "../../services/state.service";
 import getRespectiveDistrict from "../../services/district.service";
 
@@ -15,6 +12,9 @@ function VoterProfile() {
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState([]);
   const [setDistrictId] = useState("");
+  
+  // State to manage edit mode
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     // Fetch state data from the backend when the component mounts
@@ -35,8 +35,16 @@ function VoterProfile() {
     setSelectedState(selectedState);
     const response = await getRespectiveDistrict(selectedState);
     if (response.data.length === 0) {
-      alert("no city found");
+      alert("No city found");
     } else setCities(response.data);
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
   };
 
   return (
@@ -49,218 +57,195 @@ function VoterProfile() {
         <div className="right-homepage-container">
           <div className="registration-container">
             <div className="reg-left-container">
-              {/* <h1 className="font-mont" style={{color:"white"}}>Update Voter Profile</h1> */}
               <img src={image} className="img-fluid" width="320px" alt="" />
             </div>
 
             <div className="reg-right-container">
               <h1 className="font-mont">Update Voter Profile</h1>
 
-              <form>
-                {/* Full Name */}
-                <div className="form-group mb-3">
-                  <label htmlFor="fullname">Full Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="fullname"
-                    value="Mrunal Maheshkar"
-                    disabled
-                  />
-                </div>
+              {!isEditing ? (
+                // Read-Only Form
+                <form id="read-only-form">
+                  <div className="form-group mb-3">
+                    <label>Full Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={sessionStorage.getItem("fullname")}
+                      disabled
+                    />
+                  </div>
 
-                {/* Date of Birth */}
-                <div className="form-group mb-3">
-                  <label htmlFor="dob">Date Of Birth</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="dob"
-                    value="03/06/2001"
-                    disabled
-                  />
-                </div>
+                  <div className="form-group mb-3">
+                    <label>Date Of Birth</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={sessionStorage.getItem("dob")}
+                      disabled
+                    />
+                  </div>
 
-                {/* Gender */}
-                <div className="form-group mb-3">
-                  <label id="gender">Gender</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="gender"
-                    value="Male"
-                    disabled
-                  />
-                </div>
+                  <div className="form-group mb-3">
+                    <label>Gender</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={sessionStorage.getItem("gender")}
+                      disabled
+                    />
+                  </div>
 
-                {/* Email */}
-                <div className="form-group mb-3">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value="mrunal@gmail.com"
-                    disabled
-                  />
-                </div>
+                  <div className="form-group mb-3">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      value={sessionStorage.getItem("email")}
+                      disabled
+                    />
+                  </div>
 
-                {/* Mobile No */}
-                <div className="form-group mb-3">
-                  <label htmlFor="mobileno">Mobile No</label>
-                  <input
-                    type="tel"
-                    className="form-control"
-                    id="mobileno"
-                    value="8329529079"
-                    disabled
-                  />
-                </div>
+                  <div className="form-group mb-3">
+                    <label>Mobile No</label>
+                    <input
+                      type="tel"
+                      className="form-control"
+                      value={sessionStorage.getItem("mobileNo")}
+                      disabled
+                    />
+                  </div>
 
-                {/* State */}
-                <div className="form-group mb-3">
-                  <label htmlFor="state">State</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="state"
-                    value="Maharastra"
-                    disabled
-                  />
-                </div>
+                  <div className="form-group mb-3">
+                    <label>State</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={sessionStorage.getItem("stateName")}
+                      disabled
+                    />
+                  </div>
 
-                {/* District */}
-                <div className="form-group mb-3">
-                  <label htmlFor="state">District</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="district"
-                    value="Gadchiroli"
-                    disabled
-                  />
-                </div>
+                  <div className="form-group mb-3">
+                    <label>District</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={sessionStorage.getItem("districtName")}
+                      disabled
+                    />
+                  </div>
 
-                <button className="btn btn-blue col-12" type="button">
-                  Edit Profile
-                </button>
-              </form>
-            </div>
-          </div>
-
-          {/* Editable From */}
-          <div className="registration-container">
-            <div className="reg-left-container">
-              {/* <h1 className="font-mont" style={{color:"white"}}>Update Voter Profile</h1> */}
-              <img src={image} className="img-fluid" width="320px" alt="" />
-            </div>
-
-            <div className="reg-right-container">
-              <h1 className="font-mont">Update Voter Profile</h1>
-
-              <form className="editable-form">
-                {/* Full Name */}
-                <div className="form-group mb-3">
-                  <label htmlFor="fullname">Full Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="fullname"
-                    value="Mrunal Maheshkar"
-                  />
-                </div>
-
-                {/* Date of Birth */}
-                <div className="form-group mb-3">
-                  <label htmlFor="dob">Date Of Birth</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="dob"
-                    value="03/06/2001"
-                    disabled
-                  />
-                </div>
-
-                {/* Gender */}
-                <div className="form-group mb-3">
-                  <label id="gender">Gender</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="gender"
-                    value="Male"
-                    disabled
-                  />
-                </div>
-
-                {/* Email */}
-                <div className="form-group mb-3">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value="mrunal@gmail.com"
-                  />
-                </div>
-
-                {/* Mobile No */}
-                <div className="form-group mb-3">
-                  <label htmlFor="mobileno">Mobile No</label>
-                  <input
-                    type="tel"
-                    className="form-control"
-                    id="mobileno"
-                    value="8329529079"
-                  />
-                </div>
-
-                {/* State Dropdown */}
-                <div className="form-group mb-3">
-                  <select
-                    id="state"
-                    className="form-control"
-                    value={selectedState}
-                    onChange={handleStateChange}
+                  <button
+                    className="btn btn-blue col-12"
+                    type="button"
+                    onClick={handleEditClick}
                   >
-                    <option value="">Select State</option>
-                    {states.map((state) => (
-                      <option value={state.stateId}>{state.stateName}</option>
-                    ))}
-                  </select>
-
-                  <i className="bi bi-arrow-down-square-fill form-icon2"></i>
-                </div>
-
-                {/* City Dropdown */}
-                <div className="form-group mb-3">
-                  <select
-                    id="city"
-                    className="form-control"
-                    disabled={cities.length === 0}
-                    onChange={(e) => setDistrictId(e.target.value)}
-                  >
-                    <option value="">Select City</option>
-                    {cities.map((city) => (
-                      <option value={city.districtId}>
-                        {city.districtName}
-                      </option>
-                    ))}
-                  </select>
-                  <i className="bi bi-arrow-down-square-fill form-icon2"></i>
-                </div>
-
-                <div className="editable-form-buttons">
-                  <button className="btn btn-success" type="button">
-                    Update Profile
+                    Edit Profile
                   </button>
+                </form>
+              ) : (
+                // Editable Form
+                <form id="editable-form">
+                  <div className="form-group mb-3">
+                    <label htmlFor="fullname">Full Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="fullname"
+                      defaultValue="Mrunal Maheshkar"
+                    />
+                  </div>
 
-                  <button className="btn btn-danger" type="button">
-                    Cancel
-                  </button>
-                </div>
-              </form>
+                  <div className="form-group mb-3">
+                    <label htmlFor="dob">Date Of Birth</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="dob"
+                      defaultValue="03/06/2001"
+                      disabled
+                    />
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label htmlFor="gender">Gender</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="gender"
+                      defaultValue="Male"
+                      disabled
+                    />
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      defaultValue="mrunal@gmail.com"
+                    />
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label htmlFor="mobileno">Mobile No</label>
+                    <input
+                      type="tel"
+                      className="form-control"
+                      id="mobileno"
+                      defaultValue="8329529079"
+                    />
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <select
+                      id="state"
+                      className="form-control"
+                      value={selectedState}
+                      onChange={handleStateChange}
+                    >
+                      <option value="">Select State</option>
+                      {states.map((state) => (
+                        <option value={state.stateId} key={state.stateId}>
+                          {state.stateName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <select
+                      id="city"
+                      className="form-control"
+                      disabled={cities.length === 0}
+                      onChange={(e) => setDistrictId(e.target.value)}
+                    >
+                      <option value="">Select City</option>
+                      {cities.map((city) => (
+                        <option value={city.districtId} key={city.districtId}>
+                          {city.districtName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="editable-form-buttons">
+                    <button className="btn btn-success" type="button">
+                      Update Profile
+                    </button>
+
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                      onClick={handleCancelClick}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>

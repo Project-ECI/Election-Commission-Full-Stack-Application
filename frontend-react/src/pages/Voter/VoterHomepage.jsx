@@ -16,7 +16,7 @@ function VoterHomepage() {
 
         <div className="right-homepage-container">
           <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
-            Welcome Username!
+            Welcome {sessionStorage.getItem("fullname")}!
           </h1>
           <div className="placeholder-glow">
             <span className="placeholder bg-success voter-card"></span>
