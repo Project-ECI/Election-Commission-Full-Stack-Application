@@ -30,8 +30,12 @@ function PartyLoginPage() {
         console.error("Login failed");
         setError("Login failed. Please check your credentials.");
       } else {
-        sessionStorage.setItem("id", response.data);
+        const party = response.data;
+
         sessionStorage.setItem("role", "party");
+        sessionStorage.setItem("id", party.partyId);
+        sessionStorage.setItem("fullname", party.partyName);
+        sessionStorage.setItem("email", party.email);
         navigate("/party/home");
       }
     } catch (err) {
