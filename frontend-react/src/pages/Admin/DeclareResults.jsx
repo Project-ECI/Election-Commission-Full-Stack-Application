@@ -97,7 +97,17 @@ function DeclareResults() {
             </div>
 
             <button className="btn btn-blue col-12" type="submit">
-              Declare Result
+              Declare Results
+            </button>
+
+            <div class="row mt-2 mb-2">
+              <div class="col"><hr /></div>
+              <div class="col-auto">OR</div>
+              <div class="col"><hr /></div>
+            </div>
+
+            <button className="btn btn-blue col-12" type="submit">
+              Declare Results in All Constituencies
             </button>
           </form>
         </div>

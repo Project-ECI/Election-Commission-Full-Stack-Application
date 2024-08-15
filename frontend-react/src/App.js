@@ -42,6 +42,10 @@ import ViewFeedback from "./pages/Admin/ViewFeedback";
 import { Route, Routes } from "react-router-dom";
 import PartySettings from "./pages/Party/PartySettings";
 import PartyProfile from "./pages/Party/PartyProfile";
+import CandidateProfile from "./pages/Candidate/CandidateProfile";
+import CandidateSettings from "./pages/Candidate/CandidateSettings";
+import AdminProfile from "./pages/Admin/AdminProfile";
+import AdminSettings from "./pages/Admin/AdminSettings";
 
 function App() {
   return (
@@ -76,6 +80,8 @@ function App() {
         />
         <Route path="/candidate/feedback" element={<CandidateFeedback />} />
         <Route path="/candidate/complaint" element={<CandidateComplaint />} />
+        <Route path="/candidate/profile" element={<CandidateProfile/>} />
+        <Route path="/candidate/settings" element={<CandidateSettings/>} />
 
         {/* party */}
         <Route path="/party/registration" element={<PartyRegPage />} />
@@ -96,6 +102,9 @@ function App() {
         <Route path="/admin/set-date" element={<SetElectionDate />} />
         <Route path="/admin/declare-results" element={<DeclareResults />} />
         <Route path="admin/home" element={<AdminHomepage />} />
+        <Route path="admin/settings" element={<AdminSettings />} />
+        <Route path="admin/profile" element={<AdminProfile />} />
+
         <Route path="/article/voter" element={<VoterGuide />} />
         <Route path="/article/party" element={<PartyArticle />} />
         <Route path="/know-your-candidate" element={<KnowYourCandidate />} />

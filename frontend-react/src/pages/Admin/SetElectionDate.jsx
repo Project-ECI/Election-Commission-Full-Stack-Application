@@ -99,17 +99,18 @@ function SetElectionDate() {
               <i className="bi bi-arrow-down-square-fill form-icon2"></i>
             </div>
 
-            <div className="form-group mb-3">
-              <label htmlFor="dob">Date Of Birth</label>
-              <input
-                type="date"
-                className="form-control"
-                id="dob"
-                onChange={(e) => setElectionDate(e.target.value)}
-              />
-            </div>
             <button className="btn btn-blue col-12" type="submit">
               Set Election Date
+            </button>
+
+            <div class="row mt-2 mb-2">
+              <div class="col"><hr /></div>
+              <div class="col-auto">OR</div>
+              <div class="col"><hr /></div>
+            </div>
+
+            <button className="btn btn-blue col-12" type="submit">
+              Set Election Date in All Constituencies
             </button>
           </form>
         </div>
