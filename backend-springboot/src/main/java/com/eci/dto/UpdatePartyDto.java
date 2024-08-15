@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UpdatePartyDto {
-	private Long partyId;
+	private String partyId;
 
 	private String email;
 
@@ -16,5 +16,5 @@ public class UpdatePartyDto {
 
 	private String partyName;
 
-	private Long districtId;
+	private String districtId;
 }

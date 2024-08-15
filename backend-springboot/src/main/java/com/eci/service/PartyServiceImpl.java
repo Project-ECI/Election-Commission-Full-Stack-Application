@@ -115,11 +115,13 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public String updateProfile(UpdatePartyDto dto) {
-		Optional<Party> partyOpt = partyDao.findById(dto.getPartyId());
-
+		Long partyId = Long.parseLong(dto.getPartyId());
+		Long districtId = Long.parseLong(dto.getDistrictId());
+		System.out.println("************");
+		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent()) {
 			Party partyToBeUpdated = partyOpt.get();
-			Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
+			Optional<District> districtOpt = districtDao.findById(districtId);
 
 			partyToBeUpdated.setDistrictId(districtOpt.get());
 			partyToBeUpdated.setEmail(dto.getEmail());
@@ -127,9 +129,9 @@ public class PartyServiceImpl implements PartyService {
 			partyToBeUpdated.setPartyName(dto.getPartyName());
 
 			partyDao.save(partyToBeUpdated);
-			return "Party details updated";
+			return "success";
 		}
-		return "Party doesn't exist";
+		return "fail";
 	}
 
 	@Override
@@ -205,7 +207,7 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public String changePassword(ChangePasswordDto passwordDto) {
-		Long partyId=Long.parseLong(passwordDto.getVoterId());
+		Long partyId = Long.parseLong(passwordDto.getVoterId());
 		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
 			partyOpt.get().setPassword(passwordDto.getNewPassword());

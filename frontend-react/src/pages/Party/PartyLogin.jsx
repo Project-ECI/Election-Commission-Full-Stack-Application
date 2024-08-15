@@ -31,11 +31,15 @@ function PartyLoginPage() {
         setError("Login failed. Please check your credentials.");
       } else {
         const party = response.data;
-
+        console.log(response.data);
         sessionStorage.setItem("role", "party");
         sessionStorage.setItem("id", party.partyId);
-        sessionStorage.setItem("fullname", party.partyName);
+        sessionStorage.setItem("partyName", party.partyName);
+        sessionStorage.setItem("objective", party.objective);
         sessionStorage.setItem("email", party.email);
+        sessionStorage.setItem("districtId", party.districtId.districtId);
+        sessionStorage.setItem("districtName", party.districtId.districtName);
+        sessionStorage.setItem("state", party.districtId.stateId.stateName);
         navigate("/party/home");
       }
     } catch (err) {

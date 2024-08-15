@@ -22,6 +22,9 @@ const partyService = {
   removeFromParty: (candidateId) => {
     return httpClient.put(`/party/remove/candidate/${candidateId}`);
   },
+  updateProfile: (data) => {
+    return httpClient.put("/party/update/profile", data);
+  },
 };
 
 export default partyService;

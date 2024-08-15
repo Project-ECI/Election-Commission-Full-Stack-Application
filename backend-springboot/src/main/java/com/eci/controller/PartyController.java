@@ -36,8 +36,9 @@ public class PartyController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.loginParty(partyDto));
 	}
 
-	@PutMapping("/update-profile")
+	@PutMapping("/update/profile")
 	public ResponseEntity<?> updateProfile(@RequestBody UpdatePartyDto dto) {
+		System.out.println("////////////////");
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.updateProfile(dto));
 	}
 
