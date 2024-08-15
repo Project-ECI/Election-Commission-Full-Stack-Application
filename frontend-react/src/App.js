@@ -48,6 +48,9 @@ import AdminProfile from "./pages/Admin/AdminProfile";
 import AdminSettings from "./pages/Admin/AdminSettings";
 import VoterAllDate from "./pages/Voter/VoterAllDate";
 import VoterDistrictDate from "./pages/Voter/VoterDistrictDate";
+import AllResult from "./pages/AllResult";
+import AdminViewDate from "./pages/Admin/AdminViewDate";
+import AdminViewResult from "./pages/Admin/AdminViewResult";
 
 function App() {
   return (
@@ -120,6 +123,9 @@ function App() {
         <Route path="/admin/view/feedback" element={<ViewFeedback />} />
         <Route path="/voter/all-election-date" element={<VoterAllDate />} />
         <Route path="/voter/district-date" element={<VoterDistrictDate />} />
+        <Route path="/admin/view/date" element={<AdminViewDate />} />
+        <Route path="/admin/view/result" element={<AdminViewResult />} />
+        <Route path="/all" element={<AllResult />} />
       </Routes>
     </div>
   );
