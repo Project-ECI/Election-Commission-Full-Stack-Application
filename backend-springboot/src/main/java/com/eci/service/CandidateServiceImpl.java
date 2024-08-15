@@ -21,6 +21,8 @@ import com.eci.entity.Candidate;
 import com.eci.entity.District;
 import com.eci.entity.Party;
 import com.eci.entity.Voter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 @Transactional
@@ -36,6 +38,9 @@ public class CandidateServiceImpl implements CandidateService {
 
 	@Autowired
 	private PartyDao partyDao;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Override
 	public String registerCandidate(CandidateRegistrationDto candidateRegisterDto) {
@@ -64,7 +69,11 @@ public class CandidateServiceImpl implements CandidateService {
 		if (voterOpt.isPresent() && candidateOpt.isPresent()) {
 			if (voterOpt.get().getPassword().equals(candidLoginDto.getPassword())
 					&& candidateOpt.get().isActive() == true) {
-				return candidateOpt.get().getCandidateId().toString();
+				try {
+					return objectMapper.writeValueAsString(candidateOpt.get());
+				} catch (JsonProcessingException e) {
+					return "success";
+				}
 			}
 		}
 		return "fail";
