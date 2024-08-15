@@ -27,12 +27,19 @@ function AdminLogin() {
     e.preventDefault();
     try {
       const response = await adminService.login(loginDto);
-      if (response.data === "Login Successfull") {
-        sessionStorage.setItem("id", response.data);
-        sessionStorage.setItem("role", "admin");
-        navigate("/admin/home");
-      } else {
+      
+      if (response.data === "fail") {
+        console.log("Login failed because password didn't mathced");
         setError("Login failed. Please check your credentials.");
+      } else {
+        const admin = response.data;
+        
+        sessionStorage.setItem("id", admin.adminId);
+        sessionStorage.setItem("role", "admin");
+        sessionStorage.setItem("fullname", admin.name);
+        sessionStorage.setItem("email", admin.email);
+
+        navigate("/admin/home");
       }
     } catch (err) {
       console.error("Login failed:", err);

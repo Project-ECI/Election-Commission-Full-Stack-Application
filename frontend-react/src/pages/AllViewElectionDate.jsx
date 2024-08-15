@@ -21,7 +21,6 @@ function AllViewElectionDate() {
 
   return (
     <React.Fragment>
-      <div className="right-homepage-container">
         <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
           Election Dates
         </h1>
@@ -45,7 +44,6 @@ function AllViewElectionDate() {
         ) : (
           <p>No election dates available.</p>
         )}
-      </div>
     </React.Fragment>
   );
 }

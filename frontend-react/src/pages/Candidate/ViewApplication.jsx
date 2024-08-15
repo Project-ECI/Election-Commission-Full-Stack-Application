@@ -24,7 +24,11 @@ function ApplicationStatus() {
         const response = await candidateService.applicationStatus(
           storedCandidateId
         );
-        setApplicationStatus(response.data); // Update application status
+        setApplicationStatus(response.data);
+        if (response.data === "accepted") sessionStorage.setItem("status", "Accepted");
+        else if (response.data === "rejected") sessionStorage.setItem("status", "Rejected");
+        else if (response.data === "pending") sessionStorage.setItem("status", "Pending");
+        else sessionStorage.setItem("status", "Not Applicable");
       } catch (err) {
         console.error("Failed to fetch application status:", err);
       }
@@ -33,10 +37,6 @@ function ApplicationStatus() {
     fetchApplicationStatus();
   }, []);
 
-  const handleNavigateHome = () => {
-    navigate("/candidate/home");
-  };
-
   return (
     <div>
       <Navbar3 />
@@ -44,22 +44,27 @@ function ApplicationStatus() {
       <div className="homepage-container">
         <CandidateSidebar />
         <div className="right-homepage-container">
-          <div className="upper">
-            <h1 className="font-mont">Welcome Back!</h1>
-            <img src={image} className="img-fluid" width="320px" alt="" />
-          </div>
-
-          <div className="lower">
-            <div className="status-container">
-              <h2>Application Status</h2>
-              <p>{applicationStatus || "Loading status..."}</p>
-            </div>
-            <button
-              className="btn btn-blue margintop"
-              onClick={handleNavigateHome}
-            >
-              Go to Home Page
-            </button>
+          <div>
+            {applicationStatus === 'rejected' && (
+              <div className="alert alert-danger" role="alert">
+                Your Application is rejected by the party.
+              </div>
+            )}
+            {applicationStatus === 'accepted' && (
+              <div className="alert alert-success" role="alert">
+                Your Application is accepted by the party.
+              </div>
+            )}
+            {applicationStatus === 'pending' && (
+              <div className="alert alert-warning" role="alert">
+                Your Application is pending.
+              </div>
+            )}
+            {applicationStatus === 'NA' && (
+              <div className="alert alert-info" role="alert">
+                Application Status is not applicable to you as you are an independent candidate.
+              </div>
+            )}
           </div>
         </div>
       </div>

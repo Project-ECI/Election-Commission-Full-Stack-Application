@@ -21,9 +21,9 @@ function AllResult() {
 
   return (
     <React.Fragment>
-      <div className="right-homepage-container">
+      
         <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
-          All District Result
+          Results Declared In All Constituencies
         </h1>
         {data.length > 0 ? (
           <table className="table table-striped table-hover">
@@ -51,9 +51,11 @@ function AllResult() {
             </tbody>
           </table>
         ) : (
-          <p>Result not Declared Yet</p>
+          <div className="alert alert-warning" role="alert">
+              Results are yet to be declared.
+            </div>
         )}
-      </div>
+      
     </React.Fragment>
   );
 }
