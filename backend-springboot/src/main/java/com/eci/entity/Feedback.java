@@ -22,7 +22,5 @@ public class Feedback {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long feedbackId;
 	
-	private String feedbackTitle;
-	
 	private String feedbackDescription;
 }

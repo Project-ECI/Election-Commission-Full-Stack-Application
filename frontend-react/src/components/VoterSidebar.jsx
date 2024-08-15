@@ -16,19 +16,19 @@ function VoterSidebar() {
 
   const handleSIER = () => {
     navigate("/voter/search-in-electoral-roll");
-  }
+  };
 
   const handleFeedback = () => {
     navigate("/voter/feedback");
-  }
+  };
 
   const handleComplaint = () => {
     navigate("/voter/complaint");
-  }
+  };
 
   const handleSettings = () => {
     navigate("/voter/settings");
-  }
+  };
 
   return (
     <div className="left-homepage-container">

@@ -7,7 +7,6 @@ import com.eci.dto.SearchElectrolRollDto;
 import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoteDto;
 import com.eci.dto.ChangePasswordDto;
-import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllVoterForAdmin;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;

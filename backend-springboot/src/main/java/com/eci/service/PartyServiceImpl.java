@@ -15,7 +15,6 @@ import com.eci.dao.PartyDao;
 import com.eci.dao.VoterDao;
 import com.eci.dto.CandidateAcceptDto;
 import com.eci.dto.ChangePasswordDto;
-import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.GetAllpartyForAdmin;
 import com.eci.dto.LoginDto;

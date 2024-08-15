@@ -34,6 +34,7 @@ import DeclareResults from "./pages/Admin/DeclareResults";
 
 import { Route, Routes } from "react-router-dom";
 import ManageUsers from "./pages/Admin/ManageUser";
+import ViewFeedback from "./pages/Admin/ViewFeedback";
 
 function App() {
   return (
@@ -92,6 +93,7 @@ function App() {
         <Route path="/party/home" element={<PartyHomepage />} />{" "}
         <Route path="/party/party-candidate" element={<PartyCandidate />} />
         <Route path="/admin/manage/user" element={<ManageUsers />} />
+        <Route path="/admin/view/feedback" element={<ViewFeedback />} />
       </Routes>
     </div>
   );

@@ -29,6 +29,9 @@ const adminService = {
   deleteParty: (partyId) => {
     return httpClient.delete(`/admin/delete/party/${partyId}`);
   },
+  getAllFeedback: () => {
+    return httpClient.get("/admin/view/feedback");
+  },
 };
 
 export default adminService;

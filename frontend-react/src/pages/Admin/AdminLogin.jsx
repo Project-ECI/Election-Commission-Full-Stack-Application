@@ -29,6 +29,7 @@ function AdminLogin() {
       const response = await adminService.login(loginDto);
       if (response.data === "Login Successfull") {
         sessionStorage.setItem("id", response.data);
+        sessionStorage.setItem("role", "admin");
         navigate("/admin/home");
       } else {
         setError("Login failed. Please check your credentials.");

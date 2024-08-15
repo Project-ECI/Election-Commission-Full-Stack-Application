@@ -6,7 +6,6 @@ import java.util.Optional;
 import com.eci.dto.LoginDto;
 import com.eci.dto.CandidateNominationDto;
 import com.eci.dto.CandidateRegistrationDto;
-import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllVoterForAdmin;
 import com.eci.entity.Candidate;
 

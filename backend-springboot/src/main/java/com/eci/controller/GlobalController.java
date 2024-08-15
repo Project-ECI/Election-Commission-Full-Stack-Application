@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eci.dto.FeedbackDto;
 import com.eci.service.DistrictService;
 import com.eci.service.ElectionService;
 import com.eci.service.FeedbackService;
@@ -40,8 +39,8 @@ public class GlobalController {
 	private DistrictService districtService;
 	
 	@PostMapping("/feedback")
-	public ResponseEntity<?> giveFeedback(@RequestBody FeedbackDto dto) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(feedbackService.addFeedback(dto));
+	public ResponseEntity<?> giveFeedback(@RequestBody String discription) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(feedbackService.addFeedback(discription));
 	}
 
 	@PostMapping("/search-in-electroll-roll")

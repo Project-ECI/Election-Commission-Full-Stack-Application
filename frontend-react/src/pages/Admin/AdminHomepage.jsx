@@ -6,10 +6,10 @@ import AdminSidebar from "../../components/AdminSidebar.jsx";
 
 import React from "react";
 
-function AdminHomepage(){
-    return (
-        <React.Fragment>
-      <Navbar3></Navbar3>
+function AdminHomepage() {
+  return (
+    <React.Fragment>
+      <Navbar3 />
 
       <div className="homepage-container">
         <AdminSidebar></AdminSidebar>
@@ -73,7 +73,7 @@ function AdminHomepage(){
 
       <Footer1></Footer1>
     </React.Fragment>
-    )
+  );
 }
 
 export default AdminHomepage;
