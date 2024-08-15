@@ -7,9 +7,26 @@ import { useNavigate } from "react-router-dom";
 
 function Navbar3() {
   const navigate = useNavigate();
+
   const handleLogout = () => {
+    const role = sessionStorage.getItem("role");
     sessionStorage.clear();
-    navigate("/voter/login");
+    if (role === "voter") navigate("/voter/login");
+    else if (role === "candidate") navigate("/candidate/login");
+    else if (role === "party") navigate("/party/login");
+    else navigate("/");
+  };
+  const handleHome = () => {
+    const role = sessionStorage.getItem("role");
+    if (role === "voter") navigate("/voter/home");
+    else if (role === "candidate") navigate("/candidate/home");
+    else if (role === "party") navigate("/party/home");
+  };
+  const handleProfile = () => {
+    const role = sessionStorage.getItem("role");
+    if (role === "voter") navigate("/voter/profile");
+    else if (role === "candidate") navigate("/candidate/profile");
+    else if (role === "party") navigate("/party/profile");
   };
   return (
     <nav className="navbar padding-10 shadow">
@@ -29,12 +46,12 @@ function Navbar3() {
       </div>
 
       <div className="nav-right-container">
-        <Link to="/voter-homepage" className="nav-links">
+        <button onClick={handleHome} className="btn">
           Home
-        </Link>
-        <Link to="#footer" className="nav-links">
+        </button>
+        <button onClick={handleProfile} className="btn">
           Profile
-        </Link>
+        </button>
         <button className="btn btn-danger" onClick={handleLogout}>
           Logout
         </button>
