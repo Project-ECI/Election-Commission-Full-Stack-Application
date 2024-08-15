@@ -56,6 +56,7 @@ import AdminSettings from "./pages/Admin/AdminSettings";
 import LandingPage from "./pages/LandingPage";
 import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
+import VoterViewAllResult from "./pages/Voter/VoterViewResult";
 
 //New
 
@@ -83,6 +84,7 @@ function App() {
         <Route path="/voter/profile" element={<VoterProfile />} />
         <Route path="/voter/all-election-date" element={<VoterAllDate />} />
         <Route path="/voter/district-date" element={<VoterDistrictDate />} />
+        <Route path="/voter/view/all/result" element={<VoterViewAllResult />} />
         {/* candidate */}
         <Route path="/candidate/registration" element={<CandidateRegPage />} />
         <Route path="/candidate/login" element={<CandidateLoginPage />} />
