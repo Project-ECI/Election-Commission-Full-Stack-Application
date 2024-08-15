@@ -95,7 +95,7 @@ function PartyLoginPage() {
             </button>
             <p className="mb-0 mt-1 text-center">
               Don't have an account?{" "}
-              <Link className="blue-link" to="/party-reg">
+              <Link className="blue-link" to="/party/registration">
                 Register
               </Link>
             </p>
