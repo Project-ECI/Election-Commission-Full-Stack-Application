@@ -51,6 +51,8 @@ import VoterDistrictDate from "./pages/Voter/VoterDistrictDate";
 import AllResult from "./pages/AllResult";
 import AdminViewDate from "./pages/Admin/AdminViewDate";
 import AdminViewResult from "./pages/Admin/AdminViewResult";
+import PartyViewDate from "./pages/Party/PartyViewDate";
+import PartyViewResult from "./pages/Party/PartyViewResult";
 
 function App() {
   return (
@@ -125,6 +127,8 @@ function App() {
         <Route path="/voter/district-date" element={<VoterDistrictDate />} />
         <Route path="/admin/view/date" element={<AdminViewDate />} />
         <Route path="/admin/view/result" element={<AdminViewResult />} />
+        <Route path="/party/view/date" element={<PartyViewDate />} />{" "}
+        <Route path="/party/view/result" element={<PartyViewResult />} />
         <Route path="/all" element={<AllResult />} />
       </Routes>
     </div>
