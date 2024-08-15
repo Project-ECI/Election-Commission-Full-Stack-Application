@@ -84,9 +84,9 @@ function ManageUsers() {
             <i className="bi bi-arrow-down-square-fill form-icon2"></i>
           </div>
 
-          <div className="table-container">
+          <div className="table-responsive">
             {selectedType === "Voter" && (
-              <table className="table">
+              <table className="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -118,7 +118,7 @@ function ManageUsers() {
             )}
 
             {selectedType === "Candidate" && (
-              <table className="table">
+              <table className="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -150,7 +150,7 @@ function ManageUsers() {
             )}
 
             {selectedType === "Party" && (
-              <table className="table">
+              <table className="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th>ID</th>

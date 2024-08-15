@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.LoginDto;
-import com.eci.dto.DeleteDto;
 import com.eci.dto.ElectionDateDto;
 
 import com.eci.service.AdminService;
 import com.eci.service.CandidateService;
 import com.eci.service.ElectionService;
+import com.eci.service.FeedbackService;
 import com.eci.service.PartyService;
 import com.eci.service.VoterService;
 
@@ -40,6 +40,10 @@ public class AdminController {
 
 	@Autowired
 	private CandidateService candidateService;
+	
+	@Autowired
+	private FeedbackService feedbackService;
+	
 
 	@PostMapping("/login")
 	public ResponseEntity<?> loginAdmin(@RequestBody LoginDto loginDto) {
@@ -87,5 +91,8 @@ public class AdminController {
 		return ResponseEntity.ok(candidateService.getCndidateForAdmin());
 	}
 
-	
+	@GetMapping("/view/feedback")
+	public ResponseEntity<?> getAllFeedback() {
+		return ResponseEntity.ok(feedbackService.getAllFeedbackForAdmin());
+	}
 }

@@ -37,6 +37,7 @@ import DeclareResults from "./pages/Admin/DeclareResults";
 import ManageUsers from "./pages/Admin/ManageUser";
 
 import { Route, Routes } from "react-router-dom";
+import ViewFeedback from "./pages/Admin/ViewFeedback";
 
 function App() {
   return (
@@ -59,7 +60,7 @@ function App() {
         <Route path="/voter/feedback" element={<VoterFeedback />} />
         <Route path="/voter/complaint" element={<VoterComplaint />} />
         <Route path="/voter/settings" element={<VoterSettings />} />
-        <Route path="/voter/profile" element={<VoterProfile/> } />
+        <Route path="/voter/profile" element={<VoterProfile />} />
         {/* candidate */}
         <Route path="/candidate/registration" element={<CandidateRegPage />} />
         <Route path="/candidate/login" element={<CandidateLoginPage />} />
@@ -69,8 +70,8 @@ function App() {
           path="/candidate/application-status"
           element={<ApplicationStatus />}
         />
-        <Route path="/candidate/feedback" element={<CandidateFeedback/>} />
-        <Route path="/candidate/complaint" element={<CandidateComplaint/>} />
+        <Route path="/candidate/feedback" element={<CandidateFeedback />} />
+        <Route path="/candidate/complaint" element={<CandidateComplaint />} />
         {/* party */}
         <Route path="/party/registration" element={<PartyRegPage />} />
         <Route path="/party/login" element={<PartyLoginPage />} />
@@ -98,6 +99,7 @@ function App() {
         <Route path="/party/home" element={<PartyHomepage />} />{" "}
         <Route path="/party/party-candidate" element={<PartyCandidate />} />
         <Route path="/admin/manage/user" element={<ManageUsers />} />
+        <Route path="/admin/view/feedback" element={<ViewFeedback />} />
       </Routes>
     </div>
   );

@@ -5,17 +5,14 @@ import React, { useEffect, useState } from "react";
 import PartySidebar from "../../components/PartySidebar.jsx";
 
 function PartyHomepage() {
-  const [partyName, setPartyName] = useState("");
+  const [partyNam, setPartyNam] = useState("");
 
   useEffect(() => {
     const partyString = sessionStorage.getItem("party");
-    if (partyString) {
-      // Use regex to extract the partyName from the object string
-      const match = partyString.match(/partyName=(.*?)(,|$)/);
-      if (match) {
-        setPartyName(match[1]); // Set the partyName state
-      }
-    }
+    const party = JSON.parse(partyString);
+    const name = party.partyName;
+    setPartyNam(name);
+    console.log(partyString.search("partyName"));
   }, []); // Empty dependency array to run once on mount
   return (
     <React.Fragment>
@@ -26,7 +23,7 @@ function PartyHomepage() {
 
         <div className="right-homepage-container">
           <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
-            Welcome {partyName}
+            Welcome {partyNam}
           </h1>
           <div className="placeholder-glow">
             <span className="placeholder bg-success voter-card"></span>

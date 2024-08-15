@@ -1,7 +1,6 @@
 package com.eci.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,6 @@ import com.eci.dto.SearchElectrolRollDto;
 import com.eci.dto.UpdateVoterDto;
 import com.eci.dto.VoteDto;
 import com.eci.dto.ChangePasswordDto;
-import com.eci.dto.DeleteDto;
 import com.eci.dto.GetAllVoterForAdmin;
 import com.eci.dto.KnowYourCandidateDto;
 import com.eci.dto.LoginDto;
