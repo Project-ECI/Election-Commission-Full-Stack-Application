@@ -15,6 +15,7 @@ import com.eci.dao.PartyDao;
 import com.eci.dao.VoterDao;
 import com.eci.dto.CandidateAcceptDto;
 import com.eci.dto.ChangePasswordDto;
+import com.eci.dto.ChangePasswordPartyDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.GetAllpartyForAdmin;
 import com.eci.dto.LoginDto;
@@ -108,16 +109,15 @@ public class PartyServiceImpl implements PartyService {
 			}
 			partyOpt.get().setActive(false);
 			partyDao.save(partyOpt.get());
-			return "Party Deleted Successfully";
+			return "success";
 		}
-		return "Party not found";
+		return "fail";
 	}
 
 	@Override
 	public String updateProfile(UpdatePartyDto dto) {
 		Long partyId = Long.parseLong(dto.getPartyId());
 		Long districtId = Long.parseLong(dto.getDistrictId());
-		System.out.println("************");
 		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent()) {
 			Party partyToBeUpdated = partyOpt.get();
@@ -205,17 +205,8 @@ public class PartyServiceImpl implements PartyService {
 		return "Candidate form failed";
 	}
 
-	@Override
-	public String changePassword(ChangePasswordDto passwordDto) {
-		Long partyId = Long.parseLong(passwordDto.getVoterId());
-		Optional<Party> partyOpt = partyDao.findById(partyId);
-		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
-			partyOpt.get().setPassword(passwordDto.getNewPassword());
-			partyDao.save(partyOpt.get());
-			return "success";
-		}
-		return "Password Change failed";
-	}
+
+	
 
 	@Override
 	public List<PartyCandidateResponseDto> partyCandidate(String partyid) {
@@ -284,5 +275,30 @@ public class PartyServiceImpl implements PartyService {
 		}
 		return "Something went wrog";
 	}
+//	@Override
+//	public String changePassword( passwordDto) {
+//		Long partyId = Long.parseLong(passwordDto.getVoterId());
+//		System.out.println("***************");
+//		Optional<Party> partyOpt = partyDao.findById(partyId);
+//		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
+//			partyOpt.get().setPassword(passwordDto.getNewPassword());
+//			partyDao.save(partyOpt.get());
+//			return "success";
+//		}
+//		return "fail";
+//	}
+
+	@Override
+	public String changePassword(ChangePasswordPartyDto passwordDto) {
+		Long partyId = Long.parseLong(passwordDto.getPartyId());
+		Optional<Party> partyOpt = partyDao.findById(partyId);
+		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
+			partyOpt.get().setPassword(passwordDto.getNewPassword());
+			partyDao.save(partyOpt.get());
+			return "success";
+		}
+		return "fail";
+	}
+
 
 }

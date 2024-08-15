@@ -25,6 +25,9 @@ const partyService = {
   updateProfile: (data) => {
     return httpClient.put("/party/update/profile", data);
   },
+  changePass: (data) => {
+    return httpClient.put("/party/change/password", data);
+  },
 };
 
 export default partyService;

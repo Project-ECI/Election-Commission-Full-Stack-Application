@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.eci.dto.CandidateAcceptDto;
 import com.eci.dto.ChangePasswordDto;
+import com.eci.dto.ChangePasswordPartyDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.GetAllpartyForAdmin;
 import com.eci.dto.LoginDto;
@@ -29,7 +30,7 @@ public interface PartyService {
 	
 	public String acceptForm(CandidateAcceptDto dto);
 	
-	public String changePassword(ChangePasswordDto passwordDto);
+	public String changePassword(ChangePasswordPartyDto passwordDto);
 	
 	public List<GetAllpartyForAdmin> getPartyForAdmin();
 	

@@ -44,6 +44,7 @@ function PartySettings() {
     const id = sessionStorage.getItem("id");
     setPartyId(id);
     try {
+      console.log(dto);
       const response = await partyService.changePass(dto);
       if (response.data === "success") {
         alert("Password Change Successfully");

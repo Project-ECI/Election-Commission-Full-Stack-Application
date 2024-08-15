@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.CandidateAcceptDto;
 import com.eci.dto.ChangePasswordDto;
+import com.eci.dto.ChangePasswordPartyDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.PartyCandidateRequestDto;
 import com.eci.dto.PartyRegistrationDto;
@@ -38,7 +39,6 @@ public class PartyController {
 
 	@PutMapping("/update/profile")
 	public ResponseEntity<?> updateProfile(@RequestBody UpdatePartyDto dto) {
-		System.out.println("////////////////");
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.updateProfile(dto));
 	}
 
@@ -58,8 +58,9 @@ public class PartyController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.acceptForm(dto));
 	}
 	
-	@PutMapping("/change-password")
-	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordDto dto){
+	@PutMapping("/change/password")
+	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordPartyDto dto){
+		System.out.println(dto);
 		return ResponseEntity.status(HttpStatus.OK).body(partyService.changePassword(dto));
 	}
 	
