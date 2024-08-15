@@ -14,6 +14,9 @@ const globalService = {
   getAllResult: () => {
     return httpClient.get("/eci/view/result");
   },
+  searchVoter: (voterId) => {
+    return httpClient.get(`/eci/search-in-electroll-roll/${voterId}`);
+  },
 };
 
 // Export the service object as the default export

@@ -174,10 +174,17 @@ public class VoterServiceImpl implements VoterService {
 	}
 
 	@Override
-	public SearchElectrolRollDto searchVoter(Long voterId) {
+	public SearchElectrolRollDto searchVoter(String voterid) {
+		System.out.println("************");
+		Long voterId=Long.parseLong(voterid);
 		Optional<Voter> voterOpt = voterDao.findById(voterId);
 		if (voterOpt.isPresent()) {
-			return mapper.map(voterOpt.get(), SearchElectrolRollDto.class);
+			SearchElectrolRollDto dto=new SearchElectrolRollDto();
+			dto.setDistrict(voterOpt.get().getDistrictId().getDistrictName());
+			dto.setFullName(voterOpt.get().getFullName());
+			dto.setGender(voterOpt.get().isGender());
+			dto.setDob(voterOpt.get().getDob());
+			return dto;
 		}
 		return null;
 	}

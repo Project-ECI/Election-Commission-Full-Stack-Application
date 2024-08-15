@@ -27,7 +27,7 @@ public interface VoterService {
 
 	public List<KnowYourCandidateDto> knowYourCandidateGlobal(String districtId);
 
-	public SearchElectrolRollDto searchVoter(Long voterId);
+	public SearchElectrolRollDto searchVoter(String voterId);
 
 	public String voterDelete(String id);
 

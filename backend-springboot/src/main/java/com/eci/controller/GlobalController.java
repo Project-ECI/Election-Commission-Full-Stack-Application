@@ -44,8 +44,8 @@ public class GlobalController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(feedbackService.addFeedback(discription));
 	}
 
-	@PostMapping("/search-in-electroll-roll")
-	public ResponseEntity<?> searchVoter(@RequestParam Long voterId) {
+	@GetMapping("/search-in-electroll-roll/{voterId}")
+	public ResponseEntity<?> searchVoter(@PathVariable String voterId) {
 		return ResponseEntity.ok(voterService.searchVoter(voterId));
 	}
 

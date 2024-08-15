@@ -38,9 +38,6 @@ function KnowYourCandidate() {
         <VoterSidebar />
 
         <div className="right-homepage-container">
-          <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
-            Constitiency Candidate List
-          </h1>
           {candidateDto.map((dto, index) => (
             <div className="kyc-container mb-5">
               <div className="left-kyc-container">
