@@ -5,19 +5,36 @@ import Navbar3 from "../../components/Navbar3.jsx";
 import VoterSidebar from "../../components/VoterSidebar.jsx";
 import getAllStates from "../../services/state.service";
 import getRespectiveDistrict from "../../services/district.service";
+import voterService from "../../services/voter.service.js";
 
 function VoterProfile() {
   // State and cities dropdown
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState([]);
-  const [setDistrictId] = useState("");
-  
+  const [voterId, setVoterId] = useState("");
+  const [districtId, setDistrictId] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
+  const [districtName, setDistrictName] = useState("");
+  const dto = {
+    voterId,
+    fullName,
+    email,
+    districtId,
+    mobileNo,
+  };
   // State to manage edit mode
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     // Fetch state data from the backend when the component mounts
+    setMobileNo(sessionStorage.getItem("mobileNo"));
+    setDistrictId(sessionStorage.getItem("districtId"));
+    setFullName(sessionStorage.getItem("fullname"));
+    setVoterId(sessionStorage.getItem("id"));
+    setEmail(sessionStorage.getItem("email"));
     const fetchStates = async () => {
       try {
         const response = await getAllStates();
@@ -46,7 +63,26 @@ function VoterProfile() {
   const handleCancelClick = () => {
     setIsEditing(false);
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    try {
+      const response = await voterService.updateProfile(dto);
+      if (response.data === "success") {
+        setIsEditing(!isEditing);
+        sessionStorage.setItem("fullname", fullName);
+        sessionStorage.setItem("email", email);
+        sessionStorage.setItem("mobileNo", mobileNo);
+        sessionStorage.setItem("districtId", districtId);
+        sessionStorage.setItem("districtName", districtName);
+        alert("data sava successfully");
+      } else if (response.data === "fail") {
+        alert("fail to save");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <React.Fragment>
       <Navbar3 />
@@ -146,14 +182,15 @@ function VoterProfile() {
                 </form>
               ) : (
                 // Editable Form
-                <form id="editable-form">
+                <form id="editable-form" onSubmit={handleSubmit}>
                   <div className="form-group mb-3">
                     <label htmlFor="fullname">Full Name</label>
                     <input
                       type="text"
                       className="form-control"
                       id="fullname"
-                      defaultValue="Mrunal Maheshkar"
+                      defaultValue={sessionStorage.getItem("fullname")}
+                      onChange={(e) => setFullName(e.target.value)}
                     />
                   </div>
 
@@ -163,7 +200,7 @@ function VoterProfile() {
                       type="text"
                       className="form-control"
                       id="dob"
-                      defaultValue="03/06/2001"
+                      defaultValue={sessionStorage.getItem("dob")}
                       disabled
                     />
                   </div>
@@ -174,7 +211,7 @@ function VoterProfile() {
                       type="text"
                       className="form-control"
                       id="gender"
-                      defaultValue="Male"
+                      defaultValue={sessionStorage.getItem("gender")}
                       disabled
                     />
                   </div>
@@ -185,7 +222,8 @@ function VoterProfile() {
                       type="email"
                       className="form-control"
                       id="email"
-                      defaultValue="mrunal@gmail.com"
+                      defaultValue={sessionStorage.getItem("email")}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
@@ -195,7 +233,8 @@ function VoterProfile() {
                       type="tel"
                       className="form-control"
                       id="mobileno"
-                      defaultValue="8329529079"
+                      defaultValue={sessionStorage.getItem("mobileNo")}
+                      onChange={(e) => setMobileNo(e.target.value)}
                     />
                   </div>
 
@@ -220,7 +259,9 @@ function VoterProfile() {
                       id="city"
                       className="form-control"
                       disabled={cities.length === 0}
-                      onChange={(e) => setDistrictId(e.target.value)}
+                      onChange={(e) => {
+                        setDistrictId(e.target.value);
+                      }}
                     >
                       <option value="">Select City</option>
                       {cities.map((city) => (
@@ -232,7 +273,7 @@ function VoterProfile() {
                   </div>
 
                   <div className="editable-form-buttons">
-                    <button className="btn btn-success" type="button">
+                    <button className="btn btn-success" type="submit">
                       Update Profile
                     </button>
 

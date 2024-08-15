@@ -8,13 +8,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UpdateVoterDto {
-	private Long voterId;
+	private String voterId;
 	
 	private String fullName;
 	
 	private String email;
 	
-	private Long districtId;
+	private String districtId;
 	
 	private String mobileNo;
 }

@@ -108,23 +108,23 @@ public class VoterServiceImpl implements VoterService {
 
 			Optional<Voter> voterOpt = voterDao.findById(voterId);
 			Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
-		
+
 			// if the voter and candidate exists
 			if (voterOpt.isPresent() && candidateOpt.isPresent()) {
 				Voter voter = voterOpt.get();
 				Candidate candidate = candidateOpt.get();
 				Long districtId = voter.getDistrictId().getDistrictId();
-			
-			// can't vote if results are declared or voter has already voted
+
+				// can't vote if results are declared or voter has already voted
 //				if (electionService.isResultDeclared(districtId) || voter.isVoted()) {
-				if(voter.isVoted()) {
+				if (voter.isVoted()) {
 					return "Can't vote: you have already voted";
 				}
 				System.out.println("//////////////");
 				// can vote if it's election date and constituency matches
 				// if (voter.getDistrictId().equals(candidate.getConstituency()) &&
 				// electionService.isElectionDate(districtId))
-				if (voter.getDistrictId().getDistrictId()==candidate.getConstituency().getDistrictId()) {
+				if (voter.getDistrictId().getDistrictId() == candidate.getConstituency().getDistrictId()) {
 					System.out.println("********************");
 					voter.setVoted(true);
 					candidate.setVotes(candidate.getVotes() + 1);
@@ -176,10 +176,10 @@ public class VoterServiceImpl implements VoterService {
 	@Override
 	public SearchElectrolRollDto searchVoter(String voterid) {
 		System.out.println("************");
-		Long voterId=Long.parseLong(voterid);
+		Long voterId = Long.parseLong(voterid);
 		Optional<Voter> voterOpt = voterDao.findById(voterId);
 		if (voterOpt.isPresent()) {
-			SearchElectrolRollDto dto=new SearchElectrolRollDto();
+			SearchElectrolRollDto dto = new SearchElectrolRollDto();
 			dto.setDistrict(voterOpt.get().getDistrictId().getDistrictName());
 			dto.setFullName(voterOpt.get().getFullName());
 			dto.setGender(voterOpt.get().isGender());
@@ -191,7 +191,7 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public String voterDelete(String id) {
-		Long voterId=Long.parseLong(id);
+		Long voterId = Long.parseLong(id);
 		Optional<Voter> voterOpt = voterDao.findById(voterId);
 		if (voterOpt.isPresent() && voterOpt.get().isActive() == true) {
 			Optional<Candidate> candiateOpt = candidateDao.findByVoterId(voterOpt.get());
@@ -208,11 +208,15 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public String updateProfile(UpdateVoterDto dto) {
-		Optional<Voter> voterOpt = voterDao.findById(dto.getVoterId());
+		Long voterId = Long.parseLong(dto.getVoterId());
+		Long districtId=Long.parseLong(dto.getDistrictId());
+		
+		Optional<Voter> voterOpt = voterDao.findById(voterId);
 
 		if (voterOpt.isPresent()) {
 			Voter voterToBeUpdated = voterOpt.get();
-			Optional<District> districtOpt = districtDao.findById(dto.getDistrictId());
+			
+			Optional<District> districtOpt = districtDao.findById(districtId);
 
 			voterToBeUpdated.setDistrictId(districtOpt.get());
 			voterToBeUpdated.setEmail(dto.getEmail());
@@ -220,14 +224,14 @@ public class VoterServiceImpl implements VoterService {
 			voterToBeUpdated.setMobileNo(dto.getMobileNo());
 
 			voterDao.save(voterToBeUpdated);
-			return "Voter details updated";
+			return "success";
 		}
-		return "No such voter exists";
+		return "fail";
 	}
 
 	@Override
 	public String changePassword(ChangePasswordDto passwordDto) {
-		Long voterId=Long.parseLong(passwordDto.getVoterId());
+		Long voterId = Long.parseLong(passwordDto.getVoterId());
 		Optional<Voter> voterOpt = voterDao.findById(voterId);
 		if (voterOpt.isPresent() && voterOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
 			voterOpt.get().setPassword(passwordDto.getNewPassword());
@@ -274,7 +278,7 @@ public class VoterServiceImpl implements VoterService {
 
 		for (Voter voter : voterList) {
 			if (voter.isActive()) {
-				GetAllVoterForAdmin dto=new GetAllVoterForAdmin();
+				GetAllVoterForAdmin dto = new GetAllVoterForAdmin();
 				dto.setEmail(voter.getEmail());
 				dto.setFullName(voter.getFullName());
 				dto.setMobileNo(voter.getMobileNo());

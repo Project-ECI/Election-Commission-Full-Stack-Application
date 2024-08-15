@@ -23,6 +23,9 @@ const voterService = {
   deleteAccount: (id) => {
     return httpClient.delete(`/admin/delete/voter/${id}`);
   },
+  updateProfile: (data) => {
+    return httpClient.put("/voter/update-profile", data);
+  },
 };
 
 // Export the service object as the default export
