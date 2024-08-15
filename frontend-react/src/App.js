@@ -26,6 +26,8 @@ import PartyRegPage from "./pages/Party/PartyRegistration";
 import PartyLoginPage from "./pages/Party/PartyLogin";
 import PartyHomepage from "./pages/Party/PartyHomepage";
 import PartyCandidate from "./pages/Party/PartyCandidate";
+import PartyFeedback from "./pages/Party/PartyFeedback";
+import PartyComplaint from "./pages/Party/PartyComplaint";
 
 import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
@@ -35,9 +37,9 @@ import AdminHomepage from "./pages/Admin/AdminHomepage";
 import SetElectionDate from "./pages/Admin/SetElectionDate";
 import DeclareResults from "./pages/Admin/DeclareResults";
 import ManageUsers from "./pages/Admin/ManageUser";
+import ViewFeedback from "./pages/Admin/ViewFeedback";
 
 import { Route, Routes } from "react-router-dom";
-import ViewFeedback from "./pages/Admin/ViewFeedback";
 
 function App() {
   return (
@@ -72,6 +74,7 @@ function App() {
         />
         <Route path="/candidate/feedback" element={<CandidateFeedback />} />
         <Route path="/candidate/complaint" element={<CandidateComplaint />} />
+
         {/* party */}
         <Route path="/party/registration" element={<PartyRegPage />} />
         <Route path="/party/login" element={<PartyLoginPage />} />
@@ -80,6 +83,9 @@ function App() {
         <Route path="/party/candidate/list" element={<CandidateList />} />{" "}
         <Route path="/party/home" element={<PartyHomepage />} />{" "}
         <Route path="/party/party-candidate" element={<PartyCandidate />} />
+        <Route path="/party/feedback" element={<PartyFeedback />} />
+        <Route path="/party/complaint" element={<PartyComplaint />} />
+
         {/* admin */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/home" element={<AdminHomepage />} />
