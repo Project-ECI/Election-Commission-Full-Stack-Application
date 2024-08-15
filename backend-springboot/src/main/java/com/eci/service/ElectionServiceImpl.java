@@ -153,12 +153,10 @@ public class ElectionServiceImpl implements ElectionService {
 		Long voterId=Long.parseLong(voterid);
 		Optional<Voter> voter = voterDao.findById(voterId);
 		if (voter.isPresent()) {
-//			System.out.println("****************");
 			Optional<Election> election = electionDao.findByDistrictId(voter.get().getDistrictId());
 			ElectionDateDto dto = new ElectionDateDto();
 			dto.setDistrictId(election.get().getDistrictId().getDistrictName());
 			dto.setElectionDate(election.get().getElectionDate().toString());
-			System.out.println(dto);
 			return dto;
 		}
 		return null;
