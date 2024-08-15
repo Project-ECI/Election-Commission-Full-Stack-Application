@@ -39,7 +39,7 @@ function AdminProfile() {
 
                                 {/* Email */}
                                 <div className="form-group mb-3">
-                                    <label htmlFor="email">Party Name</label>
+                                    <label htmlFor="email">Email</label>
                                     <input
                                         type="email"
                                         className="form-control"

@@ -7,6 +7,11 @@ import React, { useEffect, useState } from "react";
 import CandidateSidebar from "../../components/CandidateSidebar.jsx";
 
 function CandidateProfile() {
+    const fullname = sessionStorage.getItem("fullname");
+    const partyName = sessionStorage.getItem("partyName");
+    const status = sessionStorage.getItem("status");
+    const constituencyName = sessionStorage.getItem("constituencyName");
+
     return (
         <React.Fragment>
             <Navbar3 />
@@ -32,7 +37,7 @@ function CandidateProfile() {
                                         type="text"
                                         className="form-control"
                                         id="fullname"
-                                        value="Narendra Modi"
+                                        value={fullname}
                                         disabled
                                     />
                                 </div>
@@ -44,7 +49,7 @@ function CandidateProfile() {
                                         type="text"
                                         className="form-control"
                                         id="party-name"
-                                        value="Bharatiya Janta Party"
+                                        value={partyName}
                                         disabled
                                     />
                                 </div>
@@ -56,7 +61,7 @@ function CandidateProfile() {
                                         type="text"
                                         className="form-control"
                                         id="status"
-                                        value="Accepted"
+                                        value={status}
                                         disabled
                                     />
                                 </div>
@@ -68,7 +73,7 @@ function CandidateProfile() {
                                         type="text"
                                         className="form-control"
                                         id="constituency"
-                                        value="Gadchiroli"
+                                        value={constituencyName}
                                         disabled
                                     />
                                 </div>
