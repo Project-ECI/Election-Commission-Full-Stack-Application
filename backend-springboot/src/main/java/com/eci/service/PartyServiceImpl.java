@@ -196,11 +196,12 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public String changePassword(ChangePasswordDto passwordDto) {
-		Optional<Party> partyOpt = partyDao.findByEmail(passwordDto.getEmail());
+		Long partyId=Long.parseLong(passwordDto.getVoterId());
+		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
 			partyOpt.get().setPassword(passwordDto.getNewPassword());
 			partyDao.save(partyOpt.get());
-			return "Password Change Successfully";
+			return "success";
 		}
 		return "Password Change failed";
 	}

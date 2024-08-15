@@ -17,6 +17,9 @@ const voterService = {
   viewDate: (voterId) => {
     return httpClient.get(`/voter/view/election-date/${voterId}`);
   },
+  changePass: (data) => {
+    return httpClient.put("/voter/change-password", data);
+  },
 };
 
 // Export the service object as the default export

@@ -227,11 +227,12 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public String changePassword(ChangePasswordDto passwordDto) {
-		Optional<Voter> voterOpt = voterDao.findByEmail(passwordDto.getEmail());
+		Long voterId=Long.parseLong(passwordDto.getVoterId());
+		Optional<Voter> voterOpt = voterDao.findById(voterId);
 		if (voterOpt.isPresent() && voterOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
 			voterOpt.get().setPassword(passwordDto.getNewPassword());
 			voterDao.save(voterOpt.get());
-			return "Password Change Successfully";
+			return "success";
 		}
 		return "Password Change failed";
 	}
