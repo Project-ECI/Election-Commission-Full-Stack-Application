@@ -46,7 +46,7 @@ public class ElectionServiceImpl implements ElectionService {
 
 	@Override
 	public String addElectionDate(ElectionDateDto dto) {
-		Long districtId=Long.parseLong(dto.getDistrictId());
+		Long districtId = Long.parseLong(dto.getDistrictId());
 		Optional<District> district = districtDao.findById(districtId);
 
 		// if districtId is valid
@@ -58,7 +58,7 @@ public class ElectionServiceImpl implements ElectionService {
 				election.get().setElectionDate(LocalDate.parse(dto.getElectionDate()));
 				election.get().setDistrictId(district.get());
 				electionDao.save(election.get());
-				return "update election date" +election.toString();
+				return "update election date" + election.toString();
 			}
 			// add new election date
 			else {
@@ -67,7 +67,7 @@ public class ElectionServiceImpl implements ElectionService {
 				election1.setElectionDate(LocalDate.parse(dto.getElectionDate()));
 				election1.setResultDeclared(false);
 				electionDao.save(election1);
-				return  "add new election date"+ election1.toString();
+				return "add new election date" + election1.toString();
 			}
 		}
 		return "Invalid District";
@@ -104,7 +104,8 @@ public class ElectionServiceImpl implements ElectionService {
 	}
 
 	@Override
-	public List<ElectionResultDto> getResultConstituency(Long voterId) {
+	public List<ElectionResultDto> getResultConstituency(String voterid) {
+		Long voterId=Long.parseLong(voterid);
 		Optional<Voter> voter = voterDao.findById(voterId);
 		Optional<Election> electionOpt = electionDao.findByDistrictId(voter.get().getDistrictId());
 		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
@@ -140,21 +141,24 @@ public class ElectionServiceImpl implements ElectionService {
 		List<ElectionDateDto> list = new ArrayList<ElectionDateDto>();
 		for (Election election : allElection) {
 			ElectionDateDto dto = new ElectionDateDto();
-//			dto.setDistrictId(election.getDistrictId().getDistrictId());
-//			dto.setElectionDate(election.getElectionDate());
+			dto.setDistrictId(election.getDistrictId().getDistrictName());
+			dto.setElectionDate(election.getElectionDate().toString());
 			list.add(dto);
 		}
 		return list;
 	}
 
 	@Override
-	public ElectionDateDto getConstituencyElection(Long voterId) {
+	public ElectionDateDto getConstituencyElection(String voterid) {
+		Long voterId=Long.parseLong(voterid);
 		Optional<Voter> voter = voterDao.findById(voterId);
 		if (voter.isPresent()) {
+//			System.out.println("****************");
 			Optional<Election> election = electionDao.findByDistrictId(voter.get().getDistrictId());
 			ElectionDateDto dto = new ElectionDateDto();
-//			dto.setDistrictId(election.get().getDistrictId().getDistrictId());
-//			dto.setElectionDate(election.get().getElectionDate());
+			dto.setDistrictId(election.get().getDistrictId().getDistrictName());
+			dto.setElectionDate(election.get().getElectionDate().toString());
+			System.out.println(dto);
 			return dto;
 		}
 		return null;
@@ -162,7 +166,7 @@ public class ElectionServiceImpl implements ElectionService {
 
 	@Override
 	public String declaredResult(String districtid) {
-		Long districtId=Long.parseLong(districtid);
+		Long districtId = Long.parseLong(districtid);
 		Optional<District> districtOpt = districtDao.findById(districtId);
 		if (districtOpt.isPresent()) {
 			List<Election> electionList = electionDao.findAllByDistrictId(districtOpt.get());
@@ -182,7 +186,7 @@ public class ElectionServiceImpl implements ElectionService {
 	public boolean isResultDeclared(Long districtId) {
 		Optional<District> districtOpt = districtDao.findById(districtId);
 		Optional<Election> electionDetailsOpt = electionDao.findByDistrictId(districtOpt.get());
-		
+
 		return electionDetailsOpt.get().isResultDeclared();
 	}
 
@@ -190,7 +194,7 @@ public class ElectionServiceImpl implements ElectionService {
 	public boolean isElectionDate(Long districtId) {
 		Optional<District> districtOpt = districtDao.findById(districtId);
 		Optional<Election> electionDetailsOpt = electionDao.findByDistrictId(districtOpt.get());
-		
+
 		LocalDate electionDate = electionDetailsOpt.get().getElectionDate();
 		return electionDate.equals(LocalDate.now());
 	}

@@ -8,6 +8,9 @@ const globalService = {
   addFeedback: (data) => {
     return httpClient.post("/eci/feedback", data);
   },
+  getAllDate: () => {
+    return httpClient.get("/eci/view/election-date");
+  },
 };
 
 // Export the service object as the default export

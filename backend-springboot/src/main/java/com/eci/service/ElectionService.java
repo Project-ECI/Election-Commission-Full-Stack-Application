@@ -10,11 +10,11 @@ public interface ElectionService {
 
 	public List<ElectionResultDto> getResult();
 
-	public List<ElectionResultDto> getResultConstituency(Long voterId);
+	public List<ElectionResultDto> getResultConstituency(String voterId);
 
 	public List<ElectionDateDto> getElectionDate();
 
-	public ElectionDateDto getConstituencyElection(Long voterId);
+	public ElectionDateDto getConstituencyElection(String voterId);
 
 	public String declaredResult(String districtId);
 	

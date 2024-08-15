@@ -102,22 +102,24 @@ public class VoterServiceImpl implements VoterService {
 
 			Optional<Voter> voterOpt = voterDao.findById(voterId);
 			Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
-
+		
 			// if the voter and candidate exists
 			if (voterOpt.isPresent() && candidateOpt.isPresent()) {
 				Voter voter = voterOpt.get();
 				Candidate candidate = candidateOpt.get();
 				Long districtId = voter.getDistrictId().getDistrictId();
-
-				// can't vote if results are declared or voter has already voted
-				if (electionService.isResultDeclared(districtId) || voter.isVoted()) {
-					return "Can't vote: Either results are declared or you have already voted";
+			
+			// can't vote if results are declared or voter has already voted
+//				if (electionService.isResultDeclared(districtId) || voter.isVoted()) {
+				if(voter.isVoted()) {
+					return "Can't vote: you have already voted";
 				}
-
+				System.out.println("//////////////");
 				// can vote if it's election date and constituency matches
 				// if (voter.getDistrictId().equals(candidate.getConstituency()) &&
 				// electionService.isElectionDate(districtId))
-				if (voter.getDistrictId().equals(candidate.getConstituency())) {
+				if (voter.getDistrictId().getDistrictId()==candidate.getConstituency().getDistrictId()) {
+					System.out.println("********************");
 					voter.setVoted(true);
 					candidate.setVotes(candidate.getVotes() + 1);
 					voterDao.save(voter);

@@ -1,12 +1,11 @@
 import Navbar3 from "../../components/Navbar3.jsx";
 import Footer1 from "../../components/Footer1.jsx";
 
-import React, { useEffect, useState } from "react";
-import voterService from "../../services/voter.service.js";
+import React from "react";
 import VoterSidebar from "../../components/VoterSidebar.jsx";
-import FeedbackPage from "../FeedbackPage.jsx";
+import AllViewElectionDate from "../AllViewElectionDate.jsx";
 
-function VoterFeedback() {
+function VoterAllDate() {
   return (
     <React.Fragment>
       <Navbar3 />
@@ -15,7 +14,7 @@ function VoterFeedback() {
         <VoterSidebar />
 
         <div className="right-homepage-container">
-          <FeedbackPage />
+          <AllViewElectionDate />
         </div>
       </div>
       <Footer1 />
@@ -23,4 +22,4 @@ function VoterFeedback() {
   );
 }
 
-export default VoterFeedback;
+export default VoterAllDate;

@@ -38,6 +38,8 @@ import ManageUsers from "./pages/Admin/ManageUser";
 
 import { Route, Routes } from "react-router-dom";
 import ViewFeedback from "./pages/Admin/ViewFeedback";
+import VoterAllDate from "./pages/Voter/VoterAllDate";
+import VoterDistrictDate from "./pages/Voter/VoterDistrictDate";
 
 function App() {
   return (
@@ -100,6 +102,8 @@ function App() {
         <Route path="/party/party-candidate" element={<PartyCandidate />} />
         <Route path="/admin/manage/user" element={<ManageUsers />} />
         <Route path="/admin/view/feedback" element={<ViewFeedback />} />
+        <Route path="/voter/all-election-date" element={<VoterAllDate />} />
+        <Route path="/voter/district-date" element={<VoterDistrictDate />} />
       </Routes>
     </div>
   );

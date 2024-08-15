@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,23 +49,23 @@ public class VoterController {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidate(voterId));
 	}
 
-	@GetMapping("/view-result")
-	public ResponseEntity<?> getResult(@RequestParam Long voterId) {
+	@GetMapping("/view-result/{voterId}")
+	public ResponseEntity<?> getResult(@PathVariable String voterId) {
 		return ResponseEntity.status(HttpStatus.OK).body(electionService.getResultConstituency(voterId));
 	}
 
-	@GetMapping("/view-election-date")
-	public ResponseEntity<?> getElectionDate(@RequestParam Long voterId) {
+	@GetMapping("/view/election-date/{voterId}")
+	public ResponseEntity<?> getElectionDate(@PathVariable String voterId) {
 		return ResponseEntity.status(HttpStatus.OK).body(electionService.getConstituencyElection(voterId));
 	}
-	
+
 	@PutMapping("/update-profile")
-	public ResponseEntity<?> updateProfile(@RequestBody UpdateVoterDto dto){
+	public ResponseEntity<?> updateProfile(@RequestBody UpdateVoterDto dto) {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.updateProfile(dto));
 	}
-	
+
 	@PutMapping("/change-password")
-	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordDto dto){
+	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordDto dto) {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.changePassword(dto));
 	}
 }

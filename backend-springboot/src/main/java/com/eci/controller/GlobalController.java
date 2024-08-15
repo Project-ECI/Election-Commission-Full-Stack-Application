@@ -54,12 +54,12 @@ public class GlobalController {
 		return ResponseEntity.status(HttpStatus.OK).body(partyService.getAllParty());
 	}
 
-	@GetMapping("/view-result")
+	@GetMapping("/view/result")
 	public ResponseEntity<?> getResult() {
 		return ResponseEntity.status(HttpStatus.OK).body(electionService.getResult());
 	}
 
-	@GetMapping("/view-election-date")
+	@GetMapping("/view/election-date")
 	public ResponseEntity<?> getElectionDate() {
 		return ResponseEntity.status(HttpStatus.OK).body(electionService.getElectionDate());
 	}
