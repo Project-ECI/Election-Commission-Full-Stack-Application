@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,8 +74,8 @@ public class GlobalController {
 		return ResponseEntity.status(HttpStatus.OK).body(districtService.findDistrictByState(stateId));
 	}
 	
-	@GetMapping("/know-your-candidate")
-	public ResponseEntity<?> knowYourCandidate(@RequestParam String districtId) {
+	@GetMapping("/know-your-candidate/{id}")
+	public ResponseEntity<?> knowYourCandidate(@PathVariable String districtId) {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidateGlobal(districtId));
 	}
 }

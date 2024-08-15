@@ -1,34 +1,66 @@
 import "../css/voter-homepage.css";
 
-import image from "../assets/images/image-for-loginpage.png"
+import image from "../assets/images/image-for-loginpage.png";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import globalService from "../services/global.service";
+import { useNavigate } from "react-router-dom";
 
 function FeedbackPage() {
-    return (
-        <React.Fragment>
-            <div className="registration-container">
-                <div className="reg-left-container">
-                    <img src={image} className="img-fluid" width="320px" alt="" />
-                </div>
+  const navigate = useNavigate();
+  const [description, setDescription] = useState("");
 
-                <div className="reg-right-container">
-                    <h1 className="font-mont">Feedback Form</h1>
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    const response = await globalService.addFeedback(description);
+    const role = sessionStorage.getItem("role");
 
-                    <form>
-                        <div className="form-group mb-3">
-                            <label htmlFor="body">Do you have suggestions on what we can do to provide you with a better service?</label>
-                            <textarea  rows="5" className="form-control" id="body" placeholder="Type here..."></textarea>
-                        </div>
+    if (role && role.toLowerCase() === "voter") {
+      navigate("/voter/home");
+    } else if (role && role.toLowerCase() === "party") {
+      navigate("/party/home");
+    } else if (role && role.toLowerCase() === "candidate") {
+      navigate("/candidate/home");
+    } else {
+      navigate("/");
+    }
 
-                        <button className="btn btn-blue col-12" type="submit">
-                            Submit Feedback
-                        </button>
-                    </form>
-                </div>
+    alert(response.data);
+  };
+
+  return (
+    <React.Fragment>
+      <div className="registration-container">
+        <div className="reg-left-container">
+          <img src={image} className="img-fluid" width="320px" alt="" />
+        </div>
+
+        <div className="reg-right-container">
+          <h1 className="font-mont">Feedback Form</h1>
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group mb-3">
+              <label htmlFor="body">
+                Do you have suggestions on what we can do to provide you with a
+                better service?
+              </label>
+              <textarea
+                rows="5"
+                className="form-control"
+                id="body"
+                placeholder="Type here..."
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
             </div>
-        </React.Fragment>
-    )
+
+            <button className="btn btn-blue col-12" type="submit">
+              Submit Feedback
+            </button>
+          </form>
+        </div>
+      </div>
+    </React.Fragment>
+  );
 }
 
 export default FeedbackPage;

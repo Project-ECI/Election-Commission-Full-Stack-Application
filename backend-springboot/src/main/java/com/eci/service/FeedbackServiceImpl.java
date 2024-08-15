@@ -22,10 +22,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 	private ModelMapper mapper;
 
 	@Override
-	public Feedback addFeedback(String discription) {
+	public String addFeedback(String discription) {
 		Feedback feedback = new Feedback();
 		feedback.setFeedbackDescription(discription);
-		return feedbackDao.save(feedback);
+		feedbackDao.save(feedback);
+		return "Feedback Submitted";
 	}
 
 	@Override

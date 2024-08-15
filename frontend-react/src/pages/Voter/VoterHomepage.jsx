@@ -44,10 +44,10 @@ function VoterHomepage() {
             </p>
 
             <p className="placeholder-glow">
-              <span class="placeholder col-10"></span>
-              <span class="placeholder col-6"></span>
-              <span class="placeholder col-10"></span>
-              <span class="placeholder col-8"></span>
+              <span className="placeholder col-10"></span>
+              <span className="placeholder col-6"></span>
+              <span className="placeholder col-10"></span>
+              <span className="placeholder col-8"></span>
             </p>
 
             <p className="placeholder-glow">

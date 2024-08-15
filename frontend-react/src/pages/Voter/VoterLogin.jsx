@@ -29,6 +29,7 @@ function VoterLoginPage() {
         setError("Login failed. Please check your credentials.");
       } else {
         sessionStorage.setItem("id", response.data);
+        sessionStorage.setItem("role", "voter");
         navigate("/voter/home");
       }
     } catch (err) {
