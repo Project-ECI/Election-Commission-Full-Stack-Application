@@ -7,6 +7,8 @@ import React from "react";
 import CandidateSidebar from "../../components/CandidateSidebar.jsx";
 
 function CandidateHomepage() {
+  const fullname = sessionStorage.getItem('fullname');
+
   return (
     <React.Fragment>
       <Navbar3></Navbar3>
@@ -16,14 +18,11 @@ function CandidateHomepage() {
 
         <div className="right-homepage-container">
           <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
-            Welcome Username!
+            Welcome {fullname}!
           </h1>
           <div className="placeholder-glow">
             <span className="placeholder bg-success voter-card"></span>
           </div>
-          <button id="download-button" className="btn btn-blue mt-2">
-            Download Voter-Id
-          </button>
 
           <div className="voter-content mt-5">
             <h1 className="font-mont text-center" style={{ fontWeight: "600" }}>

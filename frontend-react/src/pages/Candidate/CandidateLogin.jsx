@@ -27,11 +27,48 @@ function CandidateLoginPage() {
     try {
       const response = await candidateService.login(loginDto);
       if (response.data === "fail") {
-        console.error("Login failed");
+        console.log("Login failed because password didn't mathced");
         setError("Login failed. Please check your credentials.");
       } else {
-        sessionStorage.setItem("id", response.data);
+        const candidate = response.data;
+
+        sessionStorage.setItem("id", candidate.candidateId);
         sessionStorage.setItem("role", "candidate");
+        sessionStorage.setItem("fullname", candidate.voterId.fullName);
+        sessionStorage.setItem("email", candidate.voterId.email);
+        sessionStorage.setItem("isIndependent", candidate.independent);
+
+        const isRejected = candidate.rejected;
+
+        // for newly registered candidates
+        if (candidate.constituency === null) {
+          sessionStorage.setItem("constituencyName", "Not Known");
+          sessionStorage.setItem("status", "Nomination form yet to be filled");
+          sessionStorage.setItem("partyName", "Not Known");
+        }
+        else {
+          // if independent
+          if (candidate.independent === true) {
+            sessionStorage.setItem("partyName", "Independent Candidate");
+            sessionStorage.setItem("status", "Not Applicable");
+            sessionStorage.setItem("constituencyId", candidate.constituency.districtId);
+            sessionStorage.setItem("constituencyName", candidate.constituency.districtName);
+          }
+          // if standing from a party
+          else {
+            sessionStorage.setItem("partyId", candidate.party.partyId);
+            sessionStorage.setItem("partyName", candidate.party.partyName);
+            sessionStorage.setItem("constituencyId", candidate.constituency.districtId);
+            sessionStorage.setItem("constituencyName", candidate.constituency.districtName);
+            if (candidate.accepted === true)
+              sessionStorage.setItem("status", "Accepted")
+            else if (candidate.rejected === true)
+              sessionStorage.setItem("status", "Rejected")
+            else
+              sessionStorage.setItem("status", "Pending");
+          }
+        }
+
         navigate("/candidate/home");
       }
     } catch (err) {

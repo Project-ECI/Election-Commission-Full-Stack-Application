@@ -34,6 +34,9 @@ function CandidateSidebar() {
   const handleSettings = () => {
     navigate("/candidate/settings");
   };
+
+  const fullname = sessionStorage.getItem('fullname');
+  const email = sessionStorage.getItem('email');
   
   return (
     <div className="left-homepage-container">
@@ -41,8 +44,8 @@ function CandidateSidebar() {
         <div className="sidebar-section1">
           <img src={user_avatar} width="60px" alt="" />
           <div className="sidebar-section1-right">
-            <p className="sidebar-username">UserName</p>
-            <p className="sidebar-email">username@gmail.com</p>
+            <p className="sidebar-username">{fullname}</p>
+            <p className="sidebar-email">{email}</p>
           </div>
         </div>
 
