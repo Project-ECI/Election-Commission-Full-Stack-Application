@@ -12,7 +12,6 @@ import getAllStates from "../../services/state.service.js";
 import PartySidebar from "../../components/PartySidebar.jsx";
 
 function CandidateList() {
-  // State and cities dropdown
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState([]);
@@ -21,24 +20,22 @@ function CandidateList() {
   const [candidateDto, setCandidateDto] = useState([]);
 
   useEffect(() => {
-    // Fetch state data from the backend when the component mounts
     const fetchStates = async () => {
       try {
         const response = await getAllStates();
-        setStates(response.data); // Update state with fetched data
+        setStates(response.data);
       } catch (err) {
         console.error("Failed to fetch states:", err);
       }
     };
-
     fetchStates();
   }, []);
 
   const handleStateChange = async (e) => {
     const stateId = e.target.value;
     setSelectedState(stateId);
-    setDistrictId(""); // Reset city selection
-    setCities([]); // Clear cities when a new state is selected
+    setDistrictId("");
+    setCities([]);
 
     if (stateId) {
       try {
@@ -56,21 +53,20 @@ function CandidateList() {
 
   const handleCityChange = async (e) => {
     const cityId = e.target.value;
-    setDistrictId(cityId); // Set selected city
+    setDistrictId(cityId);
 
     const partyId = sessionStorage.getItem("id");
     setPartyId(partyId);
 
     if (cityId && partyId) {
-      const dto = { partyId, districtId: cityId }; // Use cityId instead of selectedCity
+      const dto = { partyId, districtId: cityId };
       try {
-        console.log(dto);
         const response = await partyService.getcandidateList(dto);
         if (response.data.length === 0) {
           console.log("No candidates found");
           setCandidateDto([]);
         } else {
-          setCandidateDto(response.data); // Assume response.data is an array of candidates
+          setCandidateDto(response.data);
         }
       } catch (err) {
         console.error("Failed to fetch candidates:", err);
@@ -79,7 +75,7 @@ function CandidateList() {
   };
 
   const handleAccept = async (candidateId) => {
-    const partyId = sessionStorage.getItem("id");
+    setPartyId(sessionStorage.getItem("id"));
     setPartyId(partyId);
     const responseDto = {
       partyId,
@@ -88,11 +84,18 @@ function CandidateList() {
     };
     try {
       const response = await partyService.acceptForm(responseDto);
-
       alert("Candidate accepted." + response);
+      setCandidateDto((prev) =>
+        prev.filter((dto) => dto.candidateId !== candidateId)
+      );
     } catch (err) {
       console.error("Failed to accept candidate:", err);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add logic to handle form submission if necessary
   };
 
   return (
@@ -102,8 +105,8 @@ function CandidateList() {
       <div className="homepage-container">
         <PartySidebar />
         <div className="right-homepage-container">
-          <div className="upper">
-            <h1 className="font-mont">Know Your Candidate</h1>
+          <form onSubmit={handleSubmit}>
+            <h1 className="font-mont">Applications</h1>
 
             {/* State Dropdown */}
             <div className="form-group mb-3">
@@ -120,7 +123,6 @@ function CandidateList() {
                   </option>
                 ))}
               </select>
-
               <i className="bi bi-arrow-down-square-fill form-icon2"></i>
             </div>
 
@@ -142,49 +144,43 @@ function CandidateList() {
               </select>
               <i className="bi bi-arrow-down-square-fill form-icon2"></i>
             </div>
-          </div>
 
-          {candidateDto.length > 0 && (
-            <div className="lower">
+            {/* Candidates Table */}
+            {candidateDto.length > 0 && (
               <div className="content">
-                <div className="left">
-                  <ul>
+                <table className="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Candidate Name</th>
+                      <th scope="col">Constituency</th>
+                      <th scope="col">Form Status</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {candidateDto.map((dto, index) => (
-                      <li key={index} className="id-card">
-                        <div className="id-header">
-                          <h2>{dto.candidateName}</h2>
-                        </div>
-                        <div className="id-body" style={{ display: "flex" }}>
-                          <div className="rightdiv">
-                            <h3>Constituency: {dto.constituency}</h3>
-                            <h3>
-                              Form Status:
-                              {dto.isAccepted ? "Accepted" : "Pending"}
-                            </h3>
-                          </div>
-                        </div>
-                        <div
-                          className="id-footer"
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            marginTop: "10px",
-                          }}
-                        >
+                      <tr key={dto.candidateId}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{dto.candidateName}</td>
+                        <td>{dto.constituency}</td>
+                        <td>{dto.isAccepted ? "Accepted" : "Pending"}</td>
+                        <td>
                           <button
+                            type="button"
                             onClick={() => handleAccept(dto.candidateId)}
                             className="btn btn-success"
                           >
                             Accept
                           </button>
-                        </div>
-                      </li>
+                        </td>
+                      </tr>
                     ))}
-                  </ul>
-                </div>
+                  </tbody>
+                </table>
               </div>
-            </div>
-          )}
+            )}
+          </form>
         </div>
       </div>
 

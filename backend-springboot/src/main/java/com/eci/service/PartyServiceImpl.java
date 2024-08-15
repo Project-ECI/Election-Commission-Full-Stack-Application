@@ -70,7 +70,7 @@ public class PartyServiceImpl implements PartyService {
 
 		if (partyOpt.isPresent() && party.getPassword().equals(partyOpt.get().getPassword())
 				&& partyOpt.get().isActive() == true)
-			return partyOpt.get().toString();
+			return partyOpt.get().getPartyId().toString();
 		return "fail";
 	}
 
@@ -89,7 +89,7 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public String deleteParty(String id) {
-		Long partyId=Long.parseLong(id);
+		Long partyId = Long.parseLong(id);
 		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent() && partyOpt.get().isActive() == true) {
 			List<Candidate> candiateList = candidateDao.findAllByParty(partyOpt.get());
@@ -215,7 +215,7 @@ public class PartyServiceImpl implements PartyService {
 		List<PartyCandidateResponseDto> partyCandidateList = new ArrayList<PartyCandidateResponseDto>();
 
 		List<Candidate> candidateList = candidateDao.findAllByParty(partyOpt.get());
-
+		System.out.println(candidateList);
 		if (candidateList.isEmpty()) {
 			return null;
 		} else {
@@ -225,17 +225,13 @@ public class PartyServiceImpl implements PartyService {
 				if (candidate.isAccepted()) {
 					PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
 					responseDto.setCandidateId(candidate.getCandidateId());
-					
+
 					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
 					responseDto.setCandidateName(voterOpt.get().getFullName());
 
-					if (candidate.isAccepted()) {
-						responseDto.setIsAccepted("Accepted");
-						responseDto.setIsRejected("false");
-					} else if (candidate.isRejected()) {
-						responseDto.setIsAccepted(null);
-						responseDto.setIsRejected("True");
-					}
+					responseDto.setIsAccepted("Accepted");
+					responseDto.setIsRejected("false");
+
 					Optional<District> districtOpt = districtDao.findById(candidate.getConstituency().getDistrictId());
 					responseDto.setConstituency(districtOpt.get().getDistrictName());
 					partyCandidateList.add(responseDto);
@@ -248,11 +244,11 @@ public class PartyServiceImpl implements PartyService {
 	@Override
 	public List<GetAllpartyForAdmin> getPartyForAdmin() {
 		List<Party> partyList = partyDao.findAll();
-		List<GetAllpartyForAdmin> dtoList=new ArrayList<GetAllpartyForAdmin>();
-		
-		for(Party party:partyList) {
+		List<GetAllpartyForAdmin> dtoList = new ArrayList<GetAllpartyForAdmin>();
+
+		for (Party party : partyList) {
 			if (party.isActive()) {
-				GetAllpartyForAdmin dto= new GetAllpartyForAdmin();
+				GetAllpartyForAdmin dto = new GetAllpartyForAdmin();
 				dto.setEmail(party.getEmail());
 				dto.setFullName(party.getPartyName());
 				dto.setObjective(party.getObjective());
@@ -261,6 +257,20 @@ public class PartyServiceImpl implements PartyService {
 			}
 		}
 		return dtoList;
+	}
+
+	@Override
+	public String removeFromParty(String candidateid) {
+		Long candidateId=Long.parseLong(candidateid);
+		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
+		
+		if (candidateOpt.isPresent()) {
+			candidateOpt.get().setAccepted(false);
+			candidateOpt.get().setRejected(true);
+			candidateDao.save(candidateOpt.get());
+			return "Candidate Remove from Party";
+		}
+		return "Something went wrog";
 	}
 
 }

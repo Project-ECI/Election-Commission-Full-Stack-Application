@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,8 +46,8 @@ public class PartyController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.getAllForm(dto));
 	}
 	
-	@PostMapping("/accepted-candidate")
-	public ResponseEntity<?> getPartyCandidate(@RequestBody String partyId) {
+	@GetMapping("/accepted-candidate/{partyId}")
+	public ResponseEntity<?> getPartyCandidate(@PathVariable String partyId) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.partyCandidate(partyId));
 	}
 	
@@ -59,5 +60,10 @@ public class PartyController {
 	@PutMapping("/change-password")
 	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordDto dto){
 		return ResponseEntity.status(HttpStatus.OK).body(partyService.changePassword(dto));
+	}
+	
+	@PutMapping("/remove/candidate/{candidateId}")
+	public ResponseEntity<?> removeFromParty(@PathVariable String candidateId){
+		return ResponseEntity.status(HttpStatus.OK).body(partyService.removeFromParty(candidateId));
 	}
 }

@@ -32,4 +32,6 @@ public interface PartyService {
 	public String changePassword(ChangePasswordDto passwordDto);
 	
 	public List<GetAllpartyForAdmin> getPartyForAdmin();
+	
+	public String removeFromParty(String candidateId);
 }

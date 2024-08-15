@@ -1,19 +1,10 @@
 import "../../css/voter-homepage.css";
 import Navbar3 from "../../components/Navbar3.jsx";
 import Footer1 from "../../components/Footer1.jsx";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PartySidebar from "../../components/PartySidebar.jsx";
 
 function PartyHomepage() {
-  const [partyNam, setPartyNam] = useState("");
-
-  useEffect(() => {
-    const partyString = sessionStorage.getItem("party");
-    const party = JSON.parse(partyString);
-    const name = party.partyName;
-    setPartyNam(name);
-    console.log(partyString.search("partyName"));
-  }, []); // Empty dependency array to run once on mount
   return (
     <React.Fragment>
       <Navbar3 />
@@ -23,7 +14,7 @@ function PartyHomepage() {
 
         <div className="right-homepage-container">
           <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
-            Welcome {partyNam}
+            Welcome
           </h1>
           <div className="placeholder-glow">
             <span className="placeholder bg-success voter-card"></span>

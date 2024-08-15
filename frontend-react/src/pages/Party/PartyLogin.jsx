@@ -30,8 +30,7 @@ function PartyLoginPage() {
         console.error("Login failed");
         setError("Login failed. Please check your credentials.");
       } else {
-        const partyJSON = JSON.stringify(response.data);
-        sessionStorage.setItem("party", partyJSON);
+        sessionStorage.setItem("id", response.data);
         sessionStorage.setItem("role", "party");
         navigate("/party/home");
       }

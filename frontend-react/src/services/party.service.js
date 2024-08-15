@@ -17,7 +17,10 @@ const partyService = {
     return httpClient.post("/party/accept-candidate-form", data);
   },
   getAcceptedCandidateList: (partyId) => {
-    return httpClient.post("/party/accepted-candidate", partyId);
+    return httpClient.get(`/party/accepted-candidate/${partyId}`);
+  },
+  removeFromParty: (candidateId) => {
+    return httpClient.put(`/party/remove/candidate/${candidateId}`);
   },
 };
 
