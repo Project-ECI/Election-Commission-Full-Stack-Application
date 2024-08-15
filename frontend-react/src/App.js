@@ -1,6 +1,8 @@
 import "./App.css";
 //Essential
 import { Route, Routes } from "react-router-dom";
+import $ from "jquery";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // Voter
 import VoterRegPage from "./pages/Voter/VoterRegistration";

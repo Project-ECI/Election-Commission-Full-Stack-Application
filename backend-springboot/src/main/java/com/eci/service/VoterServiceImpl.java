@@ -201,7 +201,7 @@ public class VoterServiceImpl implements VoterService {
 			}
 			voterOpt.get().setActive(false);
 			voterDao.save(voterOpt.get());
-			return "voter Deleted Successfully";
+			return "success";
 		}
 		return "voter not found";
 	}

@@ -20,6 +20,9 @@ const voterService = {
   changePass: (data) => {
     return httpClient.put("/voter/change-password", data);
   },
+  deleteAccount: (id) => {
+    return httpClient.delete(`/admin/delete/voter/${id}`);
+  },
 };
 
 // Export the service object as the default export
