@@ -19,6 +19,8 @@ import CandidateHomepage from "./pages/Candidate/CandidateHomepage";
 import Nominate from "./pages/Candidate/Nominate";
 import ApplicationStatus from "./pages/Candidate/ViewApplication";
 import CandidateList from "./pages/Party/CandidateList";
+import CandidateFeedback from "./pages/Candidate/CandidateFeedback";
+import CandidateComplaint from "./pages/Candidate/CandidateComplaint";
 
 import PartyRegPage from "./pages/Party/PartyRegistration";
 import PartyLoginPage from "./pages/Party/PartyLogin";
@@ -67,6 +69,8 @@ function App() {
           path="/candidate/application-status"
           element={<ApplicationStatus />}
         />
+        <Route path="/candidate/feedback" element={<CandidateFeedback/>} />
+        <Route path="/candidate/complaint" element={<CandidateComplaint/>} />
         {/* party */}
         <Route path="/party/registration" element={<PartyRegPage />} />
         <Route path="/party/login" element={<PartyLoginPage />} />
