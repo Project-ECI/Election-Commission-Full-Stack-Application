@@ -55,6 +55,7 @@ public class ElectionServiceImpl implements ElectionService {
 
 			// update election date
 			if (election.isPresent()) {
+				System.out.println(dto.getElectionDate()+"*************");
 				election.get().setElectionDate(LocalDate.parse(dto.getElectionDate()));
 				election.get().setDistrictId(district.get());
 				electionDao.save(election.get());
@@ -64,6 +65,7 @@ public class ElectionServiceImpl implements ElectionService {
 			else {
 				Election election1 = new Election();
 				election1.setDistrictId(district.get());
+				System.out.println(dto.getElectionDate()+"//////////");
 				election1.setElectionDate(LocalDate.parse(dto.getElectionDate()));
 				election1.setResultDeclared(false);
 				electionDao.save(election1);
@@ -76,36 +78,38 @@ public class ElectionServiceImpl implements ElectionService {
 
 	@Override
 	public List<ElectionResultDto> getResult() {
-		List<Candidate> listOfCandidate = candidateDao.findAll();
-		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
+		List<ElectionResultDto> list = new ArrayList<>();
+		List<District> districtList = districtDao.findAll();
 
-		for (Candidate candidate : listOfCandidate) {
-			Optional<Election> electionOpt = electionDao.findByDistrictId(candidate.getConstituency());
-			if (electionOpt.isPresent() && electionOpt.get().isResultDeclared()) {
-				if (candidate.isAccepted() && candidate.isRejected() == false) {
-					ElectionResultDto dto = new ElectionResultDto();
-					if (candidate.getParty() != null) {
-						Optional<Party> party = partyDao.findById(candidate.getParty().getPartyId());
-						dto.setPartyName(party.get().getPartyName());
-						dto.setIndependent(false);
-					} else {
-						dto.setIndependent(true);
-						dto.setPartyName(null);
+		for (District district : districtList) {
+			Optional<Election> electionOpt = electionDao.findByDistrictId(district);
+			if (electionOpt.isPresent()&&electionOpt.get().isResultDeclared()) {
+				// Use constituency since it's the correct mapping to District in Candidate
+				Optional<Candidate> topCandidateOpt = candidateDao.findTopByConstituencyOrderByVotesDesc(district);
+
+				if (topCandidateOpt.isPresent() && topCandidateOpt.get().getParty() != null) {
+					if (topCandidateOpt.get().isAccepted() || topCandidateOpt.get().isIndependent()) {
+						
+						Candidate topCandidate = topCandidateOpt.get();
+						ElectionResultDto resultDto = new ElectionResultDto();
+						resultDto.setDistrictName(district.getDistrictName());
+						resultDto.setCandiateName(topCandidate.getVoterId().getFullName()); // Assuming Voter has a
+																							// voterName
+						resultDto.setVotes(topCandidate.getVotes());
+						resultDto.setPartyName(topCandidate.getParty().getPartyName()); // Assuming Party has a partyName
+						list.add(resultDto);
 					}
-					Optional<Voter> voter = voterDao.findById(candidate.getVoterId().getVoterId());
-					dto.setCandiateName(voter.get().getFullName());
-					dto.setVotes(candidate.getVotes());
-					dto.setDistrictName(candidate.getConstituency().getDistrictName());
-					list.add(dto);
 				}
 			}
+			
 		}
+
 		return list;
 	}
 
 	@Override
 	public List<ElectionResultDto> getResultConstituency(String voterid) {
-		Long voterId=Long.parseLong(voterid);
+		Long voterId = Long.parseLong(voterid);
 		Optional<Voter> voter = voterDao.findById(voterId);
 		Optional<Election> electionOpt = electionDao.findByDistrictId(voter.get().getDistrictId());
 		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
@@ -150,7 +154,7 @@ public class ElectionServiceImpl implements ElectionService {
 
 	@Override
 	public ElectionDateDto getConstituencyElection(String voterid) {
-		Long voterId=Long.parseLong(voterid);
+		Long voterId = Long.parseLong(voterid);
 		Optional<Voter> voter = voterDao.findById(voterId);
 		if (voter.isPresent()) {
 			Optional<Election> election = electionDao.findByDistrictId(voter.get().getDistrictId());

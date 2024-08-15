@@ -11,6 +11,9 @@ const globalService = {
   getAllDate: () => {
     return httpClient.get("/eci/view/election-date");
   },
+  getAllResult: () => {
+    return httpClient.get("/eci/view/result");
+  },
 };
 
 // Export the service object as the default export
