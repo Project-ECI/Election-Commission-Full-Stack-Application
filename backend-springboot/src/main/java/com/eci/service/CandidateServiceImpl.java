@@ -130,12 +130,14 @@ public class CandidateServiceImpl implements CandidateService {
 	public String formStatus(String candidateid) {
 		Long candidateId=Long.parseLong(candidateid);
 		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
-		if (candidateOpt.get().isAccepted())
-			return "Your Form Accepted By Party";
+		if (candidateOpt.get().isIndependent())
+			return "NA";
+		else if (candidateOpt.get().isAccepted())
+			return "accepted";
 		else if (candidateOpt.get().isAccepted() == false && candidateOpt.get().isRejected() == false)
-			return "Your form is pending";
+			return "pending";
 		else
-			return "Your form is Rejected by party";
+			return "rejected";
 	}
 
 	@Override

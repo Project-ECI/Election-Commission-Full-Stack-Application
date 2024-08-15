@@ -26,6 +26,8 @@ import com.eci.dto.UpdatePartyDto;
 import com.eci.entity.District;
 import com.eci.entity.Party;
 import com.eci.entity.Voter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 @Transactional
@@ -44,6 +46,9 @@ public class PartyServiceImpl implements PartyService {
 
 	@Autowired
 	private ModelMapper mapper;
+
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Override
 	public String registerParty(PartyRegistrationDto partyDto) {
@@ -70,7 +75,11 @@ public class PartyServiceImpl implements PartyService {
 
 		if (partyOpt.isPresent() && party.getPassword().equals(partyOpt.get().getPassword())
 				&& partyOpt.get().isActive() == true)
-			return partyOpt.get().getPartyId().toString();
+			try {
+				return objectMapper.writeValueAsString(partyOpt.get());
+			} catch (JsonProcessingException e) {
+				return "success";
+			}
 		return "fail";
 	}
 
@@ -262,9 +271,9 @@ public class PartyServiceImpl implements PartyService {
 
 	@Override
 	public String removeFromParty(String candidateid) {
-		Long candidateId=Long.parseLong(candidateid);
+		Long candidateId = Long.parseLong(candidateid);
 		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
-		
+
 		if (candidateOpt.isPresent()) {
 			candidateOpt.get().setAccepted(false);
 			candidateOpt.get().setRejected(true);

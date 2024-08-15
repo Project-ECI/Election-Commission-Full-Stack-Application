@@ -32,7 +32,7 @@ function AdminProfile() {
                                         type="text"
                                         className="form-control"
                                         id="fullname"
-                                        value="Narendra Modi"
+                                        value={sessionStorage.getItem("fullname")}
                                         disabled
                                     />
                                 </div>
@@ -44,7 +44,7 @@ function AdminProfile() {
                                         type="email"
                                         className="form-control"
                                         id="email"
-                                        value="admin.name@gmail.com"
+                                        value={sessionStorage.getItem("email")}
                                         disabled
                                     />
                                 </div>

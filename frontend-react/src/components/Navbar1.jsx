@@ -6,7 +6,7 @@ import { HashLink as Link } from "react-router-hash-link";
 
 function Navbar1() {
   return (
-    <nav className="navbar padding-10 shadow">
+    <nav id="navbar" className="navbar padding-10 shadow">
       <div className="nav-left-container mt-1 mb-1">
         <Link to="/">
           <img

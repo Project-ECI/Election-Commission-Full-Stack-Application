@@ -11,27 +11,26 @@ function Navbar3() {
   const handleLogout = () => {
     const role = sessionStorage.getItem("role");
     sessionStorage.clear();
-    if (role === "voter") navigate("/voter/login");
-    else if (role === "candidate") navigate("/candidate/login");
-    else if (role === "party") navigate("/party/login");
+    if (role) navigate(`/${role}/login`);
     else navigate("/");
-  };
+  }
+
   const handleHome = () => {
     const role = sessionStorage.getItem("role");
-    if (role === "voter") navigate("/voter/home");
-    else if (role === "candidate") navigate("/candidate/home");
-    else if (role === "party") navigate("/party/home");
-  };
+    if (role) navigate(`/${role}/home`);
+    else navigate("/");
+  }
+
   const handleProfile = () => {
     const role = sessionStorage.getItem("role");
-    if (role === "voter") navigate("/voter/profile");
-    else if (role === "candidate") navigate("/candidate/profile");
-    else if (role === "party") navigate("/party/profile");
+    if (role) navigate(`/${role}/profile`);
+    else navigate("/");
   };
+
   return (
     <nav className="navbar padding-10 shadow">
       <div className="nav-left-container mt-1 mb-1">
-        <Link to="/">
+        <Link to={sessionStorage.getItem("role") ? `/${sessionStorage.getItem("role")}/home` : "/"}>
           <img
             className="nav-image"
             src={logo}
@@ -40,7 +39,8 @@ function Navbar3() {
             width="50px"
           />
         </Link>
-        <Link to="/" className="nav-link-heading">
+
+        <Link to={sessionStorage.getItem("role") ? `/${sessionStorage.getItem("role")}/home` : "/"} className="nav-link-heading">
           <span className="font-mont nav-heading">Election Commission</span>
         </Link>
       </div>
@@ -71,5 +71,4 @@ function Navbar3() {
     </nav>
   );
 }
-
 export default Navbar3;
