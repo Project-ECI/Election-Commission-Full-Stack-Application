@@ -28,6 +28,7 @@ function ApplicationStatus() {
         if (response.data === "accepted") sessionStorage.setItem("status", "Accepted");
         else if (response.data === "rejected") sessionStorage.setItem("status", "Rejected");
         else if (response.data === "pending") sessionStorage.setItem("status", "Pending");
+        else if (response.data === "not filled", sessionStorage.setItem("status", "Not Filled"));
         else sessionStorage.setItem("status", "Not Applicable");
       } catch (err) {
         console.error("Failed to fetch application status:", err);
@@ -63,6 +64,11 @@ function ApplicationStatus() {
             {applicationStatus === 'NA' && (
               <div className="alert alert-info" role="alert">
                 Application Status is not applicable to you as you are an independent candidate.
+              </div>
+            )}
+             {applicationStatus === 'not filled' && (
+              <div className="alert alert-info" role="alert">
+                You are yet to fill the nomination form.
               </div>
             )}
           </div>

@@ -1,8 +1,6 @@
 import "./App.css";
 //Essential
 import { Route, Routes } from "react-router-dom";
-import $ from "jquery";
-import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // Voter
 import VoterRegPage from "./pages/Voter/VoterRegistration";
@@ -29,6 +27,8 @@ import CandidateFeedback from "./pages/Candidate/CandidateFeedback";
 import CandidateComplaint from "./pages/Candidate/CandidateComplaint";
 import CandidateProfile from "./pages/Candidate/CandidateProfile";
 import CandidateSettings from "./pages/Candidate/CandidateSettings";
+import CandidateViewDate from "./pages/Candidate/CandidateViewDate";
+import CandidateViewResults from "./pages/Candidate/CandidateViewResults";
 
 //Party
 import PartyRegPage from "./pages/Party/PartyRegistration";
@@ -59,8 +59,6 @@ import LandingPage from "./pages/LandingPage";
 import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
 import VoterViewAllResult from "./pages/Voter/VoterViewResult";
-
-//New
 
 function App() {
   return (
@@ -100,6 +98,8 @@ function App() {
         <Route path="/candidate/complaint" element={<CandidateComplaint />} />
         <Route path="/candidate/profile" element={<CandidateProfile />} />
         <Route path="/candidate/settings" element={<CandidateSettings />} />
+        <Route path="/candidate/view/election-dates" element={<CandidateViewDate />} />
+        <Route path="/candidate/view/results" element={<CandidateViewResults />} />
         {/* party */}
         <Route path="/party/registration" element={<PartyRegPage />} />
         <Route path="/party/login" element={<PartyLoginPage />} />

@@ -136,6 +136,9 @@ public class CandidateServiceImpl implements CandidateService {
 			return "accepted";
 		else if (candidateOpt.get().isAccepted() == false && candidateOpt.get().isRejected() == false)
 			return "pending";
+		else if (candidateOpt.get().getConstituency().getDistrictId() == null) {
+			return "not filled";
+		}
 		else
 			return "rejected";
 	}
