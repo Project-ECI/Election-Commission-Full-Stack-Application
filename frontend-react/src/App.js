@@ -40,6 +40,8 @@ import ManageUsers from "./pages/Admin/ManageUser";
 import ViewFeedback from "./pages/Admin/ViewFeedback";
 
 import { Route, Routes } from "react-router-dom";
+import PartySettings from "./pages/Party/PartySettings";
+import PartyProfile from "./pages/Party/PartyProfile";
 
 function App() {
   return (
@@ -85,6 +87,8 @@ function App() {
         <Route path="/party/party-candidate" element={<PartyCandidate />} />
         <Route path="/party/feedback" element={<PartyFeedback />} />
         <Route path="/party/complaint" element={<PartyComplaint />} />
+        <Route path="/party/settings" element={<PartySettings />} />
+        <Route path="/party/profile" element={<PartyProfile />} />
 
         {/* admin */}
         <Route path="/admin/login" element={<AdminLogin />} />
