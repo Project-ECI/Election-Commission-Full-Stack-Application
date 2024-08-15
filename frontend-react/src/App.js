@@ -18,6 +18,7 @@ import VoterProfile from "./pages/Voter/VoterProfile";
 import VoterAllDate from "./pages/Voter/VoterAllDate";
 import VoterDistrictDate from "./pages/Voter/VoterDistrictDate";
 
+
 // Candidate
 import CandidateRegPage from "./pages/Candidate/CandidateRegistration";
 import CandidateLoginPage from "./pages/Candidate/CandidateLogin";
@@ -59,6 +60,7 @@ import LandingPage from "./pages/LandingPage";
 import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
 import VoterViewAllResult from "./pages/Voter/VoterViewResult";
+import VoterDistrictResult from "./pages/Voter/VoterDistrictResult";
 
 //New
 
@@ -87,6 +89,8 @@ function App() {
         <Route path="/voter/all-election-date" element={<VoterAllDate />} />
         <Route path="/voter/district-date" element={<VoterDistrictDate />} />
         <Route path="/voter/view/all/result" element={<VoterViewAllResult />} />
+        <Route path="/voter/view/result" element={<VoterDistrictResult />} />
+
         {/* candidate */}
         <Route path="/candidate/registration" element={<CandidateRegPage />} />
         <Route path="/candidate/login" element={<CandidateLoginPage />} />

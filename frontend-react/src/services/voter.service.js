@@ -26,6 +26,9 @@ const voterService = {
   updateProfile: (data) => {
     return httpClient.put("/voter/update-profile", data);
   },
+  getDistrictResult: (voterId) => {
+    return httpClient.get(`/voter/view-result/${voterId}`);
+  },
 };
 
 // Export the service object as the default export

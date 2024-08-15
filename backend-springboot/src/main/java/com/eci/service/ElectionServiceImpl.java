@@ -55,7 +55,7 @@ public class ElectionServiceImpl implements ElectionService {
 
 			// update election date
 			if (election.isPresent()) {
-				System.out.println(dto.getElectionDate()+"*************");
+				System.out.println(dto.getElectionDate() + "*************");
 				election.get().setElectionDate(LocalDate.parse(dto.getElectionDate()));
 				election.get().setDistrictId(district.get());
 				electionDao.save(election.get());
@@ -65,7 +65,7 @@ public class ElectionServiceImpl implements ElectionService {
 			else {
 				Election election1 = new Election();
 				election1.setDistrictId(district.get());
-				System.out.println(dto.getElectionDate()+"//////////");
+				System.out.println(dto.getElectionDate() + "//////////");
 				election1.setElectionDate(LocalDate.parse(dto.getElectionDate()));
 				election1.setResultDeclared(false);
 				electionDao.save(election1);
@@ -83,41 +83,45 @@ public class ElectionServiceImpl implements ElectionService {
 
 		for (District district : districtList) {
 			Optional<Election> electionOpt = electionDao.findByDistrictId(district);
-			if (electionOpt.isPresent()&&electionOpt.get().isResultDeclared()) {
+			if (electionOpt.isPresent() && electionOpt.get().isResultDeclared()) {
 				// Use constituency since it's the correct mapping to District in Candidate
 				Optional<Candidate> topCandidateOpt = candidateDao.findTopByConstituencyOrderByVotesDesc(district);
 
 				if (topCandidateOpt.isPresent() && topCandidateOpt.get().getParty() != null) {
 					if (topCandidateOpt.get().isAccepted() || topCandidateOpt.get().isIndependent()) {
-						
+
 						Candidate topCandidate = topCandidateOpt.get();
 						ElectionResultDto resultDto = new ElectionResultDto();
 						resultDto.setDistrictName(district.getDistrictName());
 						resultDto.setCandiateName(topCandidate.getVoterId().getFullName()); // Assuming Voter has a
 																							// voterName
 						resultDto.setVotes(topCandidate.getVotes());
-						resultDto.setPartyName(topCandidate.getParty().getPartyName()); // Assuming Party has a partyName
+						resultDto.setPartyName(topCandidate.getParty().getPartyName()); // Assuming Party has a
+																						// partyName
 						list.add(resultDto);
 					}
 				}
 			}
-			
+
 		}
 
 		return list;
 	}
 
 	@Override
-	public List<ElectionResultDto> getResultConstituency(String voterid) {
-		Long voterId = Long.parseLong(voterid);
-		Optional<Voter> voter = voterDao.findById(voterId);
-		Optional<Election> electionOpt = electionDao.findByDistrictId(voter.get().getDistrictId());
+	public List<ElectionResultDto> getResultConstituency(String districtid) {
+		Long districtId = Long.parseLong(districtid);
+		Optional<District> districtOpt = districtDao.findById(districtId);
+
+		Optional<Election> electionOpt = electionDao.findByDistrictId(districtOpt.get());
+
 		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
+
 		if (electionOpt.isPresent() && electionOpt.get().isResultDeclared() == true) {
-			List<Candidate> listOfCandidate = candidateDao.findByConstituency(voter.get().getDistrictId());
+			List<Candidate> listOfCandidate = candidateDao.findByConstituency(districtOpt.get());
 
 			for (Candidate candidate : listOfCandidate) {
-				if (candidate.isAccepted() == true && candidate.isRejected() == false) {
+				if (candidate.isIndependent() || candidate.isAccepted() == true && candidate.isRejected() == false) {
 					ElectionResultDto dto = new ElectionResultDto();
 					if (candidate.getParty() != null) {
 						Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
@@ -127,8 +131,8 @@ public class ElectionServiceImpl implements ElectionService {
 						dto.setIndependent(true);
 						dto.setPartyName(null);
 					}
-					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
-					dto.setCandiateName(voterOpt.get().getFullName());
+
+					dto.setCandiateName(candidate.getVoterId().getFullName());
 					dto.setVotes(candidate.getVotes());
 					dto.setDistrictName(candidate.getConstituency().getDistrictName());
 					list.add(dto);
