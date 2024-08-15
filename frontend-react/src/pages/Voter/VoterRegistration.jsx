@@ -252,8 +252,8 @@ function VoterRegPage() {
               Register
             </button>
             <p className="mb-0 mt-1 text-center">
-              Already have an account?{" "}
-              <Link className="blue-link" to="/voter-login">
+              Already have an account?
+              <Link className="blue-link" to="/voter/login">
                 Login
               </Link>
               {error && <p style={{ color: "red" }}>{error}</p>}

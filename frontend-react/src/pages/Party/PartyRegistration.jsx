@@ -193,7 +193,7 @@ function PartyRegPage() {
             </button>
             <p className="mb-0 mt-1 text-center">
               Already have an account?{" "}
-              <Link className="blue-link" to="/party-login">
+              <Link className="blue-link" to="/party/login">
                 Login
               </Link>
             </p>

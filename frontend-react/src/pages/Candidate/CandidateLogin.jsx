@@ -45,27 +45,37 @@ function CandidateLoginPage() {
           sessionStorage.setItem("constituencyName", "Not Known");
           sessionStorage.setItem("status", "Nomination form yet to be filled");
           sessionStorage.setItem("partyName", "Not Known");
-        }
-        else {
+        } else {
           // if independent
           if (candidate.independent === true) {
             sessionStorage.setItem("partyName", "Independent Candidate");
             sessionStorage.setItem("status", "Not Applicable");
-            sessionStorage.setItem("constituencyId", candidate.constituency.districtId);
-            sessionStorage.setItem("constituencyName", candidate.constituency.districtName);
+            sessionStorage.setItem(
+              "constituencyId",
+              candidate.constituency.districtId
+            );
+            sessionStorage.setItem(
+              "constituencyName",
+              candidate.constituency.districtName
+            );
           }
           // if standing from a party
           else {
             sessionStorage.setItem("partyId", candidate.party.partyId);
             sessionStorage.setItem("partyName", candidate.party.partyName);
-            sessionStorage.setItem("constituencyId", candidate.constituency.districtId);
-            sessionStorage.setItem("constituencyName", candidate.constituency.districtName);
+            sessionStorage.setItem(
+              "constituencyId",
+              candidate.constituency.districtId
+            );
+            sessionStorage.setItem(
+              "constituencyName",
+              candidate.constituency.districtName
+            );
             if (candidate.accepted === true)
-              sessionStorage.setItem("status", "Accepted")
+              sessionStorage.setItem("status", "Accepted");
             else if (candidate.rejected === true)
-              sessionStorage.setItem("status", "Rejected")
-            else
-              sessionStorage.setItem("status", "Pending");
+              sessionStorage.setItem("status", "Rejected");
+            else sessionStorage.setItem("status", "Pending");
           }
         }
 
@@ -132,8 +142,8 @@ function CandidateLoginPage() {
               Login
             </button>
             <p className="mb-0 mt-1 text-center">
-              Don't have an account?{" "}
-              <Link className="blue-link" to="/candidate-reg">
+              Don't have an account?
+              <Link className="blue-link" to="/candidate/registration">
                 Register
               </Link>
             </p>

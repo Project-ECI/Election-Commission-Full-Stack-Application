@@ -23,6 +23,7 @@ function PartySettings() {
   // For dto
   const [partyId, setPartyId] = useState("");
   const [showModal, setShowModal] = useState(false);
+  
   const dto = {
     partyId,
     oldPassword,

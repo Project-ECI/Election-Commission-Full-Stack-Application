@@ -87,7 +87,7 @@ function CandidateRegPage() {
             {/* Bottom Section */}
             <p className="mb-1 mt-2 text-center">
               Don't have a Voter-Id?{" "}
-              <Link className="blue-link" to="/voter-reg">
+              <Link className="blue-link" to="/voter/registration">
                 Register as a voter first
               </Link>
             </p>
@@ -96,7 +96,7 @@ function CandidateRegPage() {
             </button>
             <p className="mb-0 mt-1 text-center">
               Already have an account?{" "}
-              <Link className="blue-link" to="/candidate-login">
+              <Link className="blue-link" to="/candidate/login">
                 Login
               </Link>
             </p>

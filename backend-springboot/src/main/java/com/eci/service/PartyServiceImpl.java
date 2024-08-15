@@ -205,9 +205,6 @@ public class PartyServiceImpl implements PartyService {
 		return "Candidate form failed";
 	}
 
-
-	
-
 	@Override
 	public List<PartyCandidateResponseDto> partyCandidate(String partyid) {
 		// parse partyId string to long
@@ -275,18 +272,6 @@ public class PartyServiceImpl implements PartyService {
 		}
 		return "Something went wrog";
 	}
-//	@Override
-//	public String changePassword( passwordDto) {
-//		Long partyId = Long.parseLong(passwordDto.getVoterId());
-//		System.out.println("***************");
-//		Optional<Party> partyOpt = partyDao.findById(partyId);
-//		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
-//			partyOpt.get().setPassword(passwordDto.getNewPassword());
-//			partyDao.save(partyOpt.get());
-//			return "success";
-//		}
-//		return "fail";
-//	}
 
 	@Override
 	public String changePassword(ChangePasswordPartyDto passwordDto) {

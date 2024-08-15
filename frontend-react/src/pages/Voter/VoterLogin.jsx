@@ -114,7 +114,7 @@ function VoterLoginPage() {
           </form>
           <p className="mb-0 mt-1 text-center">
             Don't have an account?{" "}
-            <Link className="blue-link" to="/voter-reg">
+            <Link className="blue-link" to="/voter/registration">
               Register
             </Link>
           </p>

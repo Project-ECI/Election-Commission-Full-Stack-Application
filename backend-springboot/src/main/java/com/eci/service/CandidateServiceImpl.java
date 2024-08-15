@@ -121,9 +121,9 @@ public class CandidateServiceImpl implements CandidateService {
 		if (candidateOpt.isPresent() && candidateOpt.get().isActive() == true) {
 			candidateOpt.get().setActive(false);
 			candidateDao.save(candidateOpt.get());
-			return "Candidate Deleted Successfully";
+			return "success";
 		}
-		return "Candidate not found";
+		return "fail";
 	}
 
 	@Override

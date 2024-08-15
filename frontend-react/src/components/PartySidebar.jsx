@@ -2,10 +2,17 @@ import "../css/sidebar.css";
 import user_avatar from "../assets/images/user-avatar.png";
 
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function PartySidebar() {
+  const [partyName, setPartyName] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setPartyName(sessionStorage.getItem("partyName"));
+    setEmail(sessionStorage.getItem("email"));
+  },[]);
   const partyCandidate = () => {
     navigate("/party/candidate/list");
   };
@@ -49,8 +56,8 @@ function PartySidebar() {
         <div className="sidebar-section1">
           <img src={user_avatar} width="60px" alt="" />
           <div className="sidebar-section1-right">
-            <p className="sidebar-username">UserName</p>
-            <p className="sidebar-email">username@gmail.com</p>
+            <p className="sidebar-username">{partyName}</p>
+            <p className="sidebar-email">{email}</p>
           </div>
         </div>
 
