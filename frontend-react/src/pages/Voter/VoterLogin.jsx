@@ -28,8 +28,19 @@ function VoterLoginPage() {
         console.error("Login failed");
         setError("Login failed. Please check your credentials.");
       } else {
-        sessionStorage.setItem("id", response.data);
+        const voter = response.data;
+
+        sessionStorage.setItem("id", voter.voterId);
         sessionStorage.setItem("role", "voter");
+        sessionStorage.setItem("districtId", voter.districtId.districtId);
+        sessionStorage.setItem("dob", voter.dob);
+        sessionStorage.setItem("email", voter.email);
+        sessionStorage.setItem("fullname", voter.fullName);
+        sessionStorage.setItem("gender", voter.gender ? "Male" : "Female");
+        sessionStorage.setItem("mobileNo", voter.mobileNo);
+        sessionStorage.setItem("isVoted", voter.voted);
+        sessionStorage.setItem("stateName", voter.districtId.stateId.stateName);
+        sessionStorage.setItem("districtName", voter.districtId.districtName);
         navigate("/voter/home");
       }
     } catch (err) {

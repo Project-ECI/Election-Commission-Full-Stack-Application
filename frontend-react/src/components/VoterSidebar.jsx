@@ -47,8 +47,8 @@ function VoterSidebar() {
         <div className="sidebar-section1">
           <img src={user_avatar} width="60px" alt="" />
           <div className="sidebar-section1-right">
-            <p className="sidebar-username">UserName</p>
-            <p className="sidebar-email">username@gmail.com</p>
+            <p className="sidebar-username">{sessionStorage.getItem("fullname")}</p>
+            <p className="sidebar-email">{sessionStorage.getItem("email")}</p>
           </div>
         </div>
 

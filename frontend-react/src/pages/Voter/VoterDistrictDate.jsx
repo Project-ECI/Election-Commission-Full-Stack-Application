@@ -14,7 +14,6 @@ function VoterDistrictDate() {
         const voterId = sessionStorage.getItem("id");
         const response = await voterService.viewDate(voterId);
         setDates(response.data);
-        console.log(response.data);
       } catch (e) {
         console.error("Something went wrong" + e);
         alert("Something went wrong" + e);
