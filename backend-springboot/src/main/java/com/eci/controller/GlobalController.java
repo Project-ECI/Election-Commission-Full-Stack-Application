@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.service.DistrictService;
@@ -69,8 +68,8 @@ public class GlobalController {
 		return ResponseEntity.status(HttpStatus.OK).body(stateService.getAllState());
 	}
 	
-	@GetMapping("/get-district")
-	public ResponseEntity<?> getdistrict(@RequestParam String stateId) {
+	@GetMapping("/get-district/{stateId}")
+	public ResponseEntity<?> getdistrict(@PathVariable String stateId) {
 		return ResponseEntity.status(HttpStatus.OK).body(districtService.findDistrictByState(stateId));
 	}
 	

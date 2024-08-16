@@ -43,8 +43,8 @@ public class VoterController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(voterService.vote(dto));
 	}
 
-	@PostMapping("/know-your-candidate")
-	public ResponseEntity<?> knowYourCandidate(@RequestBody String voterId) {
+	@PostMapping("/know-your-candidate/{voterId}")
+	public ResponseEntity<?> knowYourCandidate(@PathVariable String voterId) {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidate(voterId));
 	}
 

@@ -8,8 +8,8 @@ const voterService = {
   register: (voterRegisterDto) => {
     return httpClient.post("/voter/register", voterRegisterDto);
   },
-  knowCandidate: (id) => {
-    return httpClient.post("/voter/know-your-candidate", id);
+  knowCandidate: (voterId) => {
+    return httpClient.post(`/voter/know-your-candidate/${voterId}`);
   },
   castVote: (data) => {
     return httpClient.post("/voter/vote", data);

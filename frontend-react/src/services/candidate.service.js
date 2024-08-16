@@ -12,7 +12,7 @@ const candidateService = {
     return httpClient.post("/candidate/nomination", data);
   },
   applicationStatus: (id) => {
-    return httpClient.post("/candidate/form-status/", id);
+    return httpClient.get(`/candidate/form-status/${id}`);
   },
 };
 
