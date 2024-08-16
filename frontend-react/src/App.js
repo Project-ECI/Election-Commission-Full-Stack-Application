@@ -60,7 +60,6 @@ import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
 import VoterViewAllResult from "./pages/Voter/VoterViewResult";
 import VoterDistrictResult from "./pages/Voter/VoterDistrictResult";
-import TestToast from "./pages/Test";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -138,7 +137,6 @@ function App() {
         <Route path="/article/voter" element={<VoterGuide />} />
         <Route path="/article/party" element={<PartyArticle />} />
         {/* test */}
-        <Route path="/test" element={<TestToast />} />
       </Routes>
       <ToastContainer />
     </div>
