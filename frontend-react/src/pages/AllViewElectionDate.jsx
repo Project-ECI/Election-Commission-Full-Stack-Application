@@ -12,9 +12,7 @@ function AllViewElectionDate() {
       try {
         const response = await globalService.getAllDate();
         setDates(response.data);
-        if (dates !== null) {
-          toast.success("Date Found");
-        } else toast.info("Election are not scheduled");
+        if (dates === null) toast.info("Election are not scheduled");
       } catch (e) {
         console.error("Something went wrong" + e);
         alert("Something went wrong" + e);

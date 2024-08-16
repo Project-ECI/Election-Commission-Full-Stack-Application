@@ -1,3 +1,4 @@
+import { data } from "jquery";
 import httpClient from "../http-common";
 
 // Define the service object
@@ -31,6 +32,12 @@ const adminService = {
   },
   getAllFeedback: () => {
     return httpClient.get("/admin/view/feedback");
+  },
+  changePass: (data) => {
+    return httpClient.put("/admin/change/password", data);
+  },
+  deleteAdmin: (id) => {
+    return httpClient.delete(`/admin/delete/admin/${id}`);
   },
 };
 

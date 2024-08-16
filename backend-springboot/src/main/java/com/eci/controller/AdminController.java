@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.LoginDto;
+import com.eci.dto.ChangePasswordAdminDto;
+import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.ElectionDateDto;
 
 import com.eci.service.AdminService;
@@ -69,7 +71,16 @@ public class AdminController {
 	public ResponseEntity<?> deleteVoter(@PathVariable String id ) {
 		return ResponseEntity.ok(voterService.voterDelete(id));
 	}
-
+	
+	@PutMapping("/change/password")
+	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordAdminDto dto) {
+		return ResponseEntity.status(HttpStatus.OK).body(adminService.changePassword(dto));
+	}
+	
+	@DeleteMapping("/delete/party/{adminId}")
+	public ResponseEntity<?> deleteAdmin(@PathVariable String adminId) {
+		return ResponseEntity.ok(adminService.deleteAdmin(adminId));
+	}
 	@DeleteMapping("/delete/party/{partyId}")
 	public ResponseEntity<?> deleteParty(@PathVariable String partyId) {
 		return ResponseEntity.ok(partyService.deleteParty(partyId));

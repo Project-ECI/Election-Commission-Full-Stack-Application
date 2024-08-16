@@ -12,9 +12,7 @@ function AllResult() {
       try {
         const response = await globalService.getAllResult();
         setData(response.data);
-        if (data !== null) {
-          toast.info("Result Found");
-        } else toast.info("Election result is not declared yet");
+        if (data === null) toast.info("Election result is not declared yet");
       } catch (e) {
         console.error("Something went wrong" + e);
         alert("Something went wrong" + e);
