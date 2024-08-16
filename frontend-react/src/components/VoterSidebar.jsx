@@ -2,6 +2,7 @@ import "../css/sidebar.css";
 import user_avatar from "../assets/images/user-avatar.png";
 
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function VoterSidebar() {
   const navigate = useNavigate();
@@ -41,19 +42,24 @@ function VoterSidebar() {
   const handleDate = () => {
     navigate("/voter/district-date");
   };
+
   const handleAllResult = () => {
     navigate("/voter/view/all/result");
   };
+
   const handleResult = () => {
     navigate("/voter/view/result");
   };
+
   const handleLogout = () => {
     sessionStorage.clear();
     navigate("/voter/login");
+    toast.success("Thank You!");
   };
   return (
     <div className="left-homepage-container">
       <div className="sticky-sidebar">
+        
         <div className="sidebar-section1">
           <img src={user_avatar} width="60px" alt="" />
           <div className="sidebar-section1-right">

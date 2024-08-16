@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import getAllStates from "../../services/state.service";
 import getRespectiveDistrict from "../../services/district.service";
 import voterService from "../../services/voter.service";
+import { toast } from "react-toastify";
 
 function VoterRegPage() {
   const navigate = useNavigate();
@@ -27,10 +28,10 @@ function VoterRegPage() {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+
   const [mobileNo, setMobileNo] = useState("");
   const [districtId, setDistrictId] = useState("");
-  const registerDto = {
+  const voterRegisterDto = {
     fullName,
     dob,
     gender,
@@ -53,12 +54,8 @@ function VoterRegPage() {
     const minDate = getMinimumDate();
 
     if (selectedDate > minDate) {
-      alert("You must be at least 18 years old.");
-    } else {
-      setError("");
-    }
-
-    setDob(e.target.value);
+      toast.info("You must be at least 18 years old.");
+    } else setDob(e.target.value);
   };
 
   useEffect(() => {
@@ -80,7 +77,7 @@ function VoterRegPage() {
     setSelectedState(selectedState);
     const response = await getRespectiveDistrict(selectedState);
     if (response.data.length === 0) {
-      alert("no city found");
+      toast.info("No City Found");
     } else setCities(response.data);
   };
 
@@ -91,12 +88,15 @@ function VoterRegPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await voterService.register(registerDto);
-      console.log("registration successful:" + response);
-      navigate("/voter/login");
+      console.log(voterRegisterDto);
+      const response = await voterService.register(voterRegisterDto);
+      if (response.data === "success") {
+        toast.success("Registration Successful");
+        navigate("/voter/login");
+      } else if (response.data === "fail")
+        toast.info("Email is already taken. Please try other");
     } catch (err) {
-      console.error("Login failed:", err);
-      setError("Login failed. Please check your credentials.");
+      console.error("Registration failed:", err);
     }
   };
 
@@ -117,11 +117,6 @@ function VoterRegPage() {
             assistance, and comprehensive information about candidates and their
             policies.
           </p>
-          {/* <p className="mt-3">Designed to empower citizens, our platform ensures that
-                        your voice is heard and your vote counts. Register today to become
-                        an active participant in shaping the future of your community and
-                        country with the "Election Commission".
-                    </p> */}
 
           <img src={image} className="img-fluid" width="320px" alt="" />
         </div>
@@ -160,13 +155,12 @@ function VoterRegPage() {
               <select
                 className="form-control"
                 id="gender"
-                onChange={(e) => setGender(e.target.value)}
+                onChange={(e) => setGender(e.target.value === "male")}
               >
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
               </select>
-              <i class="bi bi-arrow-down-square-fill form-icon"></i>
+              <i className="bi bi-arrow-down-square-fill form-icon"></i>
             </div>
 
             {/* Email */}
@@ -256,7 +250,6 @@ function VoterRegPage() {
               <Link className="blue-link" to="/voter/login">
                 Login
               </Link>
-              {error && <p style={{ color: "red" }}>{error}</p>}
             </p>
           </form>
         </div>

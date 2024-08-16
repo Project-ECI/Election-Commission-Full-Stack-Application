@@ -6,6 +6,7 @@ import VoterSidebar from "../../components/VoterSidebar.jsx";
 import getAllStates from "../../services/state.service";
 import getRespectiveDistrict from "../../services/district.service";
 import voterService from "../../services/voter.service.js";
+import { toast } from "react-toastify";
 
 function VoterProfile() {
   // State and cities dropdown
@@ -52,7 +53,7 @@ function VoterProfile() {
     setSelectedState(selectedState);
     const response = await getRespectiveDistrict(selectedState);
     if (response.data.length === 0) {
-      alert("No city found");
+      toast.info("No city found");
     } else setCities(response.data);
   };
 
@@ -75,9 +76,9 @@ function VoterProfile() {
         sessionStorage.setItem("mobileNo", mobileNo);
         sessionStorage.setItem("districtId", districtId);
         sessionStorage.setItem("districtName", districtName);
-        alert("data sava successfully");
+        toast.success("Data Updated!");
       } else if (response.data === "fail") {
-        alert("fail to save");
+        toast.error("Fail Update!");
       }
     } catch (err) {
       console.error(err);

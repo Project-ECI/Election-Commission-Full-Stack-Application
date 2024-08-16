@@ -4,6 +4,7 @@ import Footer1 from "../../components/Footer1.jsx";
 import React, { useEffect, useState } from "react";
 import VoterSidebar from "../../components/VoterSidebar.jsx";
 import voterService from "../../services/voter.service.js";
+import { toast } from "react-toastify";
 
 function VoterDistrictDate() {
   const [dates, setDates] = useState(null);
@@ -12,15 +13,19 @@ function VoterDistrictDate() {
     const getDate = async () => {
       try {
         const voterId = sessionStorage.getItem("id");
+
         const response = await voterService.viewDate(voterId);
         setDates(response.data);
+        if (dates !== null) {
+          toast.success("Date Found");
+        } else toast.info("Election are not scheduled");
       } catch (e) {
         console.error("Something went wrong" + e);
-        alert("Something went wrong" + e);
+        toast.error("Something went wrong");
       }
     };
     getDate();
-  });
+  }, []);
 
   return (
     <React.Fragment>

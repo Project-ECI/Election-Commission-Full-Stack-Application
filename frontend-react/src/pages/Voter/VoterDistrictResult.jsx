@@ -4,6 +4,7 @@ import Footer1 from "../../components/Footer1.jsx";
 import React, { useEffect, useState } from "react";
 import VoterSidebar from "../../components/VoterSidebar.jsx";
 import voterService from "../../services/voter.service.js";
+import { toast } from "react-toastify";
 
 function VoterDistrictResult() {
   const [data, setData] = useState([]);
@@ -15,12 +16,15 @@ function VoterDistrictResult() {
         if (id) {
           const response = await voterService.getDistrictResult(id); // Pass the id directly
           setData(response.data);
+          if (data.length > 0) {
+            toast.success("Result Found");
+          } else toast.info("Election result is not declared yet");
         } else {
           alert("District ID not found in session storage");
         }
       } catch (e) {
         console.error("Something went wrong: " + e);
-        alert("Something went wrong: " + e);
+        toast.error("Something went wrong");
       }
     };
     getDate();

@@ -118,26 +118,31 @@ public class ElectionServiceImpl implements ElectionService {
 		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
 
 		if (electionOpt.isPresent() && electionOpt.get().isResultDeclared() == true) {
+
 			List<Candidate> listOfCandidate = candidateDao.findByConstituency(districtOpt.get());
+			if (!listOfCandidate.isEmpty()) {
+				for (Candidate candidate : listOfCandidate) {
+					if (candidate.isIndependent()
+							|| candidate.isAccepted() == true && candidate.isRejected() == false) {
+						ElectionResultDto dto = new ElectionResultDto();
+						if (candidate.getParty() != null) {
+							Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
+							dto.setPartyName(partyOpt.get().getPartyName());
+							dto.setIndependent(false);
+						} else {
+							dto.setIndependent(true);
+							dto.setPartyName(null);
+						}
 
-			for (Candidate candidate : listOfCandidate) {
-				if (candidate.isIndependent() || candidate.isAccepted() == true && candidate.isRejected() == false) {
-					ElectionResultDto dto = new ElectionResultDto();
-					if (candidate.getParty() != null) {
-						Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
-						dto.setPartyName(partyOpt.get().getPartyName());
-						dto.setIndependent(false);
-					} else {
-						dto.setIndependent(true);
-						dto.setPartyName(null);
+						dto.setCandiateName(candidate.getVoterId().getFullName());
+						dto.setVotes(candidate.getVotes());
+						dto.setDistrictName(candidate.getConstituency().getDistrictName());
+						list.add(dto);
 					}
-
-					dto.setCandiateName(candidate.getVoterId().getFullName());
-					dto.setVotes(candidate.getVotes());
-					dto.setDistrictName(candidate.getConstituency().getDistrictName());
-					list.add(dto);
 				}
+				return list;
 			}
+
 			return list;
 		}
 		return list;
@@ -159,15 +164,17 @@ public class ElectionServiceImpl implements ElectionService {
 	@Override
 	public ElectionDateDto getConstituencyElection(String voterid) {
 		Long voterId = Long.parseLong(voterid);
-		Optional<Voter> voter = voterDao.findById(voterId);
-		if (voter.isPresent()) {
-			Optional<Election> election = electionDao.findByDistrictId(voter.get().getDistrictId());
-			ElectionDateDto dto = new ElectionDateDto();
-			dto.setDistrictId(election.get().getDistrictId().getDistrictName());
-			dto.setElectionDate(election.get().getElectionDate().toString());
+		Optional<Voter> voterOpt = voterDao.findById(voterId);
+
+		ElectionDateDto dto = new ElectionDateDto();
+		Optional<Election> electionOpt = electionDao.findByDistrictId(voterOpt.get().getDistrictId());
+
+		if (voterOpt.isPresent() && electionOpt.isPresent()) {
+			dto.setDistrictId(electionOpt.get().getDistrictId().getDistrictName());
+			dto.setElectionDate(electionOpt.get().getElectionDate().toString());
 			return dto;
 		}
-		return null;
+		return dto;
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class VoterController {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.knowYourCandidate(voterId));
 	}
 
-	@GetMapping("/view-result/{voterId}")
+	@GetMapping("/view/result/{districtId}")
 	public ResponseEntity<?> getResult(@PathVariable String districtId) {
 		return ResponseEntity.status(HttpStatus.OK).body(electionService.getResultConstituency(districtId));
 	}
@@ -64,7 +64,7 @@ public class VoterController {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.updateProfile(dto));
 	}
 
-	@PutMapping("/change-password")
+	@PutMapping("/change/password")
 	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordDto dto) {
 		return ResponseEntity.status(HttpStatus.OK).body(voterService.changePassword(dto));
 	}

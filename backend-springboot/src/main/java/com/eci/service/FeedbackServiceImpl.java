@@ -26,7 +26,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 		Feedback feedback = new Feedback();
 		feedback.setFeedbackDescription(discription);
 		feedbackDao.save(feedback);
-		return "Feedback Submitted";
+		return "success";
 	}
 
 	@Override

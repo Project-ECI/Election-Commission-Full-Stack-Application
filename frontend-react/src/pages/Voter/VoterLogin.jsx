@@ -8,7 +8,7 @@ import image from "../../assets/images/image-for-loginpage.png";
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import voterService from "../../services/voter.service";
 

@@ -14,7 +14,7 @@ public class VoterRegisterationDto {
 
 	private LocalDate dob;
 
-	private boolean gender;
+	private String gender;
 
 	private String email;
 
@@ -22,5 +22,5 @@ public class VoterRegisterationDto {
 
 	private String mobileNo;
 
-	private Long districtId;
+	private String districtId;
 }

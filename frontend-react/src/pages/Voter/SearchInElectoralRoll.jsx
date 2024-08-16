@@ -9,6 +9,7 @@ import Footer1 from "../../components/Footer1.jsx";
 import React, { useState } from "react";
 import globalService from "../../services/global.service.js";
 import VoterSidebar from "../../components/VoterSidebar.jsx";
+import { toast } from "react-toastify";
 
 function SearchInElectoralRoll() {
   const [voterId, setVoterId] = useState("");
@@ -19,7 +20,9 @@ function SearchInElectoralRoll() {
     try {
       const response = await globalService.searchVoter(voterId);
       setData(response.data);
-      console.log(response.data);
+      if (response.data === null) {
+        toast.info("No Voter Found");
+      }
     } catch (error) {
       console.error("Error fetching voter data:", error);
       setData([]); // Handle error by setting an empty array

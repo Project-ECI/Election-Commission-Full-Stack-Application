@@ -5,8 +5,8 @@ const voterService = {
   login: (data) => {
     return httpClient.post("/voter/login", data);
   },
-  register: (data) => {
-    return httpClient.post("/voter/register", data);
+  register: (voterRegisterDto) => {
+    return httpClient.post("/voter/register", voterRegisterDto);
   },
   knowCandidate: (id) => {
     return httpClient.post("/voter/know-your-candidate", id);
@@ -18,7 +18,7 @@ const voterService = {
     return httpClient.get(`/voter/view/election-date/${voterId}`);
   },
   changePass: (data) => {
-    return httpClient.put("/voter/change-password", data);
+    return httpClient.put("/voter/change/password", data);
   },
   deleteAccount: (id) => {
     return httpClient.delete(`/admin/delete/voter/${id}`);
@@ -26,8 +26,8 @@ const voterService = {
   updateProfile: (data) => {
     return httpClient.put("/voter/update-profile", data);
   },
-  getDistrictResult: (voterId) => {
-    return httpClient.get(`/voter/view-result/${voterId}`);
+  getDistrictResult: (districtId) => {
+    return httpClient.get(`/voter/view/result/${districtId}`);
   },
 };
 

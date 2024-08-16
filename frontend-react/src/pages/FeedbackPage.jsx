@@ -5,6 +5,7 @@ import image from "../assets/images/image-for-loginpage.png";
 import React, { useState } from "react";
 import globalService from "../services/global.service";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function FeedbackPage() {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ function FeedbackPage() {
     event.preventDefault(); // Prevent the default form submission
     const response = await globalService.addFeedback(description);
     const role = sessionStorage.getItem("role");
-
+    if (response.data === "success") toast.success("Feedback Submitted");
+    else toast.error("Something went wrong");
     if (role && role.toLowerCase() === "voter") {
       navigate("/voter/home");
     } else if (role && role.toLowerCase() === "party") {
@@ -24,8 +26,6 @@ function FeedbackPage() {
     } else {
       navigate("/");
     }
-
-    alert(response.data);
   };
 
   return (

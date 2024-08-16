@@ -11,6 +11,7 @@ import adminService from "../../services/admin.service.js";
 
 // Import React-Bootstrap components
 import { Modal, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 function VoterSettings() {
   const navigate = useNavigate();
@@ -50,13 +51,13 @@ function VoterSettings() {
     try {
       const response = await voterService.changePass(dto);
       if (response.data === "success") {
-        alert("Password Change Successfully");
+        toast.success("Password Change Successfully");
         navigate("/voter/settings");
         setOldPassword("");
         setNewPassword("");
         setToggle(!toggle);
       } else {
-        alert("Fail");
+        toast.error("Fail");
         navigate("/voter/settings");
       }
     } catch (e) {
@@ -68,12 +69,12 @@ function VoterSettings() {
     const id = sessionStorage.getItem("id");
     setVoterId(id);
     try {
-      const response = await adminService.deleteVoter(voterId);
+      const response = await adminService.deleteVoter(id);
       if (response.data === "success") {
-        alert("Account deleted successfully.");
+        toast.error("Account deleted successfully.");
         navigate("/voter/login");
       } else {
-        alert("Failed to delete account.");
+        toast.error("Failed to delete account.");
       }
     } catch (e) {
       alert(e);

@@ -7,6 +7,7 @@ import Footer1 from "../../components/Footer1.jsx";
 import React, { useEffect, useState } from "react";
 import voterService from "../../services/voter.service.js";
 import VoterSidebar from "../../components/VoterSidebar.jsx";
+import { toast } from "react-toastify";
 
 function KnowYourCandidate() {
   const [candidateDto, setCandidateDto] = useState([]);
@@ -18,7 +19,7 @@ function KnowYourCandidate() {
         try {
           const response = await voterService.knowCandidate(candidateId);
           if (response.data.length === 0) {
-            console.log("No candidate found");
+            toast.info("No candidate found");
           } else {
             setCandidateDto(response.data); // Assume response.data is an array of candidates
           }

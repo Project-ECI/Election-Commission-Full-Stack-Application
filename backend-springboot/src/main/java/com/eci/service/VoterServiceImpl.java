@@ -53,22 +53,27 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public String registerVoter(VoterRegisterationDto registerDto) {
-		Optional<District> districtOpt = districtDao.findById(registerDto.getDistrictId());
+		Long districtId=Long.parseLong(registerDto.getDistrictId());
+		
+		Optional<District> districtOpt = districtDao.findById(districtId);
 		Optional<Voter> voterOpt = voterDao.findByEmail(registerDto.getEmail());
 		if (voterOpt.isEmpty()) {
 			Voter voter = new Voter();
 			voter.setFullName(registerDto.getFullName());
 			voter.setDob(registerDto.getDob());
 			voter.setEmail(registerDto.getEmail());
-			voter.setGender(registerDto.isGender());
+			if (registerDto.getGender().equals("male")) {
+				voter.setGender(true);
+			}else
+				voter.setGender(false);
 			voter.setMobileNo(registerDto.getMobileNo());
 			voter.setPassword(registerDto.getPassword());
 			voter.setActive(true);
 			voter.setDistrictId(districtOpt.get());
-			Voter savedVoter = voterDao.save(voter);
-			return "Registration Successfull " + savedVoter.toString();
+			voterDao.save(voter);
+			return "success";
 		}
-		return "Registration Fail";
+		return "fail";
 	}
 
 	@Override

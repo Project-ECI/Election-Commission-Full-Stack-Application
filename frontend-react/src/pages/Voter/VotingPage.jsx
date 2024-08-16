@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import voterService from "../../services/voter.service.js";
 import { useNavigate } from "react-router-dom";
 import VoterSidebar from "../../components/VoterSidebar.jsx";
+import { toast } from "react-toastify";
 
 function VotingPage() {
   const navigate = useNavigate();
@@ -19,27 +20,20 @@ function VotingPage() {
   const [electionDate, setElectionDate] = useState(null);
 
   const isVoted = sessionStorage.getItem("isVoted") === "true"; // Ensure isVoted is treated as a boolean
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
 
-  useEffect(() => {
-    const fetchCandidate = async () => {
-      const storedVoterId = sessionStorage.getItem("id");
-      if (storedVoterId) {
-        try {
-          setVoterId(storedVoterId);
-          const response = await voterService.knowCandidate(storedVoterId);
-          if (response.data.length === 0) {
-            console.log("No candidate found");
-          } else {
-            setCandidateDto(response.data); // Assume response.data is an array of candidates
-          }
-        } catch (error) {
-          console.error("Error fetching candidate data:", error);
-        }
+  const fetchCandidate = async () => {
+    const storedVoterId = sessionStorage.getItem("id");
+    if (storedVoterId) {
+      try {
+        setVoterId(storedVoterId);
+        const response = await voterService.knowCandidate(storedVoterId);
+        setCandidateDto(response.data); // Assume response.data is an array of candidates
+      } catch (error) {
+        console.error("Error fetching candidate data:", error);
       }
-    };
-    fetchCandidate();
-  }, []);
+    }
+  };
 
   useEffect(() => {
     const getDate = async () => {
@@ -47,9 +41,10 @@ function VotingPage() {
         const voterId = sessionStorage.getItem("id");
         const response = await voterService.viewDate(voterId);
         setElectionDate(response.data.electionDate);
+        if (today === electionDate) fetchCandidate();
       } catch (e) {
         console.error("Something went wrong: " + e);
-        alert("Something went wrong: " + e);
+        toast.error("Something went wrong ");
       }
     };
     getDate();
@@ -65,11 +60,11 @@ function VotingPage() {
     try {
       if (selectedCandidate !== null) {
         const dto = { voterId, candidateId }; // Use the updated state
-        console.log(dto);
         const response = await voterService.castVote(dto);
-        alert(response.data);
+        console.log(response.data);
         sessionStorage.setItem("isVoted", true);
         navigate("/voter/home");
+        toast.success("Thank for your Vote!");
       } else {
         console.error("No candidate selected");
       }
@@ -89,17 +84,37 @@ function VotingPage() {
           {/* Condition 1: If the user has already voted */}
           {isVoted && (
             <div className="alert alert-warning" role="alert">
-              <p>It looks like you've already cast your vote for this election. Each voter is allowed to vote only once to ensure a fair and secure voting process.</p>
-              <p> If you believe there is an error or if you have any questions, please <a href="/voter/complaint">register a complaint</a> regarding the issue.</p>
+              <p>
+                It looks like you've already cast your vote for this election.
+                Each voter is allowed to vote only once to ensure a fair and
+                secure voting process.
+              </p>
+              <p>
+                {" "}
+                If you believe there is an error or if you have any questions,
+                please <a href="/voter/complaint">register a complaint</a>{" "}
+                regarding the issue.
+              </p>
             </div>
           )}
 
           {/* Condition 2: If today is not the election date */}
           {!isVoted && today !== electionDate && (
             <div className="alert alert-warning" role="alert">
-              <p>Voting is not available today as it is not the scheduled election date.</p>
-              <p>Please check the <a href="/voter/district-date">election schedule</a> or <a href="/voter/complaint">contact the election commission</a> for more details.</p>
-              <p>We appreciate your patience and encourage you to be prepared for the election day.</p> 
+              <p>
+                Voting is not available today as it is not the scheduled
+                election date.
+              </p>
+              <p>
+                Please check the{" "}
+                <a href="/voter/district-date">election schedule</a> or{" "}
+                <a href="/voter/complaint">contact the election commission</a>{" "}
+                for more details.
+              </p>
+              <p>
+                We appreciate your patience and encourage you to be prepared for
+                the election day.
+              </p>
             </div>
           )}
 
