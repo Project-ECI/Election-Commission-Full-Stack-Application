@@ -21,20 +21,20 @@ function Nominate() {
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedCity, setSelectedCity] = useState(""); // cityId
 
   // Party
-  const [party, setParty] = useState([]);
+  const [partyAll, setParty] = useState([]);
   const [selectedParty, setSelectedParty] = useState("");
   const [isIndependent, setIsIndependent] = useState(false);
 
-  //candidate
+  // Candidate
   const [candidateId, setCandidateId] = useState("");
   const dto = {
     candidateId,
-    selectedParty,
+    party: selectedParty,
     isIndependent,
-    selectedCity,
+    constituency: selectedCity,
   };
 
   // Fetch states and parties
@@ -47,6 +47,7 @@ function Nominate() {
 
         const response1 = await partyService.allParty();
         setParty(response1.data);
+        console.log(response1.data);
       } catch (err) {
         console.error("Failed to fetch states or parties:", err);
       }
@@ -76,7 +77,7 @@ function Nominate() {
   };
 
   const handleCityChange = (e) => {
-    setSelectedCity(e.target.value);
+    setSelectedCity(e.target.value); // Set selectedCity to cityId
   };
 
   const handleNominationTypeChange = (e) => {
@@ -87,20 +88,25 @@ function Nominate() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(dto);
       if (selectedCity && (isIndependent || selectedParty)) {
         const response = await candidateService.nominate(dto);
-        sessionStorage.setItem("constituencyId", dto.selectedCity);
+        console.log(response.data);
+        sessionStorage.setItem("constituencyId", selectedCity);
         sessionStorage.setItem("isIndependent", dto.isIndependent);
         sessionStorage.setItem("partyId", dto.selectedParty);
 
         navigate("/candidate/home");
         toast.success("Your nomination form has been successfully submitted!");
-
       } else {
-        toast.warn("Please fill out all required fields before submitting the form.");
+        toast.warn(
+          "Please fill out all required fields before submitting the form."
+        );
       }
     } catch (err) {
-      toast.error("Oops! Something went wrong on our end. Please try again later.")
+      toast.error(
+        "Oops! Something went wrong on our end. Please try again later."
+      );
     }
   };
 
@@ -113,12 +119,14 @@ function Nominate() {
         <div className="right-homepage-container">
           {sessionStorage.getItem("constituencyId") ? (
             // if already filled nomination form
-            <div class="alert alert-warning" role="alert">
-              You have already filled the nomination form. <a href="/candidate/application-status">Click here</a> to see your application status.
-            </div>) : 
-            
+            <div className="alert alert-warning" role="alert">
+              You have already filled the nomination form.{" "}
+              <a href="/candidate/application-status">Click here</a> to see your
+              application status.
+            </div>
+          ) : (
             // if nomination form isn't filled
-            (<div className="registration-container">
+            <div className="registration-container">
               {/* Left Container */}
               <div className="reg-left-container">
                 <img src={image} className="img-fluid" width="320px" alt="" />
@@ -169,16 +177,31 @@ function Nominate() {
 
                   {/* Candidate Type */}
                   <div className="form-group mb-3">
-
-                    <div class="form-check">
-                      <input className="form-check-input" checked={isIndependent} onChange={handleNominationTypeChange} type="radio" name="candidateType" value="independent" id="independent" />
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        checked={isIndependent}
+                        onChange={handleNominationTypeChange}
+                        type="radio"
+                        name="candidateType"
+                        value="independent"
+                        id="independent"
+                      />
                       <label className="form-check-label" htmlFor="independent">
                         Stand as an Independent Candidate
                       </label>
                     </div>
 
-                    <div class="form-check">
-                      <input className="form-check-input" type="radio" id="party" name="candidateType" value="party" checked={!isIndependent} onChange={handleNominationTypeChange} />
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        id="party"
+                        name="candidateType"
+                        value="party"
+                        checked={!isIndependent}
+                        onChange={handleNominationTypeChange}
+                      />
                       <label className="form-check-label" htmlFor="party">
                         Stand from a Party
                       </label>
@@ -192,10 +215,10 @@ function Nominate() {
                         id="party"
                         className="form-control"
                         value={selectedParty}
-                        onChange={(e) => setSelectedParty(e.target.value)}
+                        onChange={(e) => setSelectedParty(e.target.value)} // Setting selectedParty as partyId
                       >
                         <option value="">Select Party</option>
-                        {party.map((p) => (
+                        {partyAll.map((p) => (
                           <option key={p.partyId} value={p.partyId}>
                             {p.partyName}
                           </option>
@@ -211,8 +234,8 @@ function Nominate() {
                   </button>
                 </form>
               </div>
-            </div>)
-          }
+            </div>
+          )}
         </div>
       </div>
 

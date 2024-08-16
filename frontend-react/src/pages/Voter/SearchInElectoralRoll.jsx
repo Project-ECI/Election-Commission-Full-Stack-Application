@@ -20,11 +20,12 @@ function SearchInElectoralRoll() {
     try {
       const response = await globalService.searchVoter(voterId);
       setData(response.data);
-      if (response.data === null) {
-        toast.info("No Voter Found");
+      if (!response.data) {
+        toast.warning("No Such Voter Exists!");
       }
     } catch (error) {
       console.error("Error fetching voter data:", error);
+      toast.error("Internal Server Error. Try again after some time!");
       setData([]); // Handle error by setting an empty array
     }
   };

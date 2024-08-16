@@ -19,21 +19,9 @@ function VotingPage() {
   const [candidateId, setCandidateId] = useState("");
   const [electionDate, setElectionDate] = useState(null);
 
-  const isVoted = sessionStorage.getItem("isVoted") === "true"; // Ensure isVoted is treated as a boolean
+  const isVoted = sessionStorage.getItem("isVoted") === "true";
   const today = new Date().toISOString().split("T")[0];
-
-  const fetchCandidate = async () => {
-    const storedVoterId = sessionStorage.getItem("id");
-    if (storedVoterId) {
-      try {
-        setVoterId(storedVoterId);
-        const response = await voterService.knowCandidate(storedVoterId);
-        setCandidateDto(response.data); // Assume response.data is an array of candidates
-      } catch (error) {
-        console.error("Error fetching candidate data:", error);
-      }
-    }
-  };
+  const isElectionDay = today === electionDate;
 
   useEffect(() => {
     const getDate = async () => {
@@ -41,14 +29,29 @@ function VotingPage() {
         const voterId = sessionStorage.getItem("id");
         const response = await voterService.viewDate(voterId);
         setElectionDate(response.data.electionDate);
-        if (today === electionDate) fetchCandidate();
+        if (isElectionDay) await fetchCandidate();
       } catch (e) {
         console.error("Something went wrong: " + e);
         toast.error("Something went wrong ");
       }
     };
+
+    const fetchCandidate = async () => {
+      const storedVoterId = sessionStorage.getItem("id");
+      if (storedVoterId) {
+        try {
+          setVoterId(storedVoterId);
+          const response = await voterService.knowCandidate(storedVoterId);
+          console.log(response.data);
+          setCandidateDto(response.data);
+        } catch (error) {
+          console.error("Error fetching candidate data:", error);
+        }
+      }
+    };
+
     getDate();
-  }, []); // Add an empty dependency array here to fetch the date only once
+  }, [isElectionDay]);
 
   const handleRadioChange = (candidateId) => {
     setCandidateId(candidateId);
@@ -59,16 +62,17 @@ function VotingPage() {
     e.preventDefault();
     try {
       if (selectedCandidate !== null) {
-        const dto = { voterId, candidateId }; // Use the updated state
+        const dto = { voterId, candidateId };
         const response = await voterService.castVote(dto);
         console.log(response.data);
         sessionStorage.setItem("isVoted", true);
         navigate("/voter/home");
         toast.success("Thank for your Vote!");
       } else {
-        console.error("No candidate selected");
+        toast.warn("Please select a candidate before submitting your vote.");
       }
     } catch (err) {
+      toast.error("Vote submission failed. Please try again.");
       console.error("Vote submission failed:", err);
     }
   };
@@ -81,7 +85,7 @@ function VotingPage() {
         <VoterSidebar />
 
         <div className="right-homepage-container">
-          {/* Condition 1: If the user has already voted */}
+          {/* If the user has already voted */}
           {isVoted && (
             <div className="alert alert-warning" role="alert">
               <p>
@@ -90,7 +94,6 @@ function VotingPage() {
                 secure voting process.
               </p>
               <p>
-                {" "}
                 If you believe there is an error or if you have any questions,
                 please <a href="/voter/complaint">register a complaint</a>{" "}
                 regarding the issue.
@@ -98,8 +101,8 @@ function VotingPage() {
             </div>
           )}
 
-          {/* Condition 2: If today is not the election date */}
-          {!isVoted && today !== electionDate && (
+          {/* If today is not the election date */}
+          {!isVoted && !isElectionDay && (
             <div className="alert alert-warning" role="alert">
               <p>
                 Voting is not available today as it is not the scheduled
@@ -118,8 +121,8 @@ function VotingPage() {
             </div>
           )}
 
-          {/* Condition 3: If the user can vote (not voted and today is election date) */}
-          {!isVoted && today === electionDate && (
+          {/* If the user can vote */}
+          {!isVoted && isElectionDay && (
             <form onSubmit={handleSubmit}>
               {candidateDto.map((dto, index) => (
                 <div className="kyc-container mb-5" key={index}>

@@ -2,7 +2,6 @@ import "../css/voter-homepage.css";
 
 import React, { useEffect, useState } from "react";
 import globalService from "../services/global.service";
-import { toast } from "react-toastify";
 
 function AllViewElectionDate() {
   const [dates, setDates] = useState([]);
@@ -12,7 +11,6 @@ function AllViewElectionDate() {
       try {
         const response = await globalService.getAllDate();
         setDates(response.data);
-        if (dates === null) toast.info("Election are not scheduled");
       } catch (e) {
         console.error("Something went wrong" + e);
         alert("Something went wrong" + e);
@@ -44,7 +42,9 @@ function AllViewElectionDate() {
           </tbody>
         </table>
       ) : (
-        <p>No election dates available.</p>
+        <div className="alert alert-warning" role="alert">
+          The election dates are yet to be scheduled by the Admin.
+        </div>
       )}
     </React.Fragment>
   );

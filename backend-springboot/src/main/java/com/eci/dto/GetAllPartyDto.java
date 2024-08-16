@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class GetAllPartyDto {
-
+private Long partyId;
 	private String partyName;
 
 	private String objective;

@@ -49,6 +49,7 @@ function VoterSettings() {
     const id = sessionStorage.getItem("id");
     setVoterId(id);
     try {
+      console.log(dto);
       const response = await voterService.changePass(dto);
       if (response.data === "success") {
         toast.success("Password Change Successfully");

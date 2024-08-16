@@ -16,11 +16,6 @@ function VoterDistrictResult() {
         if (id) {
           const response = await voterService.getDistrictResult(id); // Pass the id directly
           setData(response.data);
-          if (data.length > 0) {
-            toast.success("Result Found");
-          } else toast.info("Election result is not declared yet");
-        } else {
-          alert("District ID not found in session storage");
         }
       } catch (e) {
         console.error("Something went wrong: " + e);
@@ -69,7 +64,9 @@ function VoterDistrictResult() {
               </tbody>
             </table>
           ) : (
-            <p>Result not Declared Yet</p>
+            <div className="alert alert-warning" role="alert">
+              The results are yet to be declared. Check again after some time.
+            </div>
           )}
         </div>
       </div>

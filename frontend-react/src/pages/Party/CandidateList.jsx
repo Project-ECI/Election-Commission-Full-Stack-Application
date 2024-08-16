@@ -10,6 +10,7 @@ import partyService from "../../services/party.service.js";
 import getRespectiveDistrict from "../../services/district.service.js";
 import getAllStates from "../../services/state.service.js";
 import PartySidebar from "../../components/PartySidebar.jsx";
+import { toast } from "react-toastify";
 
 function CandidateList() {
   const [states, setStates] = useState([]);
@@ -84,7 +85,7 @@ function CandidateList() {
     };
     try {
       const response = await partyService.acceptForm(responseDto);
-      alert("Candidate accepted." + response);
+      toast.success("Candidate Accepted Successfully!");
       setCandidateDto((prev) =>
         prev.filter((dto) => dto.candidateId !== candidateId)
       );

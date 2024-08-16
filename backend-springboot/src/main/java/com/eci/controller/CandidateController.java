@@ -34,6 +34,7 @@ public class CandidateController {
 
 	@PostMapping("/nomination")
 	public ResponseEntity<?> candidateNomination(@RequestBody CandidateNominationDto dto) {
+		System.out.println(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.nominateCandidate(dto));
 	}
 	

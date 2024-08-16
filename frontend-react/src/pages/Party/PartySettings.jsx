@@ -24,7 +24,7 @@ function PartySettings() {
   // For dto
   const [partyId, setPartyId] = useState("");
   const [showModal, setShowModal] = useState(false);
-  
+
   const dto = {
     partyId,
     oldPassword,
@@ -56,7 +56,9 @@ function PartySettings() {
         setToggle(!toggle);
       } else {
         navigate("/party/settings");
-        toast.error("The old password you entered does not match our records. Please try again.")
+        toast.error(
+          "The old password you entered does not match our records. Please try again."
+        );
       }
     } catch (e) {
       toast.error("Internal server error. Try again some time.");

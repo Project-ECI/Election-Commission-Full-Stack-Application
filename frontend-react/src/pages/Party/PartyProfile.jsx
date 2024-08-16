@@ -61,7 +61,7 @@ function PartyProfile() {
     try {
       const response = await getRespectiveDistrict(selectedState);
       if (response.data.length === 0) {
-        alert("No city found");
+       toast.info("No city found");
       } else {
         setCities(response.data);
       }

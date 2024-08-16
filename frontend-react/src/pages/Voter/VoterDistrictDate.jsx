@@ -16,9 +16,6 @@ function VoterDistrictDate() {
 
         const response = await voterService.viewDate(voterId);
         setDates(response.data);
-        if (dates !== null) {
-          toast.success("Date Found");
-        } else toast.info("Election are not scheduled");
       } catch (e) {
         console.error("Something went wrong" + e);
         toast.error("Something went wrong");
@@ -38,7 +35,7 @@ function VoterDistrictDate() {
           <h1 className="font-mont mb-2" style={{ fontWeight: "600" }}>
             Election Dates of Your District
           </h1>
-          {dates !== null ? (
+          {dates ? (
             <table className="table table-striped table-hover">
               <thead className="thead-dark">
                 <tr>
@@ -54,7 +51,9 @@ function VoterDistrictDate() {
               </tbody>
             </table>
           ) : (
-            <p>No election dates available.</p>
+            <div className="alert alert-warning" role="alert">
+              The election dates are yet to be scheduled by the Admin.
+            </div>
           )}
         </div>
       </div>
