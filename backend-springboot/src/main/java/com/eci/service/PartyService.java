@@ -3,7 +3,6 @@ package com.eci.service;
 import java.util.List;
 
 import com.eci.dto.CandidateAcceptDto;
-import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.ChangePasswordPartyDto;
 import com.eci.dto.GetAllPartyDto;
 import com.eci.dto.GetAllpartyForAdmin;

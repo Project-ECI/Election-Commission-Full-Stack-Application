@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.CandidateAcceptDto;
-import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.ChangePasswordPartyDto;
 import com.eci.dto.LoginDto;
 import com.eci.dto.PartyCandidateRequestDto;

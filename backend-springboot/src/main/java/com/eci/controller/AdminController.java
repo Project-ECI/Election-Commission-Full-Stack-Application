@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.LoginDto;
 import com.eci.dto.ChangePasswordAdminDto;
-import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.ElectionDateDto;
 
 import com.eci.service.AdminService;
@@ -42,10 +40,9 @@ public class AdminController {
 
 	@Autowired
 	private CandidateService candidateService;
-	
+
 	@Autowired
 	private FeedbackService feedbackService;
-	
 
 	@PostMapping("/login")
 	public ResponseEntity<?> loginAdmin(@RequestBody LoginDto loginDto) {
@@ -56,36 +53,37 @@ public class AdminController {
 	public ResponseEntity<?> setElectionDates(@RequestBody ElectionDateDto dto) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(electionService.addElectionDate(dto));
 	}
-	
+
 	@PutMapping("/declare-results")
 	public ResponseEntity<?> declaredElectionResult(@RequestBody String districtId) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(electionService.declaredResult(districtId));
 	}
-	
+
 	@GetMapping("/getall/voter")
 	public ResponseEntity<?> getAllVoter() {
 		return ResponseEntity.ok(voterService.getVoterForAdmin());
 	}
 
 	@DeleteMapping("/delete/voter/{id}")
-	public ResponseEntity<?> deleteVoter(@PathVariable String id ) {
+	public ResponseEntity<?> deleteVoter(@PathVariable String id) {
 		return ResponseEntity.ok(voterService.voterDelete(id));
 	}
-	
+
 	@PutMapping("/change/password")
 	public ResponseEntity<?> updatePassword(@RequestBody ChangePasswordAdminDto dto) {
 		return ResponseEntity.status(HttpStatus.OK).body(adminService.changePassword(dto));
 	}
-	
+
 	@DeleteMapping("/delete/party/{adminId}")
 	public ResponseEntity<?> deleteAdmin(@PathVariable String adminId) {
 		return ResponseEntity.ok(adminService.deleteAdmin(adminId));
 	}
+
 	@DeleteMapping("/delete/party/{partyId}")
 	public ResponseEntity<?> deleteParty(@PathVariable String partyId) {
 		return ResponseEntity.ok(partyService.deleteParty(partyId));
 	}
-	
+
 	@GetMapping("/getall/party")
 	public ResponseEntity<?> getAllParty() {
 		return ResponseEntity.ok(partyService.getPartyForAdmin());
@@ -95,7 +93,6 @@ public class AdminController {
 	public ResponseEntity<?> deleteCandidate(@PathVariable String id) {
 		return ResponseEntity.ok(candidateService.candidateDelete(id));
 	}
-	
 
 	@GetMapping("/getall/candidate")
 	public ResponseEntity<?> getAllCandidate() {

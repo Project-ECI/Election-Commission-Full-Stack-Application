@@ -11,7 +11,6 @@ import com.eci.dao.AdminDao;
 import com.eci.dto.ChangePasswordAdminDto;
 import com.eci.dto.LoginDto;
 import com.eci.entity.Admin;
-import com.eci.entity.Voter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
