@@ -10,6 +10,8 @@ import getRespectiveDistrict from "../../services/district.service.js";
 import { useNavigate } from "react-router-dom";
 import adminService from "../../services/admin.service.js";
 
+import { toast } from "react-toastify";
+
 function SetElectionDate() {
   const navigate = useNavigate();
   // State and cities dropdown
@@ -48,10 +50,10 @@ function SetElectionDate() {
     e.preventDefault();
     try {
       const response = await adminService.SetElectionDate(dto);
-      alert(response.data);
       navigate("/admin/home");
+      toast.success("Election dates have been successfully set!")
     } catch (err) {
-      alert("err");
+      toast.error("Internal server error. Try again after some time.")
     }
   };
   return (

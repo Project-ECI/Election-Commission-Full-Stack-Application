@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import partyService from "../../services/party.service.js";
 import adminService from "../../services/admin.service.js";
 import { Button, Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 function PartySettings() {
   const navigate = useNavigate();
@@ -48,17 +49,17 @@ function PartySettings() {
       console.log(dto);
       const response = await partyService.changePass(dto);
       if (response.data === "success") {
-        alert("Password Change Successfully");
         navigate("/party/settings");
+        toast.success("Password changed successfully.");
         setOldPassword("");
         setNewPassword("");
         setToggle(!toggle);
       } else {
-        alert("Fail");
         navigate("/party/settings");
+        toast.error("The old password you entered does not match our records. Please try again.")
       }
     } catch (e) {
-      alert(e);
+      toast.error("Internal server error. Try again some time.");
     }
   };
   const handleDelete = async () => {

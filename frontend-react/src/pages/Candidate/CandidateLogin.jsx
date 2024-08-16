@@ -10,6 +10,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import candidateService from "../../services/candidate.service.js";
 
+import { toast } from "react-toastify";
+
 function CandidateLoginPage() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
@@ -26,10 +28,10 @@ function CandidateLoginPage() {
     e.preventDefault();
     try {
       const response = await candidateService.login(loginDto);
-      if (response.data === "fail") {
-        console.log("Login failed because password didn't mathced");
-        setError("Login failed. Please check your credentials.");
-      } else {
+
+      if (response.data === "fail") toast.error("Invalid credentials. Please check your credentials.");
+      
+      else {
         const candidate = response.data;
 
         sessionStorage.setItem("id", candidate.candidateId);
@@ -80,10 +82,10 @@ function CandidateLoginPage() {
         }
 
         navigate("/candidate/home");
+        toast.success(`Welcome back ${sessionStorage.getItem("fullname")}!`);
       }
     } catch (err) {
-      console.error("Login failed:", err);
-      setError("Login failed. Please check your credentials.");
+      toast.error("Oops! Something went wrong on our end. Please try again later.")
     }
   };
 

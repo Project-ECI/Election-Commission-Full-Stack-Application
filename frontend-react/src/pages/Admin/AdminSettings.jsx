@@ -7,6 +7,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import AdminSidebar from "../../components/AdminSidebar.jsx";
 
+import { toast } from "react-toastify";
+
 function AdminSettings() {
     // Show and hide password
     const [oldPassword, setOldPassword] = useState("");

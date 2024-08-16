@@ -10,6 +10,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import candidateService from "../../services/candidate.service.js";
 
+import { toast } from "react-toastify";
+
 function CandidateRegPage() {
   const navigate = useNavigate();
   // Show and hide password
@@ -27,13 +29,13 @@ function CandidateRegPage() {
     e.preventDefault();
     try {
       const response = await candidateService.register(registerDto);
-      console.log("Login successful:", response.data);
       navigate("/candidate/login");
+      toast.success("Congratulations! Your registration was successful.");
     } catch (err) {
-      console.error("Login failed:", err);
-      setError("Login failed. Please check your credentials.");
+      toast.error("Something went wrong. Try again after some time.");
     }
   };
+  
   return (
     <div>
       <Navbar2></Navbar2>

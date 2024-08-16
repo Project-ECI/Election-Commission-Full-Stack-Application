@@ -8,6 +8,8 @@ import partyService from "../../services/party.service.js";
 import PartySidebar from "../../components/PartySidebar.jsx";
 import { useEffect, useState } from "react";
 
+import { toast } from "react-toastify";
+
 function PartyCandidate() {
   const [partyId, setPartyId] = useState("");
   const [acceptedCandidates, setAcceptedCandidates] = useState([]);
@@ -36,12 +38,12 @@ function PartyCandidate() {
   const handleReject = async (candidateId) => {
     try {
       const response = await partyService.removeFromParty(candidateId);
-      alert(response.data);
+      toast.success("The candidate has been successfully removed from the party.");
       setAcceptedCandidates((prev) =>
         prev.filter((dto) => dto.candidateId !== candidateId)
       );
     } catch (err) {
-      console.error("Failed to reject candidate:", err);
+      toast.error("Internal server error. Try again after some time.");
     }
   };
 

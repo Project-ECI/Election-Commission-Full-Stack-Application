@@ -7,6 +7,8 @@ import AdminSidebar from "../../components/AdminSidebar.jsx";
 import React, { useEffect, useState } from "react";
 import adminService from "../../services/admin.service.js";
 
+import { toast } from "react-toastify";
+
 function ManageUsers() {
   const [selectedType, setSelectedType] = useState(""); // Default to empty string
   const [voterData, setVoterData] = useState([]);
@@ -42,19 +44,19 @@ function ManageUsers() {
     try {
       if (selectedType === "Voter") {
         const response = await adminService.deleteVoter(id);
-        alert(response.data);
+        toast.success("The voter has been successfully deleted from the system.")
         fetchVoters();
       } else if (selectedType === "Candidate") {
         const response = await adminService.deleteCandidate(id);
-        alert(response.data);
+        toast.success("The candidate has been successfully deleted from the system.")
         fetchCandidates();
       } else if (selectedType === "Party") {
         const response = await adminService.deleteParty(id);
-        alert(response.data);
+        toast.success("The party has been successfully deleted from the system.")
         fetchParties();
       }
     } catch (error) {
-      console.error("Error deleting record:", error);
+      toast.error("Internal server error. Try again after some time.");
     }
   };
 
