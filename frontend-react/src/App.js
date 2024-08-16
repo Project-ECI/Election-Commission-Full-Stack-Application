@@ -16,7 +16,6 @@ import VoterProfile from "./pages/Voter/VoterProfile";
 import VoterAllDate from "./pages/Voter/VoterAllDate";
 import VoterDistrictDate from "./pages/Voter/VoterDistrictDate";
 
-
 // Candidate
 import CandidateRegPage from "./pages/Candidate/CandidateRegistration";
 import CandidateLoginPage from "./pages/Candidate/CandidateLogin";
@@ -61,6 +60,9 @@ import VoterGuide from "./pages/FooterLinks/VoterArticle";
 import PartyArticle from "./pages/FooterLinks/PartyArticle";
 import VoterViewAllResult from "./pages/Voter/VoterViewResult";
 import VoterDistrictResult from "./pages/Voter/VoterDistrictResult";
+import TestToast from "./pages/Test";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -88,7 +90,6 @@ function App() {
         <Route path="/voter/district-date" element={<VoterDistrictDate />} />
         <Route path="/voter/view/all/result" element={<VoterViewAllResult />} />
         <Route path="/voter/view/result" element={<VoterDistrictResult />} />
-
         {/* candidate */}
         <Route path="/candidate/registration" element={<CandidateRegPage />} />
         <Route path="/candidate/login" element={<CandidateLoginPage />} />
@@ -102,8 +103,14 @@ function App() {
         <Route path="/candidate/complaint" element={<CandidateComplaint />} />
         <Route path="/candidate/profile" element={<CandidateProfile />} />
         <Route path="/candidate/settings" element={<CandidateSettings />} />
-        <Route path="/candidate/view/election-dates" element={<CandidateViewDate />} />
-        <Route path="/candidate/view/results" element={<CandidateViewResults />} />
+        <Route
+          path="/candidate/view/election-dates"
+          element={<CandidateViewDate />}
+        />
+        <Route
+          path="/candidate/view/results"
+          element={<CandidateViewResults />}
+        />
         {/* party */}
         <Route path="/party/registration" element={<PartyRegPage />} />
         <Route path="/party/login" element={<PartyLoginPage />} />
@@ -130,7 +137,10 @@ function App() {
         {/* Global */}
         <Route path="/article/voter" element={<VoterGuide />} />
         <Route path="/article/party" element={<PartyArticle />} />
+        {/* test */}
+        <Route path="/test" element={<TestToast />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

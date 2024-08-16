@@ -8,6 +8,7 @@ import image from "../../assets/images/image-for-loginpage.png";
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 import voterService from "../../services/voter.service";
 
@@ -18,16 +19,16 @@ function VoterLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const loginDto = { email, password };
-  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await voterService.login(loginDto);
       if (response.data === "fail") {
-        console.error("Login failed");
-        setError("Login failed. Please check your credentials.");
+        toast.error("Login failed. Please check your credentials.");
       } else {
+        navigate("/voter/home");
+
         const voter = response.data;
 
         sessionStorage.setItem("id", voter.voterId);
@@ -41,11 +42,11 @@ function VoterLoginPage() {
         sessionStorage.setItem("isVoted", voter.voted);
         sessionStorage.setItem("stateName", voter.districtId.stateId.stateName);
         sessionStorage.setItem("districtName", voter.districtId.districtName);
-        navigate("/voter/home");
+        toast.success("Welcome " + sessionStorage.getItem("fullname") + " !");
       }
     } catch (err) {
       console.error("Login failed:", err);
-      setError("Login failed. Please check your credentials.");
+      toast.error(err);
     }
   };
 
@@ -118,10 +119,8 @@ function VoterLoginPage() {
               Register
             </Link>
           </p>
-          {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
       </div>
-
       <Footer1 />
     </div>
   );
