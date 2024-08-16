@@ -11,6 +11,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import adminService from "../../services/admin.service.js";
 
+import { toast } from "react-toastify";
+
 function AdminLogin() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
@@ -27,23 +29,22 @@ function AdminLogin() {
     e.preventDefault();
     try {
       const response = await adminService.login(loginDto);
+
+      if (response.data === "fail") toast.error("Invalid credentials. Please check your credentials.");
       
-      if (response.data === "fail") {
-        console.log("Login failed because password didn't mathced");
-        setError("Login failed. Please check your credentials.");
-      } else {
+      else {
         const admin = response.data;
-        
+
         sessionStorage.setItem("id", admin.adminId);
         sessionStorage.setItem("role", "admin");
         sessionStorage.setItem("fullname", admin.name);
         sessionStorage.setItem("email", admin.email);
 
         navigate("/admin/home");
+        toast.success(`Welcome back ${sessionStorage.getItem("fullname")}!`);
       }
     } catch (err) {
-      console.error("Login failed:", err);
-      setError("Login failed. Please check your credentials.");
+      toast.error("Oops! Something went wrong on our end. Please try again later.")
     }
   };
 

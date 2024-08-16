@@ -10,6 +10,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import partyService from "../../services/party.service";
 
+import { toast } from "react-toastify";
+
 function PartyLoginPage() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
@@ -27,8 +29,7 @@ function PartyLoginPage() {
     try {
       const response = await partyService.login(loginDto);
       if (response.data === "fail") {
-        console.error("Login failed");
-        setError("Login failed. Please check your credentials.");
+        toast.error("Invalid credentials. Please check your credentials.");
       } else {
         const party = response.data;
         console.log(response.data);
@@ -41,10 +42,10 @@ function PartyLoginPage() {
         sessionStorage.setItem("districtName", party.districtId.districtName);
         sessionStorage.setItem("state", party.districtId.stateId.stateName);
         navigate("/party/home");
+        toast.success(`Welcome back ${sessionStorage.getItem("partyName")}!`);
       }
     } catch (err) {
-      console.error("Login failed:", err);
-      setError("Login failed. Please check your credentials.");
+      toast.error("Oops! Something went wrong on our end. Please try again later.")
     }
   };
 

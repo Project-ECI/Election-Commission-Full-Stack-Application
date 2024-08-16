@@ -10,6 +10,8 @@ import adminService from "../../services/admin.service.js";
 import getAllStates from "../../services/state.service.js";
 import { useNavigate } from "react-router-dom";
 
+import { toast } from "react-toastify";
+
 function DeclareResults() {
   const navigate = useNavigate();
   // State and cities dropdown
@@ -45,10 +47,10 @@ function DeclareResults() {
     e.preventDefault();
     try {
       const response = await adminService.declareElectionResult(districtId);
-      alert(response.data);
       navigate("/admin/home");
+      toast.success("Election results have been successfully declared!");
     } catch (err) {
-      alert("err");
+      toast.error("Internal server error. Try again after some time.")
     }
   };
   return (

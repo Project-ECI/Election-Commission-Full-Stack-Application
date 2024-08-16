@@ -13,6 +13,8 @@ import getRespectiveDistrict from "../../services/district.service.js";
 import getAllStates from "../../services/state.service.js";
 import candidateService from "../../services/candidate.service.js";
 
+import { toast } from "react-toastify";
+
 function Nominate() {
   const navigate = useNavigate();
   // State and cities dropdown
@@ -92,11 +94,13 @@ function Nominate() {
         sessionStorage.setItem("partyId", dto.selectedParty);
 
         navigate("/candidate/home");
+        toast.success("Your nomination form has been successfully submitted!");
+
       } else {
-        alert("Please complete all required fields.");
+        toast.warn("Please fill out all required fields before submitting the form.");
       }
     } catch (err) {
-      console.error("Candidate submission failed:", err);
+      toast.error("Oops! Something went wrong on our end. Please try again later.")
     }
   };
 

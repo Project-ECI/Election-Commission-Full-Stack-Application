@@ -7,6 +7,8 @@ import getAllStates from "../../services/state.service";
 import getRespectiveDistrict from "../../services/district.service";
 import partyService from "../../services/party.service.js";
 
+import { toast } from "react-toastify";
+
 function PartyProfile() {
   // State and cities dropdown
   const [states, setStates] = useState([]);
@@ -89,12 +91,12 @@ function PartyProfile() {
         sessionStorage.setItem("email", email);
         sessionStorage.setItem("districtId", districtId);
         sessionStorage.setItem("districtName", districtName);
-        alert("Data saved successfully");
+        toast.success("Your profile has been successfully updated!");
       } else {
-        alert("Failed to save data");
+        toast.error("Something went wrong. Error updating profile.");
       }
     } catch (err) {
-      console.error("Error updating profile:", err);
+      toast.error("Internal server error. Try agian after some time.");
     }
   };
 

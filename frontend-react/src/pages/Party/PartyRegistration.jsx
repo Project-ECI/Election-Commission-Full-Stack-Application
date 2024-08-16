@@ -11,6 +11,9 @@ import { Link, useNavigate } from "react-router-dom";
 import getAllStates from "../../services/state.service";
 import getRespectiveDistrict from "../../services/district.service";
 import partyService from "../../services/party.service";
+
+import { toast } from "react-toastify";
+
 function PartyRegPage() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -57,7 +60,7 @@ function PartyRegPage() {
     setSelectedState(selectedState);
     const response = await getRespectiveDistrict(selectedState);
     if (response.data.length === 0) {
-      alert("no city found");
+      alert("No cities found.");
     } else setCities(response.data);
   };
 
@@ -65,11 +68,10 @@ function PartyRegPage() {
     e.preventDefault();
     try {
       const response = await partyService.register(registerDto);
-      console.log("login successfull" + response);
       navigate("/party/login");
+      toast.success("Congratulations! Your registration was successful.");
     } catch (err) {
-      console.error("Login failed:", err);
-      setError("Login failed. Please check your credentials.");
+      toast.error("Something went wrong. Try again after some time.");
     }
   };
   return (
