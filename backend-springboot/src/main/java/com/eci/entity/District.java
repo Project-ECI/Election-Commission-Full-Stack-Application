@@ -1,5 +1,6 @@
 package com.eci.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ public class District {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long districtId;
 	
+	@Column(nullable = false,length = 15)
 	private String districtName;
 	
 	@ManyToOne

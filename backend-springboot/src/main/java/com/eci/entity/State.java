@@ -1,5 +1,6 @@
 package com.eci.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,9 @@ public class State {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long stateId;
 	
+	@Column(nullable = false,length = 30)
 	private String stateName;
 	
+	@Column(nullable = false,length = 3)
 	private String stateCode;
 }

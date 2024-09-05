@@ -1,14 +1,7 @@
 package com.eci.entity;
 
 import java.time.LocalDate;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,31 +13,25 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @AllArgsConstructor
-public class Voter {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long voterId;
+@ToString
 
-	private String fullName;
+public class Voter extends User {
 
+	@Column(nullable = false)
 	private LocalDate dob;
 
+	@Column(nullable = false)
 	private boolean gender;
 
-	@Column(unique = true)
-	private String email;
-
-	private String password;
-
+	@Column(nullable = false,length = 15)
 	private String mobileNo;
+
+	@Column(nullable = false)
+	private boolean isVoted = false;
 
 	@ManyToOne
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId")
 	private District districtId;
 
-	private boolean isVoted;
-	
-	private boolean isActive;
 }

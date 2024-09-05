@@ -2,6 +2,7 @@ package com.eci.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,13 +27,13 @@ public class Election {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long electionId;
 	
+	@Column(nullable = false)
 	private LocalDate electionDate;
 	
 	@OneToOne
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId", unique = true)
 	private District districtId;
 	
+	@Column(nullable = false)
 	private boolean isResultDeclared;
-	
-
 }

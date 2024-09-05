@@ -26,6 +26,7 @@ import com.eci.dto.VoterRegisterationDto;
 import com.eci.entity.Candidate;
 import com.eci.entity.District;
 import com.eci.entity.Party;
+import com.eci.entity.UserRole;
 import com.eci.entity.Voter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,7 +60,7 @@ public class VoterServiceImpl implements VoterService {
 		Optional<Voter> voterOpt = voterDao.findByEmail(registerDto.getEmail());
 		if (voterOpt.isEmpty()) {
 			Voter voter = new Voter();
-			voter.setFullName(registerDto.getFullName());
+			voter.setName(registerDto.getFullName());
 			voter.setDob(registerDto.getDob());
 			voter.setEmail(registerDto.getEmail());
 			if (registerDto.getGender().equals("male")) {
@@ -69,6 +70,7 @@ public class VoterServiceImpl implements VoterService {
 			voter.setMobileNo(registerDto.getMobileNo());
 			voter.setPassword(registerDto.getPassword());
 			voter.setActive(true);
+			voter.setRole(UserRole.VOTER);
 			voter.setDistrictId(districtOpt.get());
 			voterDao.save(voter);
 			return "success";
@@ -118,19 +120,17 @@ public class VoterServiceImpl implements VoterService {
 			if (voterOpt.isPresent() && candidateOpt.isPresent()) {
 				Voter voter = voterOpt.get();
 				Candidate candidate = candidateOpt.get();
-				Long districtId = voter.getDistrictId().getDistrictId();
-
+				
 				// can't vote if results are declared or voter has already voted
 //				if (electionService.isResultDeclared(districtId) || voter.isVoted()) {
 				if (voter.isVoted()) {
 					return "Can't vote: you have already voted";
 				}
-				System.out.println("//////////////");
+				
 				// can vote if it's election date and constituency matches
 				// if (voter.getDistrictId().equals(candidate.getConstituency()) &&
 				// electionService.isElectionDate(districtId))
 				if (voter.getDistrictId().getDistrictId() == candidate.getConstituency().getDistrictId()) {
-					System.out.println("********************");
 					voter.setVoted(true);
 					candidate.setVotes(candidate.getVotes() + 1);
 					voterDao.save(voter);
@@ -159,16 +159,16 @@ public class VoterServiceImpl implements VoterService {
 			for (Candidate candidate : listOfCandidate) {
 				if (!candidate.isRejected()) {
 					KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
-					Optional<Voter> voterOpt1 = voterDao.findById(candidate.getVoterId().getVoterId());
-					yourCandidate.setCandiateName(voterOpt1.get().getFullName());
-					if (candidate.getParty() == null) {
+					Optional<Voter> voterOpt1 = voterDao.findById(candidate.getVoterId().getUserId());
+					yourCandidate.setCandiateName(voterOpt1.get().getName());
+					if (candidate.getPartyId() == null) {
 						yourCandidate.setIndependent(candidate.isIndependent());
 						yourCandidate.setPartyName(null);
 					} else {
-						Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
-						yourCandidate.setPartyName(partyOpt.get().getPartyName());
+						Optional<Party> partyOpt = partyDao.findById(candidate.getPartyId().getUserId());
+						yourCandidate.setPartyName(partyOpt.get().getName());
 					}
-					yourCandidate.setCandidateId(candidate.getCandidateId());
+					yourCandidate.setCandidateId(candidate.getUserId());
 					list.add(yourCandidate);
 				}
 
@@ -180,13 +180,12 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public SearchElectrolRollDto searchVoter(String voterid) {
-		System.out.println("************");
 		Long voterId = Long.parseLong(voterid);
 		Optional<Voter> voterOpt = voterDao.findById(voterId);
 		if (voterOpt.isPresent()) {
 			SearchElectrolRollDto dto = new SearchElectrolRollDto();
 			dto.setDistrict(voterOpt.get().getDistrictId().getDistrictName());
-			dto.setFullName(voterOpt.get().getFullName());
+			dto.setFullName(voterOpt.get().getName());
 			dto.setGender(voterOpt.get().isGender());
 			dto.setDob(voterOpt.get().getDob());
 			return dto;
@@ -225,7 +224,7 @@ public class VoterServiceImpl implements VoterService {
 
 			voterToBeUpdated.setDistrictId(districtOpt.get());
 			voterToBeUpdated.setEmail(dto.getEmail());
-			voterToBeUpdated.setFullName(dto.getFullName());
+			voterToBeUpdated.setName(dto.getFullName());
 			voterToBeUpdated.setMobileNo(dto.getMobileNo());
 
 			voterDao.save(voterToBeUpdated);
@@ -256,16 +255,16 @@ public class VoterServiceImpl implements VoterService {
 			for (Candidate candidate : listOfCandidate) {
 				if (!candidate.isRejected()) {
 					KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
-					Optional<Voter> voterOpt1 = voterDao.findById(candidate.getVoterId().getVoterId());
-					yourCandidate.setCandiateName(voterOpt1.get().getFullName());
-					if (candidate.getParty() == null) {
+					Optional<Voter> voterOpt1 = voterDao.findById(candidate.getVoterId().getUserId());
+					yourCandidate.setCandiateName(voterOpt1.get().getName());
+					if (candidate.getPartyId() == null) {
 						yourCandidate.setIndependent(candidate.isIndependent());
 						yourCandidate.setPartyName(null);
 					} else {
-						Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
-						yourCandidate.setPartyName(partyOpt.get().getPartyName());
+						Optional<Party> partyOpt = partyDao.findById(candidate.getPartyId().getUserId());
+						yourCandidate.setPartyName(partyOpt.get().getName());
 					}
-					yourCandidate.setCandidateId(candidate.getCandidateId());
+					yourCandidate.setCandidateId(candidate.getUserId());
 					list.add(yourCandidate);
 				}
 
@@ -285,9 +284,9 @@ public class VoterServiceImpl implements VoterService {
 			if (voter.isActive()) {
 				GetAllVoterForAdmin dto = new GetAllVoterForAdmin();
 				dto.setEmail(voter.getEmail());
-				dto.setFullName(voter.getFullName());
+				dto.setFullName(voter.getName());
 				dto.setMobileNo(voter.getMobileNo());
-				dto.setVoterId(voter.getVoterId().toString());
+				dto.setVoterId(voter.getUserId().toString());
 				dtoList.add(dto);
 			}
 		}

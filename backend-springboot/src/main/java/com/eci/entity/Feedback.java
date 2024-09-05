@@ -1,5 +1,6 @@
 package com.eci.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,5 +23,6 @@ public class Feedback {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long feedbackId;
 	
+	@Column(nullable = false,length = 500)
 	private String feedbackDescription;
 }

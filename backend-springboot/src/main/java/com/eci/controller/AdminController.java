@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eci.dto.LoginDto;
+import com.eci.exception.ApiException;
 import com.eci.dto.ChangePasswordAdminDto;
 import com.eci.dto.ElectionDateDto;
 
@@ -51,12 +52,20 @@ public class AdminController {
 
 	@PostMapping("/set/election")
 	public ResponseEntity<?> setElectionDates(@RequestBody ElectionDateDto dto) {
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(electionService.addElectionDate(dto));
+		try {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(electionService.addElectionDate(dto));
+		} catch (ApiException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiException(e.getMessage()));
+		}
 	}
 
 	@PutMapping("/declare-results")
 	public ResponseEntity<?> declaredElectionResult(@RequestBody String districtId) {
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(electionService.declaredResult(districtId));
+		try {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(electionService.declaredResult(districtId));
+		} catch (ApiException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiException(e.getMessage()));
+		}
 	}
 
 	@GetMapping("/getall/voter")

@@ -49,6 +49,7 @@ function VoterRegPage() {
       today.getDate()
     );
   };
+
   const handleDobChange = (e) => {
     const selectedDate = new Date(e.target.value);
     const minDate = getMinimumDate();
@@ -68,7 +69,6 @@ function VoterRegPage() {
         console.error("Failed to fetch states:", err);
       }
     };
-
     fetchStates();
   }, []);
 

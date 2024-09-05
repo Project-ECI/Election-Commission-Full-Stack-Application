@@ -3,7 +3,6 @@ package com.eci.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +17,6 @@ public class FeedbackServiceImpl implements FeedbackService {
 	@Autowired
 	private FeedbackDao feedbackDao;
 
-	@Autowired
-	private ModelMapper mapper;
 
 	@Override
 	public String addFeedback(String discription) {
