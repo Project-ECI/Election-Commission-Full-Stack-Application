@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +21,8 @@ import com.eci.entity.District;
 import com.eci.entity.Election;
 import com.eci.entity.Party;
 import com.eci.entity.Voter;
+import com.eci.exception.ApiException;
+
 
 @Service
 @Transactional
@@ -41,38 +42,30 @@ public class ElectionServiceImpl implements ElectionService {
 	@Autowired
 	private PartyDao partyDao;
 
-	@Autowired
-	private ModelMapper mapper;
 
 	@Override
 	public String addElectionDate(ElectionDateDto dto) {
 		Long districtId = Long.parseLong(dto.getDistrictId());
-		Optional<District> district = districtDao.findById(districtId);
+		District district = districtDao.findById(districtId).orElseThrow(() -> new ApiException("district not found"));
 
-		// if districtId is valid
-		if (district.isPresent()) {
-			Optional<Election> election = electionDao.findByDistrictId(district.get());
+		Optional<Election> election = electionDao.findByDistrictId(district);
 
-			// update election date
-			if (election.isPresent()) {
-				System.out.println(dto.getElectionDate() + "*************");
-				election.get().setElectionDate(LocalDate.parse(dto.getElectionDate()));
-				election.get().setDistrictId(district.get());
-				electionDao.save(election.get());
-				return "update election date" + election.toString();
-			}
-			// add new election date
-			else {
-				Election election1 = new Election();
-				election1.setDistrictId(district.get());
-				System.out.println(dto.getElectionDate() + "//////////");
-				election1.setElectionDate(LocalDate.parse(dto.getElectionDate()));
-				election1.setResultDeclared(false);
-				electionDao.save(election1);
-				return "add new election date" + election1.toString();
-			}
+		// update election date
+		if (election.isPresent()) {
+			election.get().setElectionDate(LocalDate.parse(dto.getElectionDate()));
+			election.get().setDistrictId(district);
+			electionDao.save(election.get());
+			return "update election date" + election.toString();
 		}
-		return "Invalid District";
+		// add new election date
+		else {
+			Election election1 = new Election();
+			election1.setDistrictId(district);
+			election1.setElectionDate(LocalDate.parse(dto.getElectionDate()));
+			election1.setResultDeclared(false);
+			electionDao.save(election1);
+			return "add new election date" + election1.toString();
+		}
 
 	}
 
@@ -87,16 +80,16 @@ public class ElectionServiceImpl implements ElectionService {
 				// Use constituency since it's the correct mapping to District in Candidate
 				Optional<Candidate> topCandidateOpt = candidateDao.findTopByConstituencyOrderByVotesDesc(district);
 
-				if (topCandidateOpt.isPresent() && topCandidateOpt.get().getParty() != null) {
+				if (topCandidateOpt.isPresent() && topCandidateOpt.get().getPartyId() != null) {
 					if (topCandidateOpt.get().isAccepted() || topCandidateOpt.get().isIndependent()) {
 
 						Candidate topCandidate = topCandidateOpt.get();
 						ElectionResultDto resultDto = new ElectionResultDto();
 						resultDto.setDistrictName(district.getDistrictName());
-						resultDto.setCandiateName(topCandidate.getVoterId().getFullName()); // Assuming Voter has a
-																							// voterName
+						resultDto.setCandiateName(topCandidate.getVoterId().getName()); // Assuming Voter has a
+																						// voterName
 						resultDto.setVotes(topCandidate.getVotes());
-						resultDto.setPartyName(topCandidate.getParty().getPartyName()); // Assuming Party has a
+						resultDto.setPartyName(topCandidate.getPartyId().getName()); // Assuming Party has a
 																						// partyName
 						list.add(resultDto);
 					}
@@ -111,30 +104,33 @@ public class ElectionServiceImpl implements ElectionService {
 	@Override
 	public List<ElectionResultDto> getResultConstituency(String districtid) {
 		Long districtId = Long.parseLong(districtid);
-		Optional<District> districtOpt = districtDao.findById(districtId);
+		District districtOpt = districtDao.findById(districtId)
+				.orElseThrow(() -> new ApiException("district not found"));
 
-		Optional<Election> electionOpt = electionDao.findByDistrictId(districtOpt.get());
+		Election electionOpt = electionDao.findByDistrictId(districtOpt)
+				.orElseThrow(() -> new ApiException("Election is not found for district"));
 
 		List<ElectionResultDto> list = new ArrayList<ElectionResultDto>();
 
-		if (electionOpt.isPresent() && electionOpt.get().isResultDeclared() == true) {
+		if (electionOpt.isResultDeclared()) {
 
-			List<Candidate> listOfCandidate = candidateDao.findByConstituency(districtOpt.get());
+			List<Candidate> listOfCandidate = candidateDao.findByConstituency(districtOpt);
 			if (!listOfCandidate.isEmpty()) {
 				for (Candidate candidate : listOfCandidate) {
-					if (candidate.isIndependent()
-							|| candidate.isAccepted() == true && candidate.isRejected() == false) {
+					if (candidate.isIndependent() || (candidate.isAccepted() && candidate.isRejected() == false)) {
 						ElectionResultDto dto = new ElectionResultDto();
-						if (candidate.getParty() != null) {
-							Optional<Party> partyOpt = partyDao.findById(candidate.getParty().getPartyId());
-							dto.setPartyName(partyOpt.get().getPartyName());
+						if (candidate.getPartyId() != null) {
+							Party partyOpt = partyDao.findById(candidate.getPartyId().getUserId())
+									.orElseThrow(() -> new ApiException("Election is not found for district"));
+
+							dto.setPartyName(partyOpt.getName());
 							dto.setIndependent(false);
 						} else {
 							dto.setIndependent(true);
 							dto.setPartyName(null);
 						}
 
-						dto.setCandiateName(candidate.getVoterId().getFullName());
+						dto.setCandiateName(candidate.getVoterId().getName());
 						dto.setVotes(candidate.getVotes());
 						dto.setDistrictName(candidate.getConstituency().getDistrictName());
 						list.add(dto);
@@ -164,51 +160,56 @@ public class ElectionServiceImpl implements ElectionService {
 	@Override
 	public ElectionDateDto getConstituencyElection(String voterid) {
 		Long voterId = Long.parseLong(voterid);
-		Optional<Voter> voterOpt = voterDao.findById(voterId);
+		Voter voterOpt = voterDao.findById(voterId).orElseThrow(() -> new ApiException("VOter not found"));
+
+		Election electionOpt = electionDao.findByDistrictId(voterOpt.getDistrictId())
+				.orElseThrow(() -> new ApiException("Election is not found for district"));
 
 		ElectionDateDto dto = new ElectionDateDto();
-		Optional<Election> electionOpt = electionDao.findByDistrictId(voterOpt.get().getDistrictId());
-
-		if (voterOpt.isPresent() && electionOpt.isPresent()) {
-			dto.setDistrictId(electionOpt.get().getDistrictId().getDistrictName());
-			dto.setElectionDate(electionOpt.get().getElectionDate().toString());
-			return dto;
-		}
+		dto.setDistrictId(electionOpt.getDistrictId().getDistrictName());
+		dto.setElectionDate(electionOpt.getElectionDate().toString());
 		return dto;
+
 	}
 
 	@Override
 	public String declaredResult(String districtid) {
 		Long districtId = Long.parseLong(districtid);
-		Optional<District> districtOpt = districtDao.findById(districtId);
-		if (districtOpt.isPresent()) {
-			List<Election> electionList = electionDao.findAllByDistrictId(districtOpt.get());
-			if (!electionList.isEmpty()) {
-				for (Election election : electionList) {
-					election.setResultDeclared(true);
-					electionDao.save(election);
-				}
-				return "Election Declared";
+		District districtOpt = districtDao.findById(districtId)
+				.orElseThrow(() -> new ApiException("Election is not found for district"));
+
+		List<Election> electionList = electionDao.findAllByDistrictId(districtOpt);
+		if (!electionList.isEmpty()) {
+			for (Election election : electionList) {
+				election.setResultDeclared(true);
+				electionDao.save(election);
 			}
-			return "No election set for specified district";
+			return "Election Declared";
+
 		}
 		return "District not found";
 	}
 
 	@Override
 	public boolean isResultDeclared(Long districtId) {
-		Optional<District> districtOpt = districtDao.findById(districtId);
-		Optional<Election> electionDetailsOpt = electionDao.findByDistrictId(districtOpt.get());
+		District districtOpt = districtDao.findById(districtId)
+				.orElseThrow(() -> new ApiException("Election is not found for district"));
 
-		return electionDetailsOpt.get().isResultDeclared();
+		Election electionDetailsOpt = electionDao.findByDistrictId(districtOpt)
+				.orElseThrow(() -> new ApiException("Election is not found for district"));
+
+		return electionDetailsOpt.isResultDeclared();
 	}
 
 	@Override
 	public boolean isElectionDate(Long districtId) {
-		Optional<District> districtOpt = districtDao.findById(districtId);
-		Optional<Election> electionDetailsOpt = electionDao.findByDistrictId(districtOpt.get());
+		District districtOpt = districtDao.findById(districtId)
+				.orElseThrow(() -> new ApiException("Election is not found for district"));
 
-		LocalDate electionDate = electionDetailsOpt.get().getElectionDate();
+		Election electionDetailsOpt = electionDao.findByDistrictId(districtOpt)
+				.orElseThrow(() -> new ApiException("Election is not found for district"));
+
+		LocalDate electionDate = electionDetailsOpt.getElectionDate();
 		return electionDate.equals(LocalDate.now());
 	}
 }

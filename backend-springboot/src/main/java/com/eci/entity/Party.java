@@ -1,11 +1,6 @@
 package com.eci.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,24 +12,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @AllArgsConstructor
-public class Party {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long partyId;
+@ToString
+public class Party extends User {
 	
-	private String partyName;
-	
+	@Column(nullable = false,length = 500)
 	private String objective;
 	
-	private String email;
-	
-	private String password;
 	@ManyToOne
 	@JoinColumn(name = "district_id", referencedColumnName = "districtId")
-	
 	private District districtId;
-	
-	private boolean isActive;
 }

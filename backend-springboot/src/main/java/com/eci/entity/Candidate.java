@@ -1,12 +1,6 @@
 package com.eci.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,32 +12,33 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @AllArgsConstructor
-public class Candidate {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long candidateId;
-	
-	@OneToOne
-	@JoinColumn(name = "voter_id", referencedColumnName = "voterId")
-	private Voter voterId;
-	
-	@ManyToOne
-	@JoinColumn(name = "party_id", referencedColumnName = "partyId")
-	private Party party;
+@ToString
+@Table(name = "candidate")
+public class Candidate extends User {
 
-	private boolean isIndependent;
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "voter_id", referencedColumnName = "user_id")
+	private Voter voterId; // Foreign key to 'Voter' entity
+
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "party_id", referencedColumnName = "user_id")
+	private Party partyId; // Foreign key to 'Party' entity
 
 	@ManyToOne
 	@JoinColumn(name = "constituency_id", referencedColumnName = "districtId")
-	private District constituency;
-	
+	private District constituency; // Foreign key to 'District' entity
+
+	@Column(nullable = false)
+	private boolean isIndependent;
+
+	@Column(nullable = false)
 	private int votes;
-	
-	private boolean isActive;
-	
+
+	@Column(nullable = false)
 	private boolean isAccepted;
-	
+
+	@Column(nullable = false)
 	private boolean isRejected;
 }

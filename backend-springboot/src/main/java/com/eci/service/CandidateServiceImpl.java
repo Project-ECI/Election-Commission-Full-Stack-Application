@@ -96,9 +96,9 @@ public class CandidateServiceImpl implements CandidateService {
 				}
 				Candidate candidate1 = new Candidate();
 				candidate1.setVoterId(candidateOpt.get().getVoterId());
-				candidate1.setCandidateId(candidateId);
+				candidate1.setUserId(candidateId);
 				candidate1.setConstituency(districtOpt.get());
-				candidate1.setParty(partyOpt.get());
+				candidate1.setPartyId(partyOpt.get());
 				candidate1.setIndependent(dto.isIndependent());
 
 				Candidate candidate = candidateDao.save(candidate1);
@@ -152,9 +152,9 @@ public class CandidateServiceImpl implements CandidateService {
 			if (candidate.isActive()) {
 				GetAllVoterForAdmin dto=new GetAllVoterForAdmin();
 				dto.setEmail(candidate.getVoterId().getEmail());
-				dto.setFullName(candidate.getVoterId().getFullName());
+				dto.setFullName(candidate.getVoterId().getName());
 				dto.setMobileNo(candidate.getVoterId().getMobileNo());
-				dto.setVoterId(candidate.getCandidateId().toString());
+				dto.setVoterId(candidate.getUserId().toString());
 				dtoList.add(dto);
 			}
 		}

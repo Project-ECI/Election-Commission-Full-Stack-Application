@@ -25,6 +25,7 @@ import com.eci.entity.Candidate;
 import com.eci.dto.UpdatePartyDto;
 import com.eci.entity.District;
 import com.eci.entity.Party;
+import com.eci.entity.UserRole;
 import com.eci.entity.Voter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,12 +57,13 @@ public class PartyServiceImpl implements PartyService {
 		if (partyOpt.isEmpty()) {
 			Party party = new Party();
 			party.setActive(true);
-			party.setPartyName(partyDto.getPartyName());
+			party.setName(partyDto.getPartyName());
 			party.setEmail(partyDto.getEmail());
 			party.setPassword(partyDto.getPassword());
 			party.setObjective(partyDto.getObjective());
 			Optional<District> districtOpt = districtDao.findById(partyDto.getDistrictId());
 			party.setDistrictId(districtOpt.get());
+			party.setRole(UserRole.PARTY);
 			Party savedParty = partyDao.save(party);
 			return "Party Registration successfull " + savedParty.toString();
 		}
@@ -101,7 +103,7 @@ public class PartyServiceImpl implements PartyService {
 		Long partyId = Long.parseLong(id);
 		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent() && partyOpt.get().isActive() == true) {
-			List<Candidate> candiateList = candidateDao.findAllByParty(partyOpt.get());
+			List<Candidate> candiateList = candidateDao.findAllByPartyId(partyOpt.get());
 			for (Candidate candidate : candiateList) {
 				candidate.setActive(false);
 				candidateDao.save(candidate);
@@ -125,7 +127,7 @@ public class PartyServiceImpl implements PartyService {
 			partyToBeUpdated.setDistrictId(districtOpt.get());
 			partyToBeUpdated.setEmail(dto.getEmail());
 			partyToBeUpdated.setObjective(dto.getObjective());
-			partyToBeUpdated.setPartyName(dto.getPartyName());
+			partyToBeUpdated.setName(dto.getPartyName());
 
 			partyDao.save(partyToBeUpdated);
 			return "success";
@@ -149,9 +151,9 @@ public class PartyServiceImpl implements PartyService {
 			for (Candidate candidate : candidateList) {
 				if (candidate.isRejected() == false) {
 					PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
-					responseDto.setCandidateId(candidate.getCandidateId());
-					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
-					responseDto.setCandidateName(voterOpt.get().getFullName());
+					responseDto.setCandidateId(candidate.getUserId());
+					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getUserId());
+					responseDto.setCandidateName(voterOpt.get().getName());
 					responseDto.setConstituency(districtOpt.get().getDistrictName());
 					if (candidate.isAccepted()) {
 						responseDto.setIsAccepted("Accepted");
@@ -188,7 +190,7 @@ public class PartyServiceImpl implements PartyService {
 
 			for (Candidate candidate : candidateList) {
 				// checking candidate for particular party
-				if (candidate.getParty().getPartyId() == partyId) {
+				if (candidate.getPartyId().getUserId() == partyId) {
 					// saving data
 					candidate.setAccepted(false);
 					candidate.setRejected(true);
@@ -213,7 +215,7 @@ public class PartyServiceImpl implements PartyService {
 
 		List<PartyCandidateResponseDto> partyCandidateList = new ArrayList<PartyCandidateResponseDto>();
 
-		List<Candidate> candidateList = candidateDao.findAllByParty(partyOpt.get());
+		List<Candidate> candidateList = candidateDao.findAllByPartyId(partyOpt.get());
 		System.out.println(candidateList);
 		if (candidateList.isEmpty()) {
 			return null;
@@ -223,10 +225,10 @@ public class PartyServiceImpl implements PartyService {
 
 				if (candidate.isAccepted()) {
 					PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
-					responseDto.setCandidateId(candidate.getCandidateId());
+					responseDto.setCandidateId(candidate.getUserId());
 
-					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getVoterId());
-					responseDto.setCandidateName(voterOpt.get().getFullName());
+					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getUserId());
+					responseDto.setCandidateName(voterOpt.get().getName());
 
 					responseDto.setIsAccepted("Accepted");
 					responseDto.setIsRejected("false");
@@ -249,9 +251,9 @@ public class PartyServiceImpl implements PartyService {
 			if (party.isActive()) {
 				GetAllpartyForAdmin dto = new GetAllpartyForAdmin();
 				dto.setEmail(party.getEmail());
-				dto.setFullName(party.getPartyName());
+				dto.setFullName(party.getName());
 				dto.setObjective(party.getObjective());
-				dto.setPartyId(party.getPartyId().toString());
+				dto.setPartyId(party.getUserId().toString());
 				dtoList.add(dto);
 			}
 		}
@@ -277,7 +279,6 @@ public class PartyServiceImpl implements PartyService {
 		Long partyId = Long.parseLong(passwordDto.getPartyId());
 		Optional<Party> partyOpt = partyDao.findById(partyId);
 		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
-			partyOpt.get().setPassword(passwordDto.getNewPassword());
 			partyDao.save(partyOpt.get());
 			return "success";
 		}
