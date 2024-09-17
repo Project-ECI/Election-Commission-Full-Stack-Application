@@ -15,7 +15,6 @@ import com.eci.dto.UpdatePartyDto;
 public interface PartyService {
 	public String registerParty(PartyRegistrationDto partyDto);
 	
-	public String loginParty(LoginDto partyDto);
 	
 	public List<GetAllPartyDto> getAllParty();
 	

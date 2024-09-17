@@ -1,5 +1,5 @@
 package com.eci.entity;
 
 public enum UserRole {
-	VOTER,CANDIDATE,PARTY,ADMIN
+	ROLE_VOTER, ROLE_CANDIDATE, ROLE_PARTY, ROLE_ADMIN
 }

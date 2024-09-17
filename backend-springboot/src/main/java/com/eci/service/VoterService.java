@@ -17,9 +17,7 @@ import com.eci.entity.Voter;
 public interface VoterService {
 	public String registerVoter(VoterRegisterationDto voterRegisterDto);
 
-	public String loginVoter(LoginDto voterLoginDto);
-
-	public Optional<Voter> getVoterById(Long id);
+	public Voter getVoterById(Long id);
 
 	public String vote(VoteDto voteDto);
 
@@ -34,6 +32,6 @@ public interface VoterService {
 	public String updateProfile(UpdateVoterDto dto);
 
 	public String changePassword(ChangePasswordDto passwordDto);
-	
+
 	public List<GetAllVoterForAdmin> getVoterForAdmin();
 }

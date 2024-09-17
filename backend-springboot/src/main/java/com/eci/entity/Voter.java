@@ -14,8 +14,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-
+@ToString(callSuper = true)
 public class Voter extends User {
 
 	@Column(nullable = false)

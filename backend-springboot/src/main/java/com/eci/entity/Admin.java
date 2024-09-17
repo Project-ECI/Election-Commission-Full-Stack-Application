@@ -13,10 +13,10 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(callSuper = true)
 @Table(name = "admin")
 public class Admin extends User {
 
-	@Column(nullable = false)
+//	@Column(nullable = false)
 	private String position;
 }

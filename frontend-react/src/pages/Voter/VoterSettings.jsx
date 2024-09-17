@@ -48,6 +48,8 @@ function VoterSettings() {
     event.preventDefault(); // Prevent page reload
     const id = sessionStorage.getItem("id");
     setVoterId(id);
+    const jwt = sessionStorage.getItem("jwt");
+
     try {
       console.log(dto);
       const response = await voterService.changePass(dto);

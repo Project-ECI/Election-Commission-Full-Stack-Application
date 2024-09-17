@@ -27,22 +27,28 @@ function VoterLoginPage() {
       if (response.data === "fail") {
         toast.error("Login failed. Please check your credentials.");
       } else {
-        navigate("/voter/home");
-
         const voter = response.data;
-
-        sessionStorage.setItem("id", voter.voterId);
+        console.log(response.data);
+        sessionStorage.setItem("jwt", voter.jwt);
+        sessionStorage.setItem("id", voter.user.userId);
         sessionStorage.setItem("role", "voter");
-        sessionStorage.setItem("districtId", voter.districtId.districtId);
-        sessionStorage.setItem("dob", voter.dob);
-        sessionStorage.setItem("email", voter.email);
-        sessionStorage.setItem("fullname", voter.fullName);
-        sessionStorage.setItem("gender", voter.gender ? "Male" : "Female");
-        sessionStorage.setItem("mobileNo", voter.mobileNo);
-        sessionStorage.setItem("isVoted", voter.voted);
-        sessionStorage.setItem("stateName", voter.districtId.stateId.stateName);
-        sessionStorage.setItem("districtName", voter.districtId.districtName);
+        sessionStorage.setItem("districtId", voter.user.districtId.districtId);
+        sessionStorage.setItem("dob", voter.user.dob);
+        sessionStorage.setItem("email", voter.user.email);
+        sessionStorage.setItem("fullname", voter.user.name);
+        sessionStorage.setItem("gender", voter.user.gender ? "Male" : "Female");
+        sessionStorage.setItem("mobileNo", voter.user.mobileNo);
+        sessionStorage.setItem("isVoted", voter.user.voted);
+        sessionStorage.setItem(
+          "stateName",
+          voter.user.districtId.stateId.stateName
+        );
+        sessionStorage.setItem(
+          "districtName",
+          voter.user.districtId.districtName
+        );
         toast.success("Welcome " + sessionStorage.getItem("fullname") + " !");
+        navigate("/voter/home");
       }
     } catch (err) {
       console.error("Login failed:", err);

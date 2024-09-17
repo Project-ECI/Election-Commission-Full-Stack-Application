@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(callSuper = true)
 @Table(name = "candidate")
 public class Candidate extends User {
 
@@ -33,7 +33,7 @@ public class Candidate extends User {
 	@Column(nullable = false)
 	private boolean isIndependent;
 
-	@Column(nullable = false)
+	
 	private int votes;
 
 	@Column(nullable = false)

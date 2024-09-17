@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,6 @@ import com.eci.dto.VoteDto;
 import com.eci.dto.ChangePasswordDto;
 import com.eci.dto.GetAllVoterForAdmin;
 import com.eci.dto.KnowYourCandidateDto;
-import com.eci.dto.LoginDto;
 import com.eci.dto.VoterRegisterationDto;
 
 import com.eci.entity.Candidate;
@@ -28,8 +27,7 @@ import com.eci.entity.District;
 import com.eci.entity.Party;
 import com.eci.entity.UserRole;
 import com.eci.entity.Voter;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.eci.exception.ApiException;
 
 @Service
 @Transactional
@@ -47,17 +45,17 @@ public class VoterServiceImpl implements VoterService {
 	private DistrictDao districtDao;
 
 	@Autowired
-	private ObjectMapper objectMapper;
-
-	@Autowired
-	private ModelMapper mapper;
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public String registerVoter(VoterRegisterationDto registerDto) {
-		Long districtId=Long.parseLong(registerDto.getDistrictId());
-		
-		Optional<District> districtOpt = districtDao.findById(districtId);
+		Long districtId = Long.parseLong(registerDto.getDistrictId());
+
+		District districtOpt = districtDao.findById(districtId)
+				.orElseThrow(() -> new ApiException("district not found"));
+
 		Optional<Voter> voterOpt = voterDao.findByEmail(registerDto.getEmail());
+
 		if (voterOpt.isEmpty()) {
 			Voter voter = new Voter();
 			voter.setName(registerDto.getFullName());
@@ -65,13 +63,16 @@ public class VoterServiceImpl implements VoterService {
 			voter.setEmail(registerDto.getEmail());
 			if (registerDto.getGender().equals("male")) {
 				voter.setGender(true);
-			}else
+			} else
 				voter.setGender(false);
 			voter.setMobileNo(registerDto.getMobileNo());
-			voter.setPassword(registerDto.getPassword());
+
+			String encryptedPassword = passwordEncoder.encode(registerDto.getPassword());
+			voter.setPassword(encryptedPassword);
+
 			voter.setActive(true);
-			voter.setRole(UserRole.VOTER);
-			voter.setDistrictId(districtOpt.get());
+			voter.setRole(UserRole.ROLE_VOTER);
+			voter.setDistrictId(districtOpt);
 			voterDao.save(voter);
 			return "success";
 		}
@@ -79,24 +80,8 @@ public class VoterServiceImpl implements VoterService {
 	}
 
 	@Override
-	public String loginVoter(LoginDto voterLoginDto) {
-		Voter voter = mapper.map(voterLoginDto, Voter.class);
-		Optional<Voter> voterOpt = voterDao.findByEmail(voter.getEmail());
-
-		if (voterOpt.isPresent() && voter.getPassword().equals(voterOpt.get().getPassword())
-				&& voterOpt.get().isActive() == true) {
-			try {
-				return objectMapper.writeValueAsString(voterOpt.get());
-			} catch (JsonProcessingException e) {
-				return "success";
-			}
-		}
-		return "fail";
-	}
-
-	@Override
-	public Optional<Voter> getVoterById(Long id) {
-		return voterDao.findById(id);
+	public Voter getVoterById(Long id) {
+		return voterDao.findById(id).orElseThrow(() -> new ApiException("voter not found"));
 	}
 
 	@Override
@@ -113,33 +98,24 @@ public class VoterServiceImpl implements VoterService {
 			Long voterId = Long.parseLong(voteDto.getVoterId());
 			Long candidateId = Long.parseLong(voteDto.getCandidateId());
 
-			Optional<Voter> voterOpt = voterDao.findById(voterId);
-			Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
+			Voter voterOpt = voterDao.findById(voterId).orElseThrow(() -> new ApiException("district not found"));
 
-			// if the voter and candidate exists
-			if (voterOpt.isPresent() && candidateOpt.isPresent()) {
-				Voter voter = voterOpt.get();
-				Candidate candidate = candidateOpt.get();
-				
-				// can't vote if results are declared or voter has already voted
-//				if (electionService.isResultDeclared(districtId) || voter.isVoted()) {
-				if (voter.isVoted()) {
-					return "Can't vote: you have already voted";
-				}
-				
-				// can vote if it's election date and constituency matches
-				// if (voter.getDistrictId().equals(candidate.getConstituency()) &&
-				// electionService.isElectionDate(districtId))
-				if (voter.getDistrictId().getDistrictId() == candidate.getConstituency().getDistrictId()) {
-					voter.setVoted(true);
-					candidate.setVotes(candidate.getVotes() + 1);
-					voterDao.save(voter);
-					candidateDao.save(candidate);
-					return "success";
-				}
-				return "constituency mismatch";
+			Candidate candidateOpt = candidateDao.findById(candidateId)
+					.orElseThrow(() -> new ApiException("district not found"));
+
+			if (voterOpt.isVoted()) {
+				throw (new ApiException("already voted"));
 			}
-			return "voter/candidate doesn't exist";
+
+			if (voterOpt.getDistrictId().getDistrictId() == candidateOpt.getConstituency().getDistrictId()) {
+				voterOpt.setVoted(true);
+				candidateOpt.setVotes(candidateOpt.getVotes() + 1);
+				voterDao.save(voterOpt);
+				candidateDao.save(candidateOpt);
+				return "success";
+			}
+			return "constituency mismatch";
+
 		} catch (NumberFormatException e) {
 			// Log the error and return a meaningful message
 			System.err.println("Number format exception: " + e.getMessage());
@@ -150,29 +126,30 @@ public class VoterServiceImpl implements VoterService {
 	@Override
 	public List<KnowYourCandidateDto> knowYourCandidate(String voterid) {
 		Long voterId = Long.parseLong(voterid);
-		Optional<Voter> voterOpt = voterDao.findById(voterId);
-		// if
-		// (voterOpt.isPresent()&&electionService.isElectionDate(voterOpt.get().getDistrictId().getDistrictId()))
-		if (voterOpt.isPresent()) {
-			List<Candidate> listOfCandidate = candidateDao.findByConstituency(voterOpt.get().getDistrictId());
-			List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
-			for (Candidate candidate : listOfCandidate) {
-				if (!candidate.isRejected()) {
-					KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
-					Optional<Voter> voterOpt1 = voterDao.findById(candidate.getVoterId().getUserId());
-					yourCandidate.setCandiateName(voterOpt1.get().getName());
-					if (candidate.getPartyId() == null) {
-						yourCandidate.setIndependent(candidate.isIndependent());
-						yourCandidate.setPartyName(null);
-					} else {
-						Optional<Party> partyOpt = partyDao.findById(candidate.getPartyId().getUserId());
-						yourCandidate.setPartyName(partyOpt.get().getName());
-					}
-					yourCandidate.setCandidateId(candidate.getUserId());
-					list.add(yourCandidate);
-				}
+		Voter voterOpt = voterDao.findById(voterId).orElseThrow(() -> new ApiException("voter not found"));
 
+		List<Candidate> listOfCandidate = candidateDao.findByConstituency(voterOpt.getDistrictId());
+
+		List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
+
+		for (Candidate candidate : listOfCandidate) {
+			if (!candidate.isRejected()) {
+				KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
+				Voter voterOpt1 = voterDao.findById(candidate.getVoterId().getUserId())
+						.orElseThrow(() -> new ApiException("voter not found"));
+
+				yourCandidate.setCandiateName(voterOpt1.getName());
+				if (candidate.getPartyId() == null) {
+					yourCandidate.setIndependent(candidate.isIndependent());
+					yourCandidate.setPartyName(null);
+				} else {
+					Optional<Party> partyOpt = partyDao.findById(candidate.getPartyId().getUserId());
+					yourCandidate.setPartyName(partyOpt.get().getName());
+				}
+				yourCandidate.setCandidateId(candidate.getUserId());
+				list.add(yourCandidate);
 			}
+
 			return list;
 		}
 		return null;
@@ -181,30 +158,29 @@ public class VoterServiceImpl implements VoterService {
 	@Override
 	public SearchElectrolRollDto searchVoter(String voterid) {
 		Long voterId = Long.parseLong(voterid);
-		Optional<Voter> voterOpt = voterDao.findById(voterId);
-		if (voterOpt.isPresent()) {
-			SearchElectrolRollDto dto = new SearchElectrolRollDto();
-			dto.setDistrict(voterOpt.get().getDistrictId().getDistrictName());
-			dto.setFullName(voterOpt.get().getName());
-			dto.setGender(voterOpt.get().isGender());
-			dto.setDob(voterOpt.get().getDob());
-			return dto;
-		}
-		return null;
+		Voter voterOpt = voterDao.findById(voterId).orElseThrow(() -> new ApiException("voter not found"));
+
+		SearchElectrolRollDto dto = new SearchElectrolRollDto();
+		dto.setDistrict(voterOpt.getDistrictId().getDistrictName());
+		dto.setFullName(voterOpt.getName());
+		dto.setGender(voterOpt.isGender());
+		dto.setDob(voterOpt.getDob());
+		return dto;
 	}
 
 	@Override
 	public String voterDelete(String id) {
 		Long voterId = Long.parseLong(id);
-		Optional<Voter> voterOpt = voterDao.findById(voterId);
-		if (voterOpt.isPresent() && voterOpt.get().isActive() == true) {
-			Optional<Candidate> candiateOpt = candidateDao.findByVoterId(voterOpt.get());
+		Voter voterOpt = voterDao.findById(voterId).orElseThrow(() -> new ApiException("voter not found"));
+		;
+		if (voterOpt.isActive()) {
+			Optional<Candidate> candiateOpt = candidateDao.findByVoterId(voterOpt);
 			if (candiateOpt.isPresent()) {
 				candiateOpt.get().setActive(false);
 				candidateDao.save(candiateOpt.get());
 			}
-			voterOpt.get().setActive(false);
-			voterDao.save(voterOpt.get());
+			voterOpt.setActive(false);
+			voterDao.save(voterOpt);
 			return "success";
 		}
 		return "voter not found";
@@ -213,33 +189,31 @@ public class VoterServiceImpl implements VoterService {
 	@Override
 	public String updateProfile(UpdateVoterDto dto) {
 		Long voterId = Long.parseLong(dto.getVoterId());
-		Long districtId=Long.parseLong(dto.getDistrictId());
-		
-		Optional<Voter> voterOpt = voterDao.findById(voterId);
+		Long districtId = Long.parseLong(dto.getDistrictId());
 
-		if (voterOpt.isPresent()) {
-			Voter voterToBeUpdated = voterOpt.get();
-			
-			Optional<District> districtOpt = districtDao.findById(districtId);
+		Voter voterOpt = voterDao.findById(voterId).orElseThrow(() -> new ApiException("voter not found"));
 
-			voterToBeUpdated.setDistrictId(districtOpt.get());
-			voterToBeUpdated.setEmail(dto.getEmail());
-			voterToBeUpdated.setName(dto.getFullName());
-			voterToBeUpdated.setMobileNo(dto.getMobileNo());
+		District districtOpt = districtDao.findById(districtId).orElseThrow(() -> new ApiException("voter not found"));
 
-			voterDao.save(voterToBeUpdated);
-			return "success";
-		}
-		return "fail";
+		Voter voterToBeUpdated = voterOpt;
+		voterToBeUpdated.setDistrictId(districtOpt);
+		voterToBeUpdated.setEmail(dto.getEmail());
+		voterToBeUpdated.setName(dto.getFullName());
+		voterToBeUpdated.setMobileNo(dto.getMobileNo());
+
+		voterDao.save(voterToBeUpdated);
+		return "success";
 	}
 
 	@Override
 	public String changePassword(ChangePasswordDto passwordDto) {
 		Long voterId = Long.parseLong(passwordDto.getVoterId());
-		Optional<Voter> voterOpt = voterDao.findById(voterId);
-		if (voterOpt.isPresent() && voterOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
-			voterOpt.get().setPassword(passwordDto.getNewPassword());
-			voterDao.save(voterOpt.get());
+		Voter voterOpt = voterDao.findById(voterId).orElseThrow(() -> new ApiException("voter not found"));
+
+		if (voterOpt.isActive() && passwordEncoder.matches(passwordDto.getOldPassword(), voterOpt.getPassword())) {
+			voterOpt.setPassword(passwordDto.getNewPassword());
+			String encryptedPassword = passwordEncoder.encode(passwordDto.getNewPassword());
+			voterOpt.setPassword(encryptedPassword);
 			return "success";
 		}
 		return "Password Change failed";
@@ -248,30 +222,34 @@ public class VoterServiceImpl implements VoterService {
 	@Override
 	public List<KnowYourCandidateDto> knowYourCandidateGlobal(String districtid) {
 		Long districtId = Long.parseLong(districtid);
-		Optional<District> districtOpt = districtDao.findById(districtId);
-		if (districtOpt.isPresent()) {
-			List<Candidate> listOfCandidate = candidateDao.findByConstituency(districtOpt.get());
-			List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
-			for (Candidate candidate : listOfCandidate) {
-				if (!candidate.isRejected()) {
-					KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
-					Optional<Voter> voterOpt1 = voterDao.findById(candidate.getVoterId().getUserId());
-					yourCandidate.setCandiateName(voterOpt1.get().getName());
-					if (candidate.getPartyId() == null) {
-						yourCandidate.setIndependent(candidate.isIndependent());
-						yourCandidate.setPartyName(null);
-					} else {
-						Optional<Party> partyOpt = partyDao.findById(candidate.getPartyId().getUserId());
-						yourCandidate.setPartyName(partyOpt.get().getName());
-					}
-					yourCandidate.setCandidateId(candidate.getUserId());
-					list.add(yourCandidate);
-				}
+		District districtOpt = districtDao.findById(districtId).orElseThrow(() -> new ApiException("voter not found"));
 
+		List<Candidate> listOfCandidate = candidateDao.findByConstituency(districtOpt);
+		List<KnowYourCandidateDto> list = new ArrayList<KnowYourCandidateDto>();
+		for (Candidate candidate : listOfCandidate) {
+			if (!candidate.isRejected()) {
+
+				KnowYourCandidateDto yourCandidate = new KnowYourCandidateDto();
+				Voter voterOpt1 = voterDao.findById(candidate.getVoterId().getUserId())
+						.orElseThrow(() -> new ApiException("voter not found"));
+
+				yourCandidate.setCandiateName(voterOpt1.getName());
+				if (candidate.getPartyId() == null) {
+					yourCandidate.setIndependent(candidate.isIndependent());
+					yourCandidate.setPartyName(null);
+				} else {
+					Party partyOpt = partyDao.findById(candidate.getPartyId().getUserId())
+							.orElseThrow(() -> new ApiException("party not found"));
+
+					yourCandidate.setPartyName(partyOpt.getName());
+				}
+				yourCandidate.setCandidateId(candidate.getUserId());
+				list.add(yourCandidate);
 			}
-			return list;
+
 		}
-		return null;
+		return list;
+
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import com.eci.dto.GetAllVoterForAdmin;
 import com.eci.entity.Candidate;
 import com.eci.entity.District;
 import com.eci.entity.Party;
+import com.eci.entity.UserRole;
 import com.eci.entity.Voter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,6 +54,7 @@ public class CandidateServiceImpl implements CandidateService {
 					Candidate validCandidate = new Candidate();
 					validCandidate.setActive(true);
 					validCandidate.setVoterId(voterOpt.get());
+					validCandidate.setRole(UserRole.ROLE_CANDIDATE);
 					Candidate savedCandidate = candidateDao.save(validCandidate);
 					return "candidate register successfully" + savedCandidate.toString();
 				}
