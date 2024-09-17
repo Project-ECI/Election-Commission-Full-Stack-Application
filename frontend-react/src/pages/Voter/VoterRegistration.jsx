@@ -1,70 +1,31 @@
 import "../../css/registration.css";
-
 import Navbar2 from "../../components/Navbar2.jsx";
 import Footer1 from "../../components/Footer1";
-
 import image from "../../assets/images/image-for-registrationpage.png";
-
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useForm } from "react-hook-form";
 import getAllStates from "../../services/state.service";
 import getRespectiveDistrict from "../../services/district.service";
 import voterService from "../../services/voter.service";
 import { toast } from "react-toastify";
 
 function VoterRegPage() {
+  const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const navigate = useNavigate();
-  // Show and hide password
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  // State and cities dropdown
+
+  // State management for states and cities
   const [states, setStates] = useState([]);
-  const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState([]);
-  //
-  const [fullName, setFullName] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
-  const [email, setEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [mobileNo, setMobileNo] = useState("");
-  const [districtId, setDistrictId] = useState("");
-  const voterRegisterDto = {
-    fullName,
-    dob,
-    gender,
-    email,
-    password,
-    mobileNo,
-    districtId,
-  };
-
-  const getMinimumDate = () => {
-    const today = new Date();
-    return new Date(
-      today.getFullYear() - 18,
-      today.getMonth(),
-      today.getDate()
-    );
-  };
-
-  const handleDobChange = (e) => {
-    const selectedDate = new Date(e.target.value);
-    const minDate = getMinimumDate();
-
-    if (selectedDate > minDate) {
-      toast.info("You must be at least 18 years old.");
-    } else setDob(e.target.value);
-  };
-
+  // Fetch all states on mount
   useEffect(() => {
-    // Fetch state data from the backend when the component mounts
     const fetchStates = async () => {
       try {
         const response = await getAllStates();
-        setStates(response.data); // Update state with fetched data
+        setStates(response.data);
       } catch (err) {
         console.error("Failed to fetch states:", err);
       }
@@ -72,29 +33,28 @@ function VoterRegPage() {
     fetchStates();
   }, []);
 
-  const handleStateChange = async (e) => {
-    const selectedState = e.target.value;
-    setSelectedState(selectedState);
-    const response = await getRespectiveDistrict(selectedState);
-    if (response.data.length === 0) {
-      toast.info("No City Found");
-    } else setCities(response.data);
-  };
+  // Fetch respective districts when the state changes
+  const handleStateChange = useCallback(async (e) => {
+    const stateId = e.target.value;
+    const response = await getRespectiveDistrict(stateId);
+    setCities(response.data.length ? response.data : []);
+  }, []);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  // Password toggle
+  const togglePasswordVisibility = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Form submit handler
+  const onSubmit = async (data) => {
     try {
-      console.log(voterRegisterDto);
-      const response = await voterService.register(voterRegisterDto);
+      const response = await voterService.register(data);
       if (response.data === "success") {
         toast.success("Registration Successful");
         navigate("/voter/login");
-      } else if (response.data === "fail")
-        toast.info("Email is already taken. Please try other");
+      } else if (response.data === "fail") {
+        toast.info("Email is already taken. Please try another.");
+      }
     } catch (err) {
       console.error("Registration failed:", err);
     }
@@ -102,135 +62,144 @@ function VoterRegPage() {
 
   return (
     <div>
-      <Navbar2></Navbar2>
-
-      {/* Registration Section */}
+      <Navbar2 />
       <div className="registration-container margin-10">
-        {/* Left Container */}
         <div className="reg-left-container">
-          <h1 className="font-mont">Register to Join Our Platform Today!</h1>
-
-          <p className="mt-3">
+          <h1>Register to Join Our Platform Today!</h1>
+          <p>
             Stay informed and engaged with the democratic process by registering
-            to join our "Election Commission" platform! Our innovative service
-            offers real-time updates on election results, voter registration
-            assistance, and comprehensive information about candidates and their
-            policies.
+            to join our "Election Commission" platform!
           </p>
-
-          <img src={image} className="img-fluid" width="320px" alt="" />
+          <img src={image} className="img-fluid" width="320px" alt="Registration" />
         </div>
-
-        {/* Right Container */}
         <div className="reg-right-container">
-          <h1 className="font-mont">Voter Registration</h1>
-
-          <form onSubmit={handleSubmit}>
+          <h1>Voter Registration</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/* Full Name */}
             <div className="form-group mb-3">
-              <label htmlFor="fullname">Full Name</label>
+              <label>Full Name</label>
               <input
                 type="text"
-                className="form-control"
-                id="fullname"
+                className={`form-control ${errors.fullName && "is-invalid"}`}
                 placeholder="Enter Full Name"
-                onChange={(e) => setFullName(e.target.value)}
+                {...register("fullName", { required: "Full Name is required" })}
               />
+              {errors.fullName && <p className="error-text">{errors.fullName.message}</p>}
             </div>
 
             {/* Date of Birth */}
             <div className="form-group mb-3">
-              <label htmlFor="dob">Date Of Birth</label>
+              <label>Date of Birth</label>
               <input
                 type="date"
-                className="form-control"
-                id="dob"
-                onChange={handleDobChange}
+                className={`form-control ${errors.dob && "is-invalid"}`}
+                {...register("dob", {
+                  required: "Date of Birth is required",
+                  validate: (value) => {
+                    const selectedDate = new Date(value);
+                    const minDate = new Date();
+                    minDate.setFullYear(minDate.getFullYear() - 18);
+                    return selectedDate <= minDate || "You must be at least 18 years old";
+                  }
+                })}
               />
+              {errors.dob && <p className="error-text">{errors.dob.message}</p>}
             </div>
 
             {/* Gender */}
             <div className="form-group mb-3">
-              <label id="gender">Gender</label>
+              <label>Gender</label>
               <select
                 className="form-control"
-                id="gender"
-                onChange={(e) => setGender(e.target.value === "male")}
+                {...register("gender", { required: "Gender is required" })}
               >
                 <option value="male">Male</option>
                 <option value="female">Female</option>
               </select>
-              <i className="bi bi-arrow-down-square-fill form-icon"></i>
+              {errors.gender && <p className="error-text">{errors.gender.message}</p>}
             </div>
 
             {/* Email */}
             <div className="form-group mb-3">
-              <label htmlFor="email">Email</label>
+              <label>Email</label>
               <input
                 type="email"
-                className="form-control"
-                id="email"
+                className={`form-control ${errors.email && "is-invalid"}`}
                 placeholder="Enter Email"
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /\S+@\S+\.\S+/,
+                    message: "Entered value does not match email format"
+                  }
+                })}
               />
+              {errors.email && <p className="error-text">{errors.email.message}</p>}
             </div>
 
             {/* Mobile No */}
             <div className="form-group mb-3">
-              <label htmlFor="mobileno">Mobile No</label>
+              <label>Mobile No</label>
               <input
                 type="tel"
-                className="form-control"
-                id="mobileno"
+                className={`form-control ${errors.mobileNo && "is-invalid"}`}
                 placeholder="Enter Mobile Number"
-                onChange={(e) => setMobileNo(e.target.value)}
+                {...register("mobileNo", {
+                  required: "Mobile Number is required",
+                  pattern: {
+                    value: /^\d{10}$/,
+                    message: "Enter a valid 10-digit mobile number"
+                  }
+                })}
               />
+              {errors.mobileNo && <p className="error-text">{errors.mobileNo.message}</p>}
             </div>
 
             {/* State Dropdown */}
             <div className="form-group mb-3">
               <select
-                id="state"
                 className="form-control"
-                value={selectedState}
+                {...register("stateId", { required: "State is required" })}
                 onChange={handleStateChange}
               >
                 <option value="">Select State</option>
                 {states.map((state) => (
-                  <option value={state.stateId}>{state.stateName}</option>
+                  <option key={state.stateId} value={state.stateId}>
+                    {state.stateName}
+                  </option>
                 ))}
               </select>
-
-              <i className="bi bi-arrow-down-square-fill form-icon2"></i>
+              {errors.stateId && <p className="error-text">{errors.stateId.message}</p>}
             </div>
 
             {/* City Dropdown */}
             <div className="form-group mb-3">
               <select
-                id="city"
                 className="form-control"
                 disabled={cities.length === 0}
-                onChange={(e) => setDistrictId(e.target.value)}
+                {...register("districtId", { required: "City is required" })}
               >
                 <option value="">Select City</option>
                 {cities.map((city) => (
-                  <option value={city.districtId}>{city.districtName}</option>
+                  <option key={city.districtId} value={city.districtId}>
+                    {city.districtName}
+                  </option>
                 ))}
               </select>
-              <i className="bi bi-arrow-down-square-fill form-icon2"></i>
+              {errors.districtId && <p className="error-text">{errors.districtId.message}</p>}
             </div>
 
             {/* Password */}
             <div className="form-group mb-3">
-              <label htmlFor="password">Password</label>
-
+              <label>Password</label>
               <input
                 type={showPassword ? "text" : "password"}
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="form-control"
+                className={`form-control ${errors.password && "is-invalid"}`}
                 placeholder="Enter Password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: { value: 6, message: "Password must be at least 6 characters" }
+                })}
               />
               <button
                 type="button"
@@ -239,23 +208,20 @@ function VoterRegPage() {
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
+              {errors.password && <p className="error-text">{errors.password.message}</p>}
             </div>
 
-            {/* Bottom Section */}
+            {/* Submit Button */}
             <button className="btn btn-blue col-12" type="submit">
               Register
             </button>
             <p className="mb-0 mt-1 text-center">
-              Already have an account?
-              <Link className="blue-link" to="/voter/login">
-                Login
-              </Link>
+              Already have an account? <Link className="blue-link" to="/voter/login">Login</Link>
             </p>
           </form>
         </div>
       </div>
-
-      <Footer1></Footer1>
+      <Footer1 />
     </div>
   );
 }

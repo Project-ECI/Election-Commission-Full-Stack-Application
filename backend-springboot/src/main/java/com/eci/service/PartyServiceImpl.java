@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ import com.eci.entity.District;
 import com.eci.entity.Party;
 import com.eci.entity.UserRole;
 import com.eci.entity.Voter;
+import com.eci.exception.ApiException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -51,6 +53,9 @@ public class PartyServiceImpl implements PartyService {
 	@Autowired
 	private ObjectMapper objectMapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	public String registerParty(PartyRegistrationDto partyDto) {
 		Optional<Party> partyOpt = partyDao.findByEmail(partyDto.getEmail());
@@ -59,32 +64,20 @@ public class PartyServiceImpl implements PartyService {
 			party.setActive(true);
 			party.setName(partyDto.getPartyName());
 			party.setEmail(partyDto.getEmail());
-			party.setPassword(partyDto.getPassword());
+
 			party.setObjective(partyDto.getObjective());
 			Optional<District> districtOpt = districtDao.findById(partyDto.getDistrictId());
+			String encryptedPassword = passwordEncoder.encode(partyDto.getPassword());
+			party.setPassword(encryptedPassword);
 			party.setDistrictId(districtOpt.get());
-			party.setRole(UserRole.PARTY);
+			party.setRole(UserRole.ROLE_PARTY);
 			Party savedParty = partyDao.save(party);
 			return "Party Registration successfull " + savedParty.toString();
 		}
 		return "Party regitration fail";
 	}
 
-	@Override
-	public String loginParty(LoginDto partyDto) {
-		Party party = mapper.map(partyDto, Party.class);
-		Optional<Party> partyOpt = partyDao.findByEmail(party.getEmail());
-
-		if (partyOpt.isPresent() && party.getPassword().equals(partyOpt.get().getPassword())
-				&& partyOpt.get().isActive() == true)
-			try {
-				return objectMapper.writeValueAsString(partyOpt.get());
-			} catch (JsonProcessingException e) {
-				return "success";
-			}
-		return "fail";
-	}
-
+	
 	@Override
 	public List<GetAllPartyDto> getAllParty() {
 		List<Party> partyList = partyDao.findAll();
@@ -101,15 +94,15 @@ public class PartyServiceImpl implements PartyService {
 	@Override
 	public String deleteParty(String id) {
 		Long partyId = Long.parseLong(id);
-		Optional<Party> partyOpt = partyDao.findById(partyId);
-		if (partyOpt.isPresent() && partyOpt.get().isActive() == true) {
-			List<Candidate> candiateList = candidateDao.findAllByPartyId(partyOpt.get());
+		Party partyOpt = partyDao.findById(partyId)	.orElseThrow(() -> new ApiException("party not found"));;
+		if (partyOpt.isActive()) {
+			List<Candidate> candiateList = candidateDao.findAllByPartyId(partyOpt);
 			for (Candidate candidate : candiateList) {
 				candidate.setActive(false);
 				candidateDao.save(candidate);
 			}
-			partyOpt.get().setActive(false);
-			partyDao.save(partyOpt.get());
+			partyOpt.setActive(false);
+			partyDao.save(partyOpt);
 			return "success";
 		}
 		return "fail";
@@ -119,20 +112,23 @@ public class PartyServiceImpl implements PartyService {
 	public String updateProfile(UpdatePartyDto dto) {
 		Long partyId = Long.parseLong(dto.getPartyId());
 		Long districtId = Long.parseLong(dto.getDistrictId());
-		Optional<Party> partyOpt = partyDao.findById(partyId);
-		if (partyOpt.isPresent()) {
-			Party partyToBeUpdated = partyOpt.get();
-			Optional<District> districtOpt = districtDao.findById(districtId);
+		Party partyOpt = partyDao.findById(partyId)
+				.orElseThrow(() -> new ApiException("party not found"));
+		
 
-			partyToBeUpdated.setDistrictId(districtOpt.get());
-			partyToBeUpdated.setEmail(dto.getEmail());
-			partyToBeUpdated.setObjective(dto.getObjective());
-			partyToBeUpdated.setName(dto.getPartyName());
+		Party partyToBeUpdated = partyOpt;
+		District districtOpt = districtDao.findById(districtId)
+				.orElseThrow(() -> new ApiException("district not found"));
+		
 
-			partyDao.save(partyToBeUpdated);
-			return "success";
-		}
-		return "fail";
+		partyToBeUpdated.setDistrictId(districtOpt);
+		partyToBeUpdated.setEmail(dto.getEmail());
+		partyToBeUpdated.setObjective(dto.getObjective());
+		partyToBeUpdated.setName(dto.getPartyName());
+
+		partyDao.save(partyToBeUpdated);
+		return "success";
+
 	}
 
 	@Override
@@ -141,31 +137,36 @@ public class PartyServiceImpl implements PartyService {
 
 		Long partyId = Long.parseLong(dto.getPartyId());
 		Long districtId = Long.parseLong(dto.getDistrictId());
-		Optional<District> districtOpt = districtDao.findById(districtId);
-		Optional<Party> partyOpt = partyDao.findById(partyId);
-		if (partyOpt.isPresent() && districtOpt.isPresent()) {
-			List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt.get());
-			if (candidateList.isEmpty()) {
-				return partyCandidateList;
-			}
-			for (Candidate candidate : candidateList) {
-				if (candidate.isRejected() == false) {
-					PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
-					responseDto.setCandidateId(candidate.getUserId());
-					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getUserId());
-					responseDto.setCandidateName(voterOpt.get().getName());
-					responseDto.setConstituency(districtOpt.get().getDistrictName());
-					if (candidate.isAccepted()) {
-						responseDto.setIsAccepted("Accepted");
-						responseDto.setIsRejected("false");
-					} else if (candidate.isRejected()) {
-						responseDto.setIsAccepted(null);
-						responseDto.setIsRejected("True");
-					}
-					partyCandidateList.add(responseDto);
+
+		District districtOpt = districtDao.findById(districtId)
+				.orElseThrow(() -> new ApiException("district not found"));
+
+		Party partyOpt = partyDao.findById(partyId).orElseThrow(() -> new ApiException("party not found"));
+
+		List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt);
+		if (candidateList.isEmpty()) {
+			return partyCandidateList;
+		}
+		for (Candidate candidate : candidateList) {
+			if (candidate.isRejected() == false) {
+				PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
+				responseDto.setCandidateId(candidate.getUserId());
+				Voter voterOpt = voterDao.findById(candidate.getVoterId().getUserId())
+						.orElseThrow(() -> new ApiException("candidate not found"));
+
+				responseDto.setCandidateName(voterOpt.getName());
+				responseDto.setConstituency(districtOpt.getDistrictName());
+				if (candidate.isAccepted()) {
+					responseDto.setIsAccepted("Accepted");
+					responseDto.setIsRejected("false");
+				} else if (candidate.isRejected()) {
+					responseDto.setIsAccepted(null);
+					responseDto.setIsRejected("True");
 				}
+				partyCandidateList.add(responseDto);
 			}
 		}
+
 		return partyCandidateList;
 	}
 
@@ -179,31 +180,32 @@ public class PartyServiceImpl implements PartyService {
 		Long partyId = Long.parseLong(dto.getPartyId());
 
 		// find candidate by candidateId
-		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
+		Candidate candidateOpt = candidateDao.findById(candidateId)
+				.orElseThrow(() -> new ApiException("candidate not found"));
+		;
 		// find District by districtId
-		Optional<District> districtOpt = districtDao.findById(districtId);
+		District districtOpt = districtDao.findById(districtId)
+				.orElseThrow(() -> new ApiException("district not found"));
+		;
 
-		// check if candidate and district is present or not
-		if (candidateOpt.isPresent() && districtOpt.isPresent()) {
-			// getting all candidate of constituency
-			List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt.get());
+		// getting all candidate of constituency
+		List<Candidate> candidateList = candidateDao.findByConstituency(districtOpt);
 
-			for (Candidate candidate : candidateList) {
-				// checking candidate for particular party
-				if (candidate.getPartyId().getUserId() == partyId) {
-					// saving data
-					candidate.setAccepted(false);
-					candidate.setRejected(true);
-					candidateDao.save(candidate);
-				}
+		for (Candidate candidate : candidateList) {
+			// checking candidate for particular party
+			if (candidate.getPartyId().getUserId() == partyId) {
+				// saving data
+				candidate.setAccepted(false);
+				candidate.setRejected(true);
+				candidateDao.save(candidate);
 			}
-			// saving data
-			candidateOpt.get().setAccepted(true);
-			candidateOpt.get().setRejected(false);
-			candidateDao.save(candidateOpt.get());
-			return "Candidate form accepted";
 		}
-		return "Candidate form failed";
+		// saving data
+		candidateOpt.setAccepted(true);
+		candidateOpt.setRejected(false);
+		candidateDao.save(candidateOpt);
+		return "Candidate form accepted";
+
 	}
 
 	@Override
@@ -211,11 +213,12 @@ public class PartyServiceImpl implements PartyService {
 		// parse partyId string to long
 		Long partyId = Long.parseLong(partyid);
 
-		Optional<Party> partyOpt = partyDao.findById(partyId);
+		Party partyOpt = partyDao.findById(partyId).orElseThrow(() -> new ApiException("party not found"));
+		;
 
 		List<PartyCandidateResponseDto> partyCandidateList = new ArrayList<PartyCandidateResponseDto>();
 
-		List<Candidate> candidateList = candidateDao.findAllByPartyId(partyOpt.get());
+		List<Candidate> candidateList = candidateDao.findAllByPartyId(partyOpt);
 		System.out.println(candidateList);
 		if (candidateList.isEmpty()) {
 			return null;
@@ -227,8 +230,10 @@ public class PartyServiceImpl implements PartyService {
 					PartyCandidateResponseDto responseDto = new PartyCandidateResponseDto();
 					responseDto.setCandidateId(candidate.getUserId());
 
-					Optional<Voter> voterOpt = voterDao.findById(candidate.getVoterId().getUserId());
-					responseDto.setCandidateName(voterOpt.get().getName());
+					Voter voterOpt = voterDao.findById(candidate.getVoterId().getUserId())
+							.orElseThrow(() -> new ApiException("candidate not found"));
+					;
+					responseDto.setCandidateName(voterOpt.getName());
 
 					responseDto.setIsAccepted("Accepted");
 					responseDto.setIsRejected("false");
@@ -263,27 +268,26 @@ public class PartyServiceImpl implements PartyService {
 	@Override
 	public String removeFromParty(String candidateid) {
 		Long candidateId = Long.parseLong(candidateid);
-		Optional<Candidate> candidateOpt = candidateDao.findById(candidateId);
+		Candidate candidateOpt = candidateDao.findById(candidateId)
+				.orElseThrow(() -> new ApiException("candidate not found"));
 
-		if (candidateOpt.isPresent()) {
-			candidateOpt.get().setAccepted(false);
-			candidateOpt.get().setRejected(true);
-			candidateDao.save(candidateOpt.get());
-			return "Candidate Remove from Party";
-		}
-		return "Something went wrog";
+		candidateOpt.setAccepted(false);
+		candidateOpt.setRejected(true);
+		candidateDao.save(candidateOpt);
+		return "Candidate Remove from Party";
+
 	}
 
 	@Override
 	public String changePassword(ChangePasswordPartyDto passwordDto) {
 		Long partyId = Long.parseLong(passwordDto.getPartyId());
-		Optional<Party> partyOpt = partyDao.findById(partyId);
-		if (partyOpt.isPresent() && partyOpt.get().getPassword().equals(passwordDto.getOldPassword())) {
-			partyDao.save(partyOpt.get());
+		Party partyOpt = partyDao.findById(partyId).orElseThrow(() -> new ApiException("party not found"));
+
+		if (passwordEncoder.matches(passwordDto.getOldPassword(), partyOpt.getPassword())) {
+			partyDao.save(partyOpt);
 			return "success";
 		}
 		return "fail";
 	}
-
 
 }
