@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.eci.entity.User;
 
+@SuppressWarnings("serial")
 public class CustomUserDetails implements UserDetails {
 	private User user;
 
@@ -27,38 +28,44 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return user.getEmail();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
+		return user.isActive();
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 }
+
+/*
+ *Implements UserDetails:
+ *This class implements the UserDetails interface from Spring Security, providing the necessary information for authentication and authorization.
+ *
+ *User Object:
+ *It stores a User object that holds user-specific details such as email (used as the username), password, and role.
+ *
+ *User Roles (getAuthorities()):
+ *The getAuthorities() method returns the user's role(s) as a collection of GrantedAuthority objects using SimpleGrantedAuthority.
+ *The getAuthorities() method in the UserDetails interface returns a Collection<? extends GrantedAuthority> because a user can have multiple roles or permissions. In Spring Security, roles and authorities represent the user's permissions, which can vary in number and scope. 
+ */

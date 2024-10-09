@@ -30,10 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		// check auth header from incoming request
 		String authHeader = request.getHeader("Authorization");
-		System.out.println(request.toString());
-		System.out.println(response);
-		System.out.println(filterChain);
-		System.out.println(authHeader);
+//		System.out.println(request.toString());
+//		System.out.println(response);
+//		System.out.println(filterChain);
+//		System.out.println(authHeader);
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
 			// => req header contains JWT
 			String jwt = authHeader.substring(7);
@@ -61,3 +61,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 }
+/*
+ * Here are the key points for the `JwtAuthenticationFilter` class:
+
+1. **Extends `OncePerRequestFilter`**:
+   - The filter is executed once per request to handle JWT authentication logic.
+
+2. **Spring Bean (`@Component`)**:
+   - Marked as a Spring component, meaning it can be injected and managed by Spring's IoC container.
+
+3. **Dependency Injection**:
+   - Uses `JwtUtils` for validating JWT tokens and extracting claims like username and roles.
+
+4. **JWT Extraction**:
+   - Retrieves the JWT token from the `Authorization` header, which starts with the "Bearer " prefix.
+
+5. **Token Validation**:
+   - Validates the JWT using `JwtUtils`. If the token is valid, the claims (payload data) are extracted.
+
+6. **Extracting User Info**:
+   - Gets the user's email and authorities (roles) from the JWT claims to build an authentication object.
+
+7. **Authentication Object**:
+   - Creates a `UsernamePasswordAuthenticationToken` containing the user's email and roles and sets it in the `SecurityContextHolder`.
+
+8. **Security Context Setup**:
+   - Saves the authentication token in Spring Security’s `SecurityContext`, marking the user as authenticated for the current request.
+
+9. **Filter Chain Continuation**:
+   - After handling authentication, the filter chain continues to allow further processing by other filters or controllers.
+
+10. **Stateless Authentication**:
+   - This filter supports a stateless authentication mechanism, as the JWT is used to validate the user in each request, without relying on server-side sessions.
+ */
+ 

@@ -10,9 +10,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 @Entity
-@Table(name = "users")
+@Table(
+    name = "users",
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "role"})}
+)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
@@ -20,25 +22,25 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 @ToString
 public class User extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonProperty(access = Access.READ_ONLY)
-	@Column
-	private Long userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = Access.READ_ONLY)
+    @Column
+    private Long userId;
 
-	@Column(length = 30, nullable = false)
-	private String name;
+    @Column(length = 30, nullable = false)
+    private String name;
 
-	@Column(length = 50, unique = true, nullable = false)
-	private String email;
+    @Column(length = 50, nullable = false)
+    private String email;
 
-	@Column(length = 300, nullable = false)
-	private String password;
+    @Column(length = 300, nullable = false)
+    private String password;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "role", nullable = false)
-	private UserRole role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private UserRole role;
 
-	@Column(nullable = false)
-	private boolean isActive;
+    @Column(nullable = false)
+    private boolean isActive;
 }

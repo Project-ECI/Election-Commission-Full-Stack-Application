@@ -12,7 +12,7 @@ import voterService from "../../services/voter.service";
 import { toast } from "react-toastify";
 
 function VoterRegPage() {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
   // State management for states and cities

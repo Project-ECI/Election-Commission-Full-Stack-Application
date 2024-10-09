@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +22,6 @@ import com.eci.dto.LoginDto;
 import com.eci.dto.SigninResponse;
 import com.eci.entity.User;
 import com.eci.exception.ApiException;
-import com.eci.security.CustomUserDetailsService;
 import com.eci.security.JwtUtils;
 import com.eci.dao.UserDao;
 import com.eci.dto.ChangePasswordAdminDto;
@@ -67,19 +65,32 @@ public class AdminController {
 	private JwtUtils jwtUtil;
 
 	// User Signin
+//	@PostMapping("/login")
+//	public ResponseEntity<?> authenticateUser(@RequestBody LoginDto request) {
+//		System.out.println("in sign in" + request);
+//		// create a token(implementation of Authentication i/f)
+//		// to store un verified user email n pwd
+//		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getEmail(),
+//				request.getPassword());
+//		// invoke auth mgr's authenticate method;
+//		Authentication verifiedToken = authMgr.authenticate(token);
+//		// => authentication n authorization successful !
+//		// CustomUserDetails userPrincipal = (CustomUserDetails) verifiedToken.getPrincipal();
+//		// System.out.println("Principal: "+ userPrincipal.getUsername());// custom user details object
+//		// create JWT n send it to the clnt in response
+//		
+//		Optional<User> user =userDetailsService.findByEmail(request.getEmail());
+//		SigninResponse resp = new SigninResponse(jwtUtil.generateJwtToken(verifiedToken),
+//				"success", request.getEmail(),user.get());
+//		
+//		return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+//	}
+
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginDto request) {
-		System.out.println("in sign in" + request);
-		// create a token(implementation of Authentication i/f)
-		// to store un verified user email n pwd
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getEmail(),
 				request.getPassword());
-		// invoke auth mgr's authenticate method;
 		Authentication verifiedToken = authMgr.authenticate(token);
-		// => authentication n authorization successful !
-		// CustomUserDetails userPrincipal = (CustomUserDetails) verifiedToken.getPrincipal();
-		// System.out.println("Principal: "+ userPrincipal.getUsername());// custom user details object
-		// create JWT n send it to the clnt in response
 		
 		Optional<User> user =userDetailsService.findByEmail(request.getEmail());
 		SigninResponse resp = new SigninResponse(jwtUtil.generateJwtToken(verifiedToken),
@@ -87,8 +98,8 @@ public class AdminController {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(resp);
 	}
-
-	@PreAuthorize("ADMIN")
+	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/set/election")
 	public ResponseEntity<?> setElectionDates(@RequestBody ElectionDateDto dto) {
 		try {
@@ -126,7 +137,7 @@ public class AdminController {
 		return ResponseEntity.status(HttpStatus.OK).body(adminService.changePassword(dto));
 	}
 
-	@PreAuthorize("ADMIN")
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/delete/party/{adminId}")
 	public ResponseEntity<?> deleteAdmin(@PathVariable String adminId) {
 		return ResponseEntity.ok(adminService.deleteAdmin(adminId));

@@ -2,6 +2,8 @@ package com.eci.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.Email;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,6 +18,7 @@ public class VoterRegisterationDto {
 
 	private String gender;
 
+	@org.hibernate.validator.constraints.Email
 	private String email;
 
 	private String password;

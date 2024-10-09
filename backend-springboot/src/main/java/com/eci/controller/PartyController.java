@@ -27,7 +27,6 @@ import com.eci.dto.PartyRegistrationDto;
 import com.eci.dto.SigninResponse;
 import com.eci.dto.UpdatePartyDto;
 import com.eci.entity.User;
-import com.eci.security.CustomUserDetailsService;
 import com.eci.security.JwtUtils;
 import com.eci.service.PartyService;
 
@@ -81,7 +80,7 @@ public class PartyController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(partyService.updateProfile(dto));
 	}
 
-	@PreAuthorize("PARTY")
+	@PreAuthorize("hasRole('PARTY')")
 	@PostMapping("/get-candidate")
 	public ResponseEntity<?> getDistrictCandiate(@RequestBody PartyCandidateRequestDto dto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(partyService.getAllForm(dto));
@@ -112,4 +111,5 @@ public class PartyController {
 	public ResponseEntity<?> removeFromParty(@PathVariable String candidateId) {
 		return ResponseEntity.status(HttpStatus.OK).body(partyService.removeFromParty(candidateId));
 	}
+	
 }
